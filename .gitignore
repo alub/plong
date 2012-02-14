@@ -1,5 +1,11 @@
 .DS_Store
+*.nav
+*.out
+*.snm
 *.aux
 *.log
 *.toc
+*~
 report/*.pdf
+slides/*.pdf
+__pycache__
