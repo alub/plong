@@ -1,45 +1,51 @@
 import bpy
 
-def voisin(edgeA, edgeB):
+def neighbour(edgeA, edgeB):
     va0 = edgeA.vertices[0]
     va1 = edgeA.vertices[1]
     vb0 = edgeB.vertices[0]
     vb1 = edgeB.vertices[1]
     return (va0 == vb0 or va0 == vb1 or va1 == vb1 or va1 == vb0)
 
+def select(edgeList) :
+    for edge in edgeList :
+        edge.select = True
+        
+def separate_holes(edgeList) :
+    holes = [] # a list of lists of edges...
+    num_holes = 0
+    i = 0
+    edge_new = edgeList.pop(0)
+    hole = [] # first hole starts with first edge
+    while sel_edges != []:
+        n_e = len(edgeList)
+        i = 0
+        while i<n_e and not(neighbour(edge_new, edgeList[i])) : #search for a neighbourind edge
+            i = i + 1
+        if n_e == 1 :#this was the last edge
+            hole.append(edge_new)
+            hole.append(edgeList.pop(i))
+            holes.append(hole)
+        elif i == n_e : #if none the hole is complete
+            num_holes = num_holes + 1
+            holes.append(hole)
+            edge_new = edgeList.pop(0) #a new hole is started
+            hole = []
+        else :
+            hole.append(edge_new)
+            edge_new = edgeList.pop(i)
+    return holes
 
+#main
 sel_edges = []
-
 bpy.ops.mesh.select_non_manifold()
 cube = bpy.data.objects["Cube"]
 for edge in cube.data.edges :
     if edge.select :
         sel_edges.append(edge)
-
-holes = []
-num_holes = 0
-i = 0
-edge_new = sel_edges.pop(0)
-hole = [edge_new]
-while sel_edges != []:
-    n_e = len(sel_edges)
-    i = 0
-    while i<n_e and not(voisin(edge_new, sel_edges[i])) : #search for a neighbourind edge
-        i = i + 1
-    if i == n_e : #if none the hole is complete
-        num_holes = num_holes + 1
-        holes.append(hole);
-        edge_new = sel_edges.pop(0)
-        hole = [edge_new]
-    else :
-        hole.append(edge_new)
-        edge_new = sel_edges.pop(i)
-
-def select(edgeList) :
-    for edge in edgeList :
-        edge.select = True
         
-
+holes = separate_holes(sel_edges)
+print(holes)
 bpy.ops.mesh.select_all(action='TOGGLE')
 bpy.ops.object.mode_set(mode='OBJECT')
 select(holes[0])
