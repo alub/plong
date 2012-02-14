@@ -1,0 +1,9 @@
+[user]
+	name = Caroline Naud
+	email = crlnnaud00@gmail.com
+
+[core}
+	editor = vim
+
+[color]
+	ui = true
