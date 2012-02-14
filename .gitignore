@@ -8,3 +8,4 @@
 *~
 report/*.pdf
 slides/*.pdf
+__pycache__
