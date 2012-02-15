@@ -1,6 +1,12 @@
 import bpy 
 
 def neighbour(indA, indB):
+    """
+    parameters : 
+        > indA, indB : indexes of edges in the active object
+    returns :
+        > a boolean, true if and only if the two indicated edges are neihgbours in the active object
+    """
     bpy.ops.object.mode_set(mode = 'OBJECT')
     obj = bpy.context.active_object
     edges = obj.data.edges
@@ -11,6 +17,12 @@ def neighbour(indA, indB):
     return (va0 == vb0 or va0 == vb1 or va1 == vb1 or va1 == vb0)
 
 def separate_holes(edgeIndexList) :
+    """
+    parameters : 
+        > edgeIndexList : a list of edges of multiples holes in a 3D mesh
+    returns :
+        > a list of lists of edges where each list represents a hole 
+    """
     holes = [] # a list of lists of edges...
     num_holes = 0
     i = 0
@@ -28,6 +40,7 @@ def separate_holes(edgeIndexList) :
             holes.append(hole)
         elif i == n_e : # if none the hole is complete
             num_holes = num_holes + 1
+            hole.append(edge_new)
             holes.append(hole)
             edge_new = edgeIndexList.pop(0) # a new hole is started
             hole = []
