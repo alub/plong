@@ -1,27 +1,19 @@
 import bpy 
 
-def init_script(_edges):
-    global edges
-    edges = _edges
-
-def neighbour(indA, indB):
+def neighbour(edges, indA, indB):
     """
     parameters : 
         > indA, indB : indexes of edges in the active object
     returns :
         > a boolean, true if and only if the two indicated edges are neihgbours in the active object
     """
-    global edges
-    bpy.ops.object.mode_set(mode = 'OBJECT')
-    obj = bpy.context.active_object
-    edges = obj.data.edges
     va0 = edges[indA].vertices[0]
     va1 = edges[indA].vertices[1]
     vb0 = edges[indB].vertices[0]
     vb1 = edges[indB].vertices[1]
     return (va0 == vb0 or va0 == vb1 or va1 == vb1 or va1 == vb0)
 
-def separate_holes(edgeIndexList) :
+def separate_holes(edges, edgeIndexList) :
     """
     parameters : 
         > edgeIndexList : a list of edges of multiples holes in a 3D mesh
@@ -37,7 +29,7 @@ def separate_holes(edgeIndexList) :
     while edgeIndexList != []:
         n_e = len(edgeIndexList)
         i = 0
-        while i<n_e and not(neighbour(edge_new, edgeIndexList[i])) : #search for a neighbourind edge
+        while i<n_e and not(neighbour(edges, edge_new, edgeIndexList[i])) : #search for a neighbourind edge
             i = i + 1
         if i == n_e : # if none the hole is complete
             num_holes = num_holes + 1

@@ -2,10 +2,8 @@ import bpy
 import py_holes
 
 def init():
-    global edges
     global nbHolesFilled
     global nbPassages
-    edges = bpy.data.meshes[0].edges
     nbHolesFilled = 0
     nbPassages = 0
 
@@ -30,25 +28,25 @@ def cleanAndSelect():
     return not_manifold
 
 # fill selected holes and act recursively if there are still holes
-def fillAndCheck():
+def fillAndCheck(oldNbEdges):
     global edges
     global nbHolesFilled
     global nbPassages
     bpy.ops.object.mode_set(mode='EDIT')
-    if nbPassages < 5 and cleanAndSelect() :
-        nbPassages = nbPassages+1
-        holes = getHoles()
+    holes, nbEdges = getHoles()
+    if(nbEdges != oldNbEdges):
         for hole in holes:
             selectHole(hole)
             bpy.ops.mesh.fill()
         bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.normals_make_consistent(inside=False)
         bpy.ops.mesh.select_all(action='DESELECT')
-        fillAndCheck()
+        fillAndCheck(nbEdges)
         
 # return a list of holes from non-manifold selected edges
 def getHoles():
     global edges
+    nbEdges = 0
     sel_edges = []
     setSelectMode('EDGE')
     bpy.ops.object.mode_set(mode='EDIT')
@@ -56,10 +54,11 @@ def getHoles():
     bpy.ops.object.mode_set(mode='OBJECT')
     for e in edges :
         if e.select == True :
+            nbEdges = nbEdges+1
             sel_edges.append(e.index)
-    holes = py_holes.separate_holes(sel_edges)
+    holes = py_holes.separate_holes(edges, sel_edges)
     bpy.ops.object.mode_set(mode='EDIT')
-    return holes
+    return holes, nbEdges
 
 
 # visually select a hole from its edges list
@@ -89,8 +88,7 @@ def main():
     name = bpy.context.active_object.name
     print('Trying to repairs holes in object: ', name)
     edges = bpy.data.meshes[name].edges
-    py_holes.init_script(edges)
-    fillAndCheck()
+    fillAndCheck(0)
 
         
 # actual call
