@@ -5,68 +5,78 @@ from mathutils import Vector, Matrix
 class OrientationException(Exception):
     pass
 
-mesh = bpy.data.meshes['Cube']
-ob = bpy.data.objects['Cube']
-volume = 0
-m100 = m010 = m001 = 0 # Geometric moments
-orig = Vector((0,0,0))
-eps = 1e-15
-
-for face in mesh.faces:
-    distance = distance_point_to_plane(orig, face.center, face.normal)
-    # minus sign, assuming normals are directed towards the outside
-    face_vol = - face.area * distance / 3
-    volume += face_vol
-    nb_edges = len(face.vertices)
-    
-    if nb_edges == 3:
-        v = [mesh.vertices[face.vertices[i]].co for i in range(3)]
-        m100 += face_vol * (v[0][0] + v[1][0] + v[2][0]) / 4
-        m010 += face_vol * (v[0][1] + v[1][1] + v[2][1]) / 4
-        m001 += face_vol * (v[0][2] + v[1][2] + v[2][2]) / 4
-    elif nb_edges == 4:
-        v = [mesh.vertices[face.vertices[i]].co for i in range(4)]
-        # let's cut the quad in triangles!
-        # triangle 1: vertices 0, 1, 2
-        area1 = area_tri(mesh.vertices[face.vertices[0]].co,
-                         mesh.vertices[face.vertices[1]].co,
-                         mesh.vertices[face.vertices[2]].co)
-        face_vol1 = - area1 * distance / 3
-        m100 += face_vol1 * (v[0][0] + v[1][0] + v[2][0]) / 4
-        m010 += face_vol1 * (v[0][1] + v[1][1] + v[2][1]) / 4
-        m001 += face_vol1 * (v[0][2] + v[1][2] + v[2][2]) / 4
-        # triangle 2: vertices 2, 3, 0
-        area2 = area_tri(mesh.vertices[face.vertices[2]].co,
-                         mesh.vertices[face.vertices[3]].co,
-                         mesh.vertices[face.vertices[0]].co)
-        face_vol2 = - area2 * distance / 3
-        m100 += face_vol2 * (v[0][0] + v[2][0] + v[3][0]) / 4
-        m010 += face_vol2 * (v[0][1] + v[2][1] + v[3][1]) / 4
-        m001 += face_vol2 * (v[0][2] + v[2][2] + v[3][2]) / 4
-    else:
-         raise OrientationException
+def center_of_gravity(obj):
+    """
+    Return a Vector with the coordinates of the center of gravity of the object,
+    relatively to the object location. It assumes a uniform distribution of mass.
+    It can only work with triangular and quad meshes.
+    """
+    x = y = z = 0
+    orig = Vector((0, 0, 0))
+    for face in obj.data.faces:
+        distance = distance_point_to_plane(orig, face.center, face.normal)
         
-print("Volume: %s" % volume)
-print("CoG: %s, %s, %s" % (m100, m010, m001))
+        nb_edges = len(face.vertices)
+        v = [obj.data.vertices[f].co for f in face.vertices]
+        if nb_edges == 3:
+            face_vol = - face.area * distance / 3        
+            x += face_vol * (v[0][0] + v[1][0] + v[2][0]) / 4
+            y += face_vol * (v[0][1] + v[1][1] + v[2][1]) / 4
+            z += face_vol * (v[0][2] + v[1][2] + v[2][2]) / 4
+        elif nb_edges == 4:
+            # let's cut the quad in triangles!
+            # triangle 1: vertices 0, 1, 2
+            area1 = area_tri(v[0], v[1], v[2])
+            face_vol1 = - area1 * distance / 3
+            x += face_vol1 * (v[0][0] + v[1][0] + v[2][0]) / 4
+            y += face_vol1 * (v[0][1] + v[1][1] + v[2][1]) / 4
+            z += face_vol1 * (v[0][2] + v[1][2] + v[2][2]) / 4
+            # triangle 2: vertices 2, 3, 0
+            area2 = area_tri(v[2], v[3], v[0])
+            face_vol2 = - area2 * distance / 3
+            x += face_vol2 * (v[0][0] + v[2][0] + v[3][0]) / 4
+            y += face_vol2 * (v[0][1] + v[2][1] + v[3][1]) / 4
+            z += face_vol2 * (v[0][2] + v[2][2] + v[3][2]) / 4
+        else:
+            raise OrientationException
+            
+    return Vector((x, y, z))
 
-center_of_gravity = Vector((m100, m010, m001))
-point_a = mesh.faces[0].center # completely arbitrary
+def volume(obj):
+    """
+    Compute the volume of the object `obj`. The mesh has to be manifold, and
+    face normals coherently oriented towards the outside.
+    """
+    volume = 0
+    orig = Vector((0, 0, 0))
+    for face in obj.data.faces:
+        distance = distance_point_to_plane(orig, face.center, face.normal)
+        # minus sign, assuming normals are directed towards the outside
+        volume -= face.area * distance / 3
+    return volume
 
-intersections_count = 0
+def point_inside_object(point, obj):
+    """
+    Return True if the given `point` is inside the `object`, False otherwise.
+    Point coordinates must be in the object referential.
+    """
+    # http://blenderartists.org/forum/showthread.php?195605-Detecting-if-a-point-is-inside-a-mesh-2.5-API
+    intersections_count = 0
+    axis = obj.data.faces[0].center # arbitrary choice, but *not* a face vertice
+    while True:
+        location, normal, index = ob.ray_cast(point, point + axis * 10000.0)
+        if index == -1:
+            break
+        intersections_count += 1
+        point = location + axis * 0.00001
+    return (intersections_count % 2 == 1)
 
-# http://blenderartists.org/forum/showthread.php?195605-Detecting-if-a-point-is-inside-a-mesh-2.5-API
-orig = center_of_gravity
-axis = mesh.faces[0].center
-while True:
-    location, normal, index = ob.ray_cast(orig, orig + axis * 10000.0)
-    if index == -1:
-        break
-    intersections_count += 1
-    orig = location + axis * 0.00001
-
-print("Number of intersections: %s" % intersections_count)
-
-if intersections_count % 2 == 0:
-    print("Center of gravity is outside the object.\n")
-else:
-    print("Center of gravity is inside the object.\n")
+if __name__ == '__main__':
+    ob = bpy.context.selected_objects[0]
+    print("Volume : %s" % volume(ob))
+    cog = center_of_gravity(ob)
+    print("Center of gravity : %s" % cog)
+    if point_inside_object(cog, ob):
+        print("Center of gravity is inside the object.\n")
+    else:
+        print("Center of gravity is outside the object.\n")
