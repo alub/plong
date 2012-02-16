@@ -1,9 +1,9 @@
 import bpy
-from mathutils.geometry import \
-    distance_point_to_plane, intersect_line_plane, intersect_line_line_2d
-from mathutils import Vector
+from mathutils.geometry import distance_point_to_plane
+from mathutils import Vector, Matrix
 
-mesh = bpy.data.meshes['Cube']
+mesh = bpy.data.meshes['Icosphere']
+ob = bpy.data.objects['Icosphere']
 volume = 0
 m100 = m010 = m001 = 0 # Geometric moments
 orig = Vector((0,0,0))
@@ -36,13 +36,15 @@ point_a = mesh.faces[0].center # completely arbitrary
 
 intersections_count = 0
 
-for face in mesh.faces:
-    inter = intersect_line_plane(center_of_gravity, point_a, face.center, face.normal, True)
-    print(inter)
-    if inter != None:
-        for edge in face.edge_keys:
-            point_b = intersect_line_line_2d(inter, face.center, mesh.vertices[edge[O]], mesh.vertices[edge[1]])
-            
+# http://blenderartists.org/forum/showthread.php?195605-Detecting-if-a-point-is-inside-a-mesh-2.5-API
+orig = center_of_gravity
+axis = mesh.faces[0].center
+while True:
+    location, normal, index = ob.ray_cast(orig, orig + axis * 10000.0)
+    if index == -1:
+        break
+    intersections_count += 1
+    orig = location + axis * 0.00001
 
 print("Number of intersections: %s" % intersections_count)
 
