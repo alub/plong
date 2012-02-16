@@ -1,9 +1,12 @@
 import bpy
-from mathutils.geometry import distance_point_to_plane
+from mathutils.geometry import distance_point_to_plane, area_tri
 from mathutils import Vector, Matrix
 
-mesh = bpy.data.meshes['Icosphere']
-ob = bpy.data.objects['Icosphere']
+class OrientationException(Exception):
+    pass
+
+mesh = bpy.data.meshes['Cube']
+ob = bpy.data.objects['Cube']
 volume = 0
 m100 = m010 = m001 = 0 # Geometric moments
 orig = Vector((0,0,0))
@@ -22,11 +25,26 @@ for face in mesh.faces:
         m010 += face_vol * (v[0][1] + v[1][1] + v[2][1]) / 4
         m001 += face_vol * (v[0][2] + v[1][2] + v[2][2]) / 4
     elif nb_edges == 4:
-        # let's cut the quad in triangles!
         v = [mesh.vertices[face.vertices[i]].co for i in range(4)]
-        m100 += face_vol * (v[0][0] + v[1][0] + v[2][0] + v[3][0]) / 4
-        m010 += face_vol * (v[0][1] + v[1][1] + v[2][1] + v[3][1]) / 4
-        m001 += face_vol * (v[0][2] + v[1][2] + v[2][2] + v[3][2]) / 4
+        # let's cut the quad in triangles!
+        # triangle 1: vertices 0, 1, 2
+        area1 = area_tri(mesh.vertices[face.vertices[0]].co,
+                         mesh.vertices[face.vertices[1]].co,
+                         mesh.vertices[face.vertices[2]].co)
+        face_vol1 = - area1 * distance / 3
+        m100 += face_vol1 * (v[0][0] + v[1][0] + v[2][0]) / 4
+        m010 += face_vol1 * (v[0][1] + v[1][1] + v[2][1]) / 4
+        m001 += face_vol1 * (v[0][2] + v[1][2] + v[2][2]) / 4
+        # triangle 2: vertices 2, 3, 0
+        area2 = area_tri(mesh.vertices[face.vertices[2]].co,
+                         mesh.vertices[face.vertices[3]].co,
+                         mesh.vertices[face.vertices[0]].co)
+        face_vol2 = - area2 * distance / 3
+        m100 += face_vol2 * (v[0][0] + v[2][0] + v[3][0]) / 4
+        m010 += face_vol2 * (v[0][1] + v[2][1] + v[3][1]) / 4
+        m001 += face_vol2 * (v[0][2] + v[2][2] + v[3][2]) / 4
+    else:
+         raise OrientationException
         
 print("Volume: %s" % volume)
 print("CoG: %s, %s, %s" % (m100, m010, m001))
