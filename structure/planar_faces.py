@@ -1,10 +1,10 @@
-from cluster import HierarchicalClustering
-from mathutils import Vector
+from mathutils import Euler, Vector
+from math import pi
 import bpy
 
 MAX_ANGLE = .01
 ALIGN_TOLERANCE = .1
-MIN_AREA_RATIO = .9
+MIN_AREA_RATIO = .001
 
 class PlanarFacesSet(object):
     def __init__(self, obj, initial_face):
@@ -33,13 +33,73 @@ class PlanarFacesSet(object):
         
         return False
     
-    def select_all(self):
+    def select(self):
         """
         Select all faces from the plane.
         """
         
+        bpy.context.tool_settings.mesh_select_mode = (False, False, True)
+        
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.mesh.select_all(action='DESELECT')
+        bpy.ops.object.mode_set(mode='OBJECT')
+        
         for face in self.faces:
             self._obj.data.faces[face].select = True
+        
+        bpy.ops.object.mode_set(mode='EDIT')
+   
+    def apply(self):
+        """
+        Rotates and moves the object to place it over
+        the plane.
+        """
+        
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.mesh.select_all(action='DESELECT')
+        bpy.ops.object.mode_set(mode='OBJECT')
+        
+        for ob in bpy.data.objects.values():
+            ob.select = False
+        bpy.context.scene.objects.active = self._obj
+        self._obj.select = True
+        
+        
+        # Apply pending tranformations to the object
+        bpy.ops.object.transform_apply(location=True,
+            rotation=True, scale=True)
+        
+        normal, point = self.get_plane()
+        base_vec = Vector((0, 0, -1))
+        
+        diff = normal.rotation_difference(base_vec).to_euler('XYZ')
+        new_normal = normal.normalized()
+        new_normal.rotate(diff)
+        if (new_normal - base_vec).length > .1:
+            # new_normal and base_vec are not the same vector!
+            # in fact, we have new_normal = -base_vec
+            # so we need to rotate the whole object (on the
+            # x axis, for instance)
+            
+            diff.x += pi
+        
+        self._obj.rotation_mode = 'XYZ'
+        self._obj.rotation_euler = Euler((diff.x, diff.y, 0.0),
+            'XYZ')
+        
+        # Apply the rotation
+        bpy.ops.object.transform_apply(location=False,
+            rotation=True, scale=False)
+        
+        
+        # Set the location (given the applied rotation)
+        pos = self._obj.data.vertices[point].co.xyz
+        pos.negate()
+        self._obj.location = tuple(pos)
+        
+        # Apply the rotation
+        bpy.ops.object.transform_apply(location=True,
+            rotation=False, scale=False)
     
     def get_plane(self):
         """
@@ -65,7 +125,7 @@ class PlanarFacesSet(object):
                 chosen_point = point
                 best_distance = distance
         
-        return self._normal, point
+        return self._normal.xyz, point
     
     def __repr__(self):
         return "<PlanarFacesSet: %r>" % self.faces
@@ -92,46 +152,6 @@ class SupportPlanes(object):
                 break
             
             self.face_sets.append(face_set)
-    
-    def select(self, id):
-        """
-        Select faces close to the support plane numbered "id".
-        """
-        
-        bpy.ops.object.mode_set(mode='EDIT')
-        bpy.ops.mesh.select_all(action='DESELECT')
-        bpy.ops.object.mode_set(mode='OBJECT')
-        self.face_sets[id].select_all()
-        bpy.ops.object.mode_set(mode='EDIT')
-    
-    def use_for_object(self, id):
-        """
-        Rotates and moves the object to place it over
-        the specified plane.
-        """
-        
-        normal, point = self.face_sets[id].get_plane()
-        base_vec = Vector((0, 0, -1))
-        
-        if normal.yz.length < .001:
-            angle_x = normal.yz.angle(base_vec.yz)
-        else:
-            angle_x = 0.0
-        
-        if normal.xz.length < .001:
-            angle_y = normal.xz.angle(base_vec.xz)
-        else:
-            angle_y = 0.0    
-        
-    
-        
-        
-        #self.obj.rotation_euler[0] += angle_x
-        #self.obj.rotation_euler[1] += angle_y
-        #self.obj.rotation_euler[2] += angle_z
-        
-        
-        print("%s, %s" % (angle_x, angle_y))
         
     
     def __len__(self):
