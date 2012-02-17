@@ -94,10 +94,21 @@ class PlanarFacesSet(object):
             rotation=True, scale=False)
         
         
+        all_vertices = set()
+        for face in self.faces:
+            all_vertices |= set(self._obj.data.faces[face].vertices)
+        
+        mean_x = 0.
+        mean_y = 0.
+        for vertex in all_vertices:
+            mean_x += self._obj.data.vertices[vertex].co.x
+            mean_y += self._obj.data.vertices[vertex].co.y
+        
+        mean_x /= len(all_vertices)
+        mean_y /= len(all_vertices)
+        
         # Set the location (given the applied rotation)
-        pos = self._obj.data.vertices[point].co.xyz
-        pos.negate()
-        self._obj.location = tuple(pos)
+        self._obj.location = (-mean_x, -mean_y, -self._obj.data.vertices[point].co.z)
         
         # Apply the rotation
         bpy.ops.object.transform_apply(location=True,
