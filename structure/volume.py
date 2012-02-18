@@ -14,6 +14,8 @@ def center_of_gravity(obj):
     x = y = z = 0
     orig = Vector((0, 0, 0))
     for face in obj.data.faces:
+        if face.normal.length == 0.0:
+            continue
         distance = distance_point_to_plane(orig, face.center, face.normal)
         
         nb_edges = len(face.vertices)
@@ -51,6 +53,8 @@ def volume(obj):
     volume = 0
     orig = Vector((0, 0, 0))
     for face in obj.data.faces:
+        if face.normal.length == 0.0:
+            continue
         distance = distance_point_to_plane(orig, face.center, face.normal)
         # minus sign, assuming normals are directed towards the outside
         volume -= face.area * distance / 3
