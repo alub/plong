@@ -12,7 +12,6 @@ def init():
 def cleanAndSelect():
     global edges
     setSelectMode(mode='EDGE')
-    bpy.ops.object.mode_set(mode='EDIT')
     bpy.ops.mesh.select_all(action='DESELECT')
     bpy.ops.mesh.select_non_manifold()
     setSelectMode(mode='VERTEX')
@@ -25,6 +24,7 @@ def cleanAndSelect():
     for e in edges:
         if e.select:
             not_manifold = True
+    bpy.ops.object.mode_set(mode='EDIT')
     return not_manifold
 
 # fill selected holes and act recursively if there are still holes
@@ -32,25 +32,29 @@ def fillAndCheck(oldNbEdges):
     global edges
     global nbHolesFilled
     global nbPassages
-    bpy.ops.object.mode_set(mode='EDIT')
-    holes, nbEdges = getHoles()
-    if(nbEdges != oldNbEdges):
-        for hole in holes:
-            selectHole(hole)
-            bpy.ops.mesh.fill()
+    if cleanAndSelect():
+        holes, nbEdges = getHoles()
+        print(nbEdges, 'remaining')
+        if(nbEdges != oldNbEdges):
+            for hole in holes:
+                selectHole(hole)
+                bpy.ops.mesh.fill()
+            fillAndCheck(nbEdges)
+        else:
+            bpy.ops.mesh.delete(type='VERT')
+            print('deleting broken vertices')
+            fillAndCheck(0)
+    else:
+        print('Filling complete')
         bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.normals_make_consistent(inside=False)
         bpy.ops.mesh.select_all(action='DESELECT')
-        fillAndCheck(nbEdges)
         
 # return a list of holes from non-manifold selected edges
 def getHoles():
     global edges
     nbEdges = 0
     sel_edges = []
-    setSelectMode('EDGE')
-    bpy.ops.object.mode_set(mode='EDIT')
-    bpy.ops.mesh.select_non_manifold()
     bpy.ops.object.mode_set(mode='OBJECT')
     for e in edges :
         if e.select == True :
@@ -67,9 +71,8 @@ def selectHole(edgeList) :
     bpy.ops.mesh.select_all(action='DESELECT')
     setSelectMode(mode='EDGE')
     bpy.ops.object.mode_set(mode='OBJECT')
-    for e in edges :
-        if e.index in edgeList :
-            e.select = True
+    for i in edgeList :
+        edges[i].select = True
     bpy.ops.object.mode_set(mode='EDIT')
     
 # change the current select mode
@@ -88,6 +91,7 @@ def main():
     name = bpy.context.active_object.name
     print('Trying to repairs holes in object: ', name)
     edges = bpy.data.meshes[name].edges
+    bpy.ops.object.mode_set(mode='EDIT')
     fillAndCheck(0)
 
         
