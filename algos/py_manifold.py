@@ -91,8 +91,8 @@ def main():
     global edges
     init()
     name = bpy.context.active_object.name
-    print('Trying to repairs holes in object: ', name)
-    edges = bpy.data.meshes[name].edges
+    print('Trying to repairs holes in object: ', bpy.context.active_object.name)
+    edges = bpy.context.active_object.data.edges
     bpy.ops.object.mode_set(mode='EDIT')
     fillAndCheck(0)
 
