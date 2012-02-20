@@ -34,21 +34,22 @@ def fillAndCheck(oldNbEdges):
     global nbPassages
     if cleanAndSelect():
         holes, nbEdges = getHoles()
-        print(nbEdges, 'remaining')
         if(nbEdges != oldNbEdges):
+            print(nbEdges, ' edges non manifold left')
             for hole in holes:
                 selectHole(hole)
                 bpy.ops.mesh.fill()
             fillAndCheck(nbEdges)
         else:
+            print('Filling can\'t process further')
             bpy.ops.mesh.delete(type='VERT')
-            print('deleting broken vertices')
             fillAndCheck(0)
     else:
-        print('Filling complete')
+        print('Repairing complete')
         bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.normals_make_consistent(inside=False)
         bpy.ops.mesh.select_all(action='DESELECT')
+        bpy.ops.object.mode_set(mode='OBJECT')
         
 # return a list of holes from non-manifold selected edges
 def getHoles():
@@ -71,8 +72,8 @@ def selectHole(edgeList) :
     bpy.ops.mesh.select_all(action='DESELECT')
     setSelectMode(mode='EDGE')
     bpy.ops.object.mode_set(mode='OBJECT')
-    for i in edgeList :
-        edges[i].select = True
+    for index in edgeList :
+            edges[index].select = True
     bpy.ops.object.mode_set(mode='EDIT')
     
 # change the current select mode

@@ -5,6 +5,7 @@
 *.aux
 *.log
 *.toc
+*.swp
 *~
 report/*.pdf
 slides/*.pdf
