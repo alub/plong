@@ -50,7 +50,6 @@ def fillAndCheck(oldNbEdges):
         bpy.ops.mesh.normals_make_consistent(inside=False)
         bpy.ops.mesh.select_all(action='DESELECT')
         bpy.ops.object.mode_set(mode='OBJECT')
-            
         
 # return a list of holes from non-manifold selected edges
 def getHoles():

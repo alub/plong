@@ -21,11 +21,13 @@ class PlanarFacesSet(object):
         it if it the case.
         """
         
-        
-        if self._normal.angle(face.normal) <= MAX_ANGLE:
+        divisor = abs(self._proj_dist) or 1.0
+        if face.normal.length == 0.0 or self._normal.length == 0.0:
+            return False
+        elif self._normal.angle(face.normal) <= MAX_ANGLE:
             if face not in self.faces:
                 proj = self._normal.dot(face.center)
-                if abs(self._proj_dist - proj) / abs(self._proj_dist) < ALIGN_TOLERANCE:
+                if abs(self._proj_dist - proj) / divisor < ALIGN_TOLERANCE:
                     self.faces.add(face.index)
                     self.total_area += face.area
             
@@ -225,4 +227,4 @@ if __name__ == '__main__':
     obj = bpy.context.active_object
     
     sp = SupportPlanes(obj)
-    sp.select(0)
+    sp[0].select()

@@ -14,6 +14,8 @@ def center_of_gravity(obj):
     x = y = z = 0
     orig = Vector((0, 0, 0))
     for face in obj.data.faces:
+        if face.normal.length == 0.0:
+            continue
         distance = distance_point_to_plane(orig, face.center, face.normal)
         
         nb_edges = len(face.vertices)
@@ -47,9 +49,12 @@ def volume(obj):
     Compute the volume of the object `obj`. The mesh has to be manifold, and
     face normals coherently oriented towards the outside.
     """
+    bpy.ops.object.mode_set(mode='OBJECT')
     volume = 0
     orig = Vector((0, 0, 0))
     for face in obj.data.faces:
+        if face.normal.length == 0.0:
+            continue
         distance = distance_point_to_plane(orig, face.center, face.normal)
         # minus sign, assuming normals are directed towards the outside
         volume -= face.area * distance / 3
@@ -72,11 +77,12 @@ def point_inside_object(point, obj):
     return (intersections_count % 2 == 1)
 
 if __name__ == '__main__':
-    ob = bpy.context.selected_objects[0]
-    print("Volume : %s" % volume(ob))
-    cog = center_of_gravity(ob)
-    print("Center of gravity : %s" % cog)
-    if point_inside_object(cog, ob):
-        print("Center of gravity is inside the object.\n")
-    else:
-        print("Center of gravity is outside the object.\n")
+    for ob in bpy.context.selected_objects:
+        print("### Object “%s”" % ob.name)
+        print("Volume : %s" % volume(ob))
+        cog = center_of_gravity(ob)
+        print("Center of gravity : %s" % cog)
+        if point_inside_object(cog, ob):
+            print("Center of gravity is inside the object.\n")
+        else:
+            print("Center of gravity is outside the object.\n")
