@@ -222,7 +222,7 @@ class SupportPlanes(object):
             face_set.total_area, reverse=True)
 
 if __name__ == '__main__':
-    obj = bpy.data.objects["Cube"]
+    obj = bpy.context.active_object
     
     sp = SupportPlanes(obj)
     sp.select(0)
