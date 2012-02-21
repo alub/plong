@@ -52,7 +52,7 @@ def fill_and_check(destructive, fast_processing, old_nb_edges):
                     select_hole(hole)
                 bpy.ops.object.mode_set(mode='EDIT')
                 bpy.ops.mesh.fill()
-                fillAndCheck(destructive, fast_processing, nb_edges)
+                fill_and_check(destructive, fast_processing, nb_edges)
             else:
                 sys.stdout.write("%s edges non manifold left" % nb_edges)
                 sys.stdout.flush()
@@ -142,3 +142,5 @@ def correction(destructive, fast_processing):
     edges = bpy.context.active_object.data.edges
     bpy.ops.object.mode_set(mode='EDIT')
     fill_and_check(destructive, fast_processing, 0)
+    
+correction(True, True)
