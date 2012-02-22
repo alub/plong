@@ -76,6 +76,28 @@ def point_inside_object(point, obj):
         point = location + axis * 0.00001
     return (intersections_count % 2 == 1)
 
+def bad_volume(obj, sp):
+    sp.select()
+    bpy.ops.mesh.duplicate()
+    sp_normal, sp_vertex = sp.get_plane()
+    height = 0.0
+    for vertex in obj.data.vertices:
+        cur_height = sp_normal.dot(obj.data.vertices[sp_vertex].co - vertex.co)
+        if cur_height > height:
+            height = cur_height
+    bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate =
+        {'value': - height * sp_normal.normalized()})
+    old_objects = [o.name for o in bpy.data.objects]
+    bpy.ops.mesh.separate(type='LOOSE')
+    bpy.ops.object.editmode_toggle()
+    bpy.ops.object.select_all(action='DESELECT')
+    for o in bpy.data.objects:
+        if o.name not in old_objects:
+            o.select = True
+            dup = o
+    bpy.ops.object.modifier_add(type='BOOLEAN')
+    bpy.ops.object.modifier_apply(apply_as='DATA', modifier='BOOLEAN')
+
 if __name__ == '__main__':
     for ob in bpy.context.selected_objects:
         print("### Object “%s”" % ob.name)
