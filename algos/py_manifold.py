@@ -1,5 +1,6 @@
 import bpy
 import sys
+import time
 import py_holes
 
 def init():
@@ -19,6 +20,7 @@ def clean_and_select():
     set_selectmode(mode='VERTEX')
     bpy.ops.mesh.delete(type='FACE')
     bpy.ops.mesh.select_all(action='DESELECT')
+    #py_holes.clean_zero_edges()
     set_selectmode(mode='EDGE')
     bpy.ops.mesh.select_non_manifold()
     bpy.ops.object.mode_set(mode='OBJECT')
@@ -49,6 +51,8 @@ def fill_and_check(destructive, fast_processing, old_nb_edges):
                 bpy.ops.mesh.select_all(action='DESELECT')
                 bpy.ops.object.mode_set(mode='OBJECT')
                 for hole in holes:
+                    sys.stdout.write('.%s' % len(hole))
+                    sys.stdout.flush()
                     select_hole(hole)
                 bpy.ops.object.mode_set(mode='EDIT')
                 bpy.ops.mesh.fill()
@@ -57,8 +61,9 @@ def fill_and_check(destructive, fast_processing, old_nb_edges):
                 sys.stdout.write("%s edges non manifold left" % nb_edges)
                 sys.stdout.flush()
                 for hole in holes:
-                    sys.stdout.write('.')
-                    sys.stdout.flush()
+                    #sys.stdout.write('.%s' % len(hole))
+                    #sys.stdout.write('.')
+                    #sys.stdout.flush()
                     bpy.ops.mesh.select_all(action='DESELECT')
                     bpy.ops.object.mode_set(mode='OBJECT')
                     select_hole(hole)
@@ -142,5 +147,10 @@ def correction(destructive, fast_processing):
     edges = bpy.context.active_object.data.edges
     bpy.ops.object.mode_set(mode='EDIT')
     fill_and_check(destructive, fast_processing, 0)
-    
-correction(True, True)
+
+
+td = time.time()    
+correction(True, False)
+tf = time.time()-td
+
+print('ELAPSED TIME: ', tf)
