@@ -2,6 +2,7 @@ import bpy
 
 def neighbour(edges, indA, indB):
     """
+    This function determines if two edges in the active mesh are neighbours
     parameters : 
         > indA, indB : indexes of edges in the active object
     returns :
@@ -45,7 +46,27 @@ def separate_holes(edges, edgeIndexList) :
             hole.append(edge_new)
             edge_new = edgeIndexList.pop(i)
     return holes
-        
+
+def clean_zero_edges():
+    """
+    This functions checks the mesh for edges that are part of no face and deletes them.    
+    """
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='DESELECT')
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+    obj = bpy.context.active_object.data
+    edges_copy = [edge.key for edge in obj.edges] # mapping from edge to adjacent faces
+    for ThisFace in obj.faces :
+        for ThisEdge in ThisFace.edge_keys :
+            if ThisEdge in edges_copy:
+                edges_copy.remove(ThisEdge)
+    print(edges_copy)
+    for edge in obj.edges:
+        if edge.key in edges_copy:
+            edge.select = True
+    bpy.ops.object.mode_set(mode = 'EDIT')
+    bpy.ops.mesh.delete(type='EDGE')
+            
 #main
 def test():
     sel_edges = []

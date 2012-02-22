@@ -1,24 +1,27 @@
 import bpy
 import sys
+import time
 import py_holes
 
 def init():
-    global nbHolesFilled
-    global nbPassages
-    nbHolesFilled = 0
-    nbPassages = 0
+    global nb_holes_filled
+    nb_holes_filled = 0
 
         
-# purge non-manifold faces and select holes
-def cleanAndSelect():
+def clean_and_select():
+    """Remove reduntant faces and edges then select all non manifold edges
+    returns :
+        > is the resulting active object non manifold
+    """
     global edges
-    setSelectMode(mode='EDGE')
+    set_selectmode(mode='EDGE')
     bpy.ops.mesh.select_all(action='DESELECT')
     bpy.ops.mesh.select_non_manifold()
-    setSelectMode(mode='VERTEX')
+    set_selectmode(mode='VERTEX')
     bpy.ops.mesh.delete(type='FACE')
     bpy.ops.mesh.select_all(action='DESELECT')
-    setSelectMode(mode='EDGE')
+    #py_holes.clean_zero_edges()
+    set_selectmode(mode='EDGE')
     bpy.ops.mesh.select_non_manifold()
     bpy.ops.object.mode_set(mode='OBJECT')
     not_manifold = False
@@ -28,34 +31,51 @@ def cleanAndSelect():
     bpy.ops.object.mode_set(mode='EDIT')
     return not_manifold
 
-# fill selected holes and act recursively if there are still holes
-def fillAndCheck(destructive, oldNbEdges):
+def fill_and_check(destructive, fast_processing, old_nb_edges):
+    """Fill selected holes and purge the meshes according to the parameters
+    parameters :
+        > destructive : allow the method to supress some vertices in order to obtain a full manifold object
+        > fast_processing : allow fast-processing which can result in bad accurate meshes
+        > old_nb_edges : used for recursivity purposes
+    returns :
+        > is the resulting active object non manifold
+    """
     global edges
-    global nbHolesFilled
-    global nbPassages
-    if cleanAndSelect():
-        holes, nbEdges = getHoles()
-        if(nbEdges != oldNbEdges):
-            sys.stdout.write("%s edges non manifold left" % nbEdges)
-            sys.stdout.flush()
-            setSelectMode(mode='EDGE')
-            bpy.ops.mesh.select_all(action='DESELECT')
-            for hole in holes:
-                #sys.stdout.write(",%s" % len(hole))
-                #sys.stdout.flush()
-                sys.stdout.write('.')
-                sys.stdout.flush()
+    global nb_holes_filled
+    if clean_and_select():
+        holes, nb_edges = get_holes()
+        if(nb_edges != old_nb_edges):
+            set_selectmode(mode='EDGE')
+            if fast_processing:
+                print(nb_edges, "edges non manifold left")
                 bpy.ops.mesh.select_all(action='DESELECT')
-                selectHole(hole)
+                bpy.ops.object.mode_set(mode='OBJECT')
+                for hole in holes:
+                    sys.stdout.write('.%s' % len(hole))
+                    sys.stdout.flush()
+                    select_hole(hole)
+                bpy.ops.object.mode_set(mode='EDIT')
                 bpy.ops.mesh.fill()
-                #unselectHole(hole)
-            sys.stdout.write('\n')
-            fillAndCheck(destructive, nbEdges)
+                fill_and_check(destructive, fast_processing, nb_edges)
+            else:
+                sys.stdout.write("%s edges non manifold left" % nb_edges)
+                sys.stdout.flush()
+                for hole in holes:
+                    #sys.stdout.write('.%s' % len(hole))
+                    #sys.stdout.write('.')
+                    #sys.stdout.flush()
+                    bpy.ops.mesh.select_all(action='DESELECT')
+                    bpy.ops.object.mode_set(mode='OBJECT')
+                    select_hole(hole)
+                    bpy.ops.object.mode_set(mode='EDIT')
+                    bpy.ops.mesh.fill()
+                sys.stdout.write('\n')
+                fill_and_check(destructive, fast_processing, nb_edges)
         else:
             if destructive:
                 print('Filling can\'t process further, removing broken vertices...')
                 bpy.ops.mesh.delete(type='VERT')
-                fillAndCheck(true, 0)
+                fill_and_check(destructive, fast_processing, 0)
             else:
                 print('Filling can\'t process further, end of process')
                 bpy.ops.mesh.select_all(action='SELECT')
@@ -69,30 +89,37 @@ def fillAndCheck(destructive, oldNbEdges):
         bpy.ops.mesh.select_all(action='DESELECT')
         bpy.ops.object.mode_set(mode='OBJECT')
         
-# return a list of holes from non-manifold selected edges
-def getHoles():
+def get_holes():
+    """
+    returns :
+        > a list of holes from the non-manifold selected edges
+    """
     global edges
-    nbEdges = 0
+    nb_edges = 0
     sel_edges = []
     bpy.ops.object.mode_set(mode='OBJECT')
     for e in edges :
         if e.select == True :
-            nbEdges = nbEdges+1
+            nb_edges = nb_edges+1
             sel_edges.append(e.index)
     holes = py_holes.separate_holes(edges, sel_edges)
     bpy.ops.object.mode_set(mode='EDIT')
-    return holes, nbEdges
+    return holes, nb_edges
 
-# visually select a hole from its edges list
-def selectHole(edgeList) :
+def select_hole(edgeList) :
+    """visually select a hole from its edges list
+    parameters :
+        > edgeList : contains the indices of one hole's edges
+    """
     global edges
-    bpy.ops.object.mode_set(mode='OBJECT')
     for index in edgeList :
             edges[index].select = True
-    bpy.ops.object.mode_set(mode='EDIT')
     
-# change the current select mode
-def setSelectMode(mode):
+def set_selectmode(mode):
+    """Change the selectMode
+    parameters :
+        > mode : one of the following: 'VERTEX', 'EDGE', 'FACE'
+    """
     if mode == 'VERTEX':
        bpy.context.tool_settings.mesh_select_mode = [True, False, False]
     if mode == 'EDGE':
@@ -100,17 +127,30 @@ def setSelectMode(mode):
     if mode == 'FACE':
         bpy.context.tool_settings.mesh_select_mode = [False, False, True]
 
-# main function
-def correction(destructive):
+
+def correction(destructive, fast_processing):
+    """Main function which try to correct the active-object
+    parameters :
+        > destructive : allow the method to supress some vertices in order to obtain a full manifold object
+        > fast_processing : allow fast-processing which can result in bad accurate meshes
+    """
     global edges
-    if destructive:
-        print('Destructive-repairing of object object ', bpy.context.active_object.name)
+    if destructive and fast_processing:
+        print('Fast-processing and destructive repairing of object ', bpy.context.active_object.name)
+    elif destructive and not fast_processing:
+        print('Accurate and destructive repairing of object ', bpy.context.active_object.name)
+    elif not destructive and fast_processing:
+        print('Fast-processing simple cleaning of object ', bpy.context.active_object.name)
     else:
-        print('Cleaning and filling of object ', bpy.context.active_object.name)
+        print('Accurate simple cleaning of object ', bpy.context.active_object.name)
     init()
     edges = bpy.context.active_object.data.edges
     bpy.ops.object.mode_set(mode='EDIT')
-    fillAndCheck(destructive, 0)
-        
+    fill_and_check(destructive, fast_processing, 0)
 
-correction(False)
+
+td = time.time()    
+correction(True, False)
+tf = time.time()-td
+
+print('ELAPSED TIME: ', tf)

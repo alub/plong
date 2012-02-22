@@ -1,7 +1,8 @@
 import bpy 
 
-def neighbour(indA, indB):
+def is_neighbour(indA, indB):
     """
+    This function determines if two edges in the active mesh are neighbours
     parameters : 
         > indA, indB : indexes of edges in the active object
     returns :
@@ -50,35 +51,25 @@ def separate_holes(edgeIndexList) :
     return holes
 
 
-def edgeToFaces():
+def clean_zero_edges():
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='DESELECT')
     bpy.ops.object.mode_set(mode = 'OBJECT')
-    TheMesh = bpy.context.active_object.data
-    EdgeFaces = {} # mapping from edge to adjacent faces
-    for ThisFace in TheMesh.faces :
+    obj = bpy.context.active_object.data
+    edges_copy = [edge.key for edge in obj.edges] # mapping from edge to adjacent faces
+    for ThisFace in obj.faces :
         for ThisEdge in ThisFace.edge_keys :
-            if not ThisEdge in EdgeFaces :
-                EdgeFaces[ThisEdge] = []
-            #end if
-            EdgeFaces[ThisEdge].append(ThisFace)
-        #end for
-    #end for
-    return EdgeFaces
+            if ThisEdge in edges_copy:
+                edges_copy.remove(ThisEdge)
+    print(edges_copy)
+    for edge in obj.edges:
+        if edge.key in edges_copy:
+            edge.select = True
+    bpy.ops.object.mode_set(mode = 'EDIT')
+    bpy.ops.mesh.delete(type='EDGE')
 
-def verticesToEdges(edgeList):
-    bpy.ops.object.mode_set(mode = 'OBJECT')
-    TheMesh = bpy.context.active_object.data
-    EdgeFaces = {} # mapping from edge to adjacent faces
-    for ThisFace in TheMesh.faces :
-        for ThisEdge in ThisFace.edge_keys :
-            if not ThisEdge in EdgeFaces :
-                EdgeFaces[ThisEdge] = []
-            #end if
-            EdgeFaces[ThisEdge].append(ThisFace)
-        #end for
-    #end for
-    return EdgeFaces
 
-def selectToList():
+def select_to_list():
     sel_edges = []
     bpy.ops.object.mode_set(mode = 'OBJECT')
     obj = bpy.context.active_object
