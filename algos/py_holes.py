@@ -22,7 +22,7 @@ def separate_holes(edges, edgeIndexList) :
         > a list of lists of edges where each list represents a hole 
     """
     holes = [] # a list of lists of edges...
-    num_holes = 0
+    uho = [] # a list of unidentified hole objects
     i = 0
     if edgeIndexList != [] :
         edge_new = edgeIndexList.pop(0)
@@ -33,9 +33,11 @@ def separate_holes(edges, edgeIndexList) :
         while i<n_e and not(neighbour(edges, edge_new, edgeIndexList[i])) : #search for a neighbourind edge
             i = i + 1
         if i == n_e : # if none the hole is complete
-            num_holes = num_holes + 1
             hole.append(edge_new)
-            holes.append(hole)
+            if len(hole) <= 2:
+                uho.append(hole)
+            else:
+                holes.append(hole)
             edge_new = edgeIndexList.pop(0) # a new hole is started
             hole = []
         elif n_e == 1 :# this was the last edge
@@ -45,7 +47,7 @@ def separate_holes(edges, edgeIndexList) :
         else :
             hole.append(edge_new)
             edge_new = edgeIndexList.pop(i)
-    return holes
+    return holes, uho
 
 def clean_zero_edges():
     """
@@ -53,47 +55,20 @@ def clean_zero_edges():
     """
     bpy.ops.object.mode_set(mode='EDIT')
     bpy.ops.mesh.select_all(action='DESELECT')
-    set_selectmode('EDGE')
-    bpy.ops.mesh.select_non_manifold()
     bpy.ops.object.mode_set(mode = 'OBJECT')
     obj = bpy.context.active_object.data
-    edgeList = select_to_edgekeys()
+    edges_copy = [edge.key for edge in obj.edges] # mapping from edge to adjacent faces
     for ThisFace in obj.faces :
         for ThisEdge in ThisFace.edge_keys :
-            if ThisEdge in edgeList:
-                edgeList.remove(ThisEdge)
-    print(edgeList)
+            if ThisEdge in edges_copy:
+                edges_copy.remove(ThisEdge)
+    print(edges_copy)
     for edge in obj.edges:
-        if edge.key in edgeList:
+        if edge.key in edges_copy:
             edge.select = True
     bpy.ops.object.mode_set(mode = 'EDIT')
-    set_selectmode('EDGE') # go in EDGE selection mode
     bpy.ops.mesh.delete(type='EDGE')
-    bpy.ops.object.mode_set(mode = 'OBJECT')
-    
-def set_selectmode(mode):
-    """Change the selectMode
-    parameters :
-        > mode : one of the following: 'VERTEX', 'EDGE', 'FACE'
-    """
-    if mode == 'VERTEX':
-       bpy.context.tool_settings.mesh_select_mode = [True, False, False]
-    if mode == 'EDGE':
-        bpy.context.tool_settings.mesh_select_mode = [False, True, False]
-    if mode == 'FACE':
-        bpy.context.tool_settings.mesh_select_mode = [False, False, True]
-        
-def select_to_edgekeys() :
-    """
-    Returns a list of edge_keys from selected edges
-    """
-    edgeList = []
-    obj = bpy.context.active_object.data
-    for edge in obj.edges :
-        if edge.select == True :
-            edgeList.append(edge.key)
-    return edgeList
-       
+            
 #main
 def test():
     sel_edges = []
