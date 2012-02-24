@@ -53,20 +53,47 @@ def clean_zero_edges():
     """
     bpy.ops.object.mode_set(mode='EDIT')
     bpy.ops.mesh.select_all(action='DESELECT')
+    set_selectmode('EDGE')
+    bpy.ops.mesh.select_non_manifold()
     bpy.ops.object.mode_set(mode = 'OBJECT')
     obj = bpy.context.active_object.data
-    edges_copy = [edge.key for edge in obj.edges] # mapping from edge to adjacent faces
+    edgeList = select_to_edgekeys()
     for ThisFace in obj.faces :
         for ThisEdge in ThisFace.edge_keys :
-            if ThisEdge in edges_copy:
-                edges_copy.remove(ThisEdge)
-    print(edges_copy)
+            if ThisEdge in edgeList:
+                edgeList.remove(ThisEdge)
+    print(edgeList)
     for edge in obj.edges:
-        if edge.key in edges_copy:
+        if edge.key in edgeList:
             edge.select = True
     bpy.ops.object.mode_set(mode = 'EDIT')
+    set_selectmode('EDGE') # go in EDGE selection mode
     bpy.ops.mesh.delete(type='EDGE')
-            
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+    
+def set_selectmode(mode):
+    """Change the selectMode
+    parameters :
+        > mode : one of the following: 'VERTEX', 'EDGE', 'FACE'
+    """
+    if mode == 'VERTEX':
+       bpy.context.tool_settings.mesh_select_mode = [True, False, False]
+    if mode == 'EDGE':
+        bpy.context.tool_settings.mesh_select_mode = [False, True, False]
+    if mode == 'FACE':
+        bpy.context.tool_settings.mesh_select_mode = [False, False, True]
+        
+def select_to_edgekeys() :
+    """
+    Returns a list of edge_keys from selected edges
+    """
+    edgeList = []
+    obj = bpy.context.active_object.data
+    for edge in obj.edges :
+        if edge.select == True :
+            edgeList.append(edge.key)
+    return edgeList
+       
 #main
 def test():
     sel_edges = []
