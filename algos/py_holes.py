@@ -1,19 +1,24 @@
 import bpy 
 
-def neighbour(edges, indA, indB):
+def is_neighbour(edges, ind, vertex):
     """
-    This function determines if two edges in the active mesh are neighbours
+    This function determines if an edge in the active mesh contains a vertex
     parameters : 
-        > indA, indB : indexes of edges in the active object
+        > ind : indexes of edges in the active object
     returns :
         > a boolean, true if and only if the two indicated edges are neihgbours in the active object
     """
-    va0 = edges[indA].vertices[0]
-    va1 = edges[indA].vertices[1]
-    vb0 = edges[indB].vertices[0]
-    vb1 = edges[indB].vertices[1]
-    return (va0 == vb0 or va0 == vb1 or va1 == vb1 or va1 == vb0)
-
+    obj = bpy.context.active_object
+    vertices = obj.data.vertices
+    vb0 = edges[ind].vertices[0]
+    vb1 = edges[ind].vertices[1]
+    if vertex == vb0:
+        return vb1
+    elif vertex == vb1:
+        return vb0
+    else:
+        return False
+    
 def separate_holes(edges, edgeIndexList) :
     """
     parameters : 
@@ -27,10 +32,11 @@ def separate_holes(edges, edgeIndexList) :
     if edgeIndexList != [] :
         edge_new = edgeIndexList.pop(0)
     hole = [] # first hole starts with first edge
+    v_index = edges[edge_new].vertices[0]
     while edgeIndexList != []:
         n_e = len(edgeIndexList)
         i = 0
-        while i<n_e and not(neighbour(edges, edge_new, edgeIndexList[i])) : #search for a neighbourind edge
+        while i<n_e and not(is_neighbour(edges, edgeIndexList[i], v_index)) : #search for a neighbouring edge
             i = i + 1
         if i == n_e : # if none the hole is complete
             hole.append(edge_new)
@@ -39,14 +45,18 @@ def separate_holes(edges, edgeIndexList) :
             else:
                 holes.append(hole)
             edge_new = edgeIndexList.pop(0) # a new hole is started
+            v_index = edges[edge_new].vertices[0]
             hole = []
         elif n_e == 1 :# this was the last edge
             hole.append(edge_new)
             hole.append(edgeIndexList.pop(i))
             holes.append(hole)
         else :
+            v_index = is_neighbour(edges, edgeIndexList[i], v_index)
             hole.append(edge_new)
             edge_new = edgeIndexList.pop(i)
+    print(holes)
+    print(uho)
     return holes, uho
 
 def clean_zero_edges():
