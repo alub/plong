@@ -102,7 +102,7 @@ def get_holes():
         if e.select == True :
             nb_edges = nb_edges+1
             sel_edges.append(e.index)
-    holes = py_holes.separate_holes(edges, sel_edges)
+    holes, uho = py_holes.separate_holes(edges, sel_edges)
     bpy.ops.object.mode_set(mode='EDIT')
     return holes, nb_edges
 
