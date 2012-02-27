@@ -1,43 +1,34 @@
 \documentclass{report}
 
-%%%%%%%%%%%%%%%%%%%%%%%% Importation de paquets %%%%%%%%%%%%%%%%%%%%
-\usepackage{polyglossia}
-\usepackage{graphics}
+% Page layout
+\usepackage{geometry}
+\geometry{
+	a4paper,
+}
+
+% Fonts
 \usepackage{fontspec}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{graphics}
-\usepackage{fancyhdr}
-\usepackage{vmargin}
-\usepackage{epsfig}   
-\usepackage{multicol}
-\usepackage{multirow}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%% Format, langue, marges %%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\setdefaultlanguage{english}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
 \setmainfont{Linux Libertine O}
-\setpapersize{A4}
-\setmarginsrb   
-{35mm}  % leftmargin
-{20mm}  % topmargin
-{35mm}  % rightmargin
-{40mm}  % bottommargin
-{14pt}  % headheight
-{15mm}   % headsep
-{20pt}  % footheight
-{20mm}  % footskip
 
-%%%%%%%%%%%%%%%%%%%%%%%% En-tete et pied de page %%%%%%%%%%%%%%%%%%%%%%%%%%
+% Language
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+
+% Graphics
+\usepackage{graphicx}
+
+% Headers and footers
+\usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\scalebox{0.1}[0.1]{\includegraphics{./Images/enseeiht}}}
-\rhead{\scalebox{0.1}[0.1]{\includegraphics{./Images/irit}}
+\lhead{\includegraphics[scale=0.1]{./Images/enseeiht}}
+\rhead{\includegraphics[scale=0.1]{./Images/irit}
 \lfoot{Three-dimensional modeling and printing}}
-\rfoot{\bfseries \thepage}
+\rfoot{\thepage}
+
+% Code
+%\usepackage{minted}
 
 \begin{document}
 
