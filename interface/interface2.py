@@ -6,8 +6,8 @@
 from bpy import *
 import bpy
 import random
-   
-step = 1 # step in the pre-processing of the mesh (3)
+
+step = 1
 
 ###############################
 # MeshVerificationPanel class #
@@ -22,31 +22,28 @@ class MeshVerificationPanel(bpy.types.Panel) :
     bl_context = "object"  
 
     def draw(self, context) :
-
-        """
-        Draws the additional panel containing the buttons to pre-process each mesh before printing in Blender's interface.
-        """
         
         obj = context.object
-        mesh = obj.data
+	mesh = obj.data
         scn = context.scene
     
         layout = self.layout
-
-	# Top of the panel
         row = layout.row()
         row.label(text="Verify your mesh before printing it", icon='MESH_ICOSPHERE')
    
         row = layout.row()
         row.label(text="The active mesh is : " + mesh.name)
+
+        row = layout.row()
+        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------")
+
 	
-	# First box of the panel (step 1) : correction of the mesh 
         box1 = layout.box()
 
-        if step != 1 :
-            box1.enabled = False
+	if step != 1 :
+		box1.enabled = False
 
-        row1 = box1.row()
+	row1 = box1.row()
         row1.label(text="-> Step 1 : Make it watertight & manifold")
        
         row2 = box1.row()
@@ -59,23 +56,28 @@ class MeshVerificationPanel(bpy.types.Panel) :
         c2 = row3.column()
         c2.operator("ops.destructive_manifold_watertight")
         
-	# Second box of the panel (step 2) : generation of the supporting plans
-        box2 = layout.box()
+        row4 = box1.row()
+        row4.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
+      
+	box2 = layout.box()
 
-        if step != 2 :
-            box2.enabled = False
+	if step != 2 :
+		box2.enabled = False
 
         row1 = box2.row()
-        row1.label(text="-> Step 2 : Generate adequate supporting plans for printing")
+        row1.label(text="-> Step 2 : Generate several adequate supporting plans for printing")
         
         row2 = box2.row()
         row2.operator("ops.generate_plans")
         
-	# Third box of the panel (step 3) : Choice of the supporting plan
-        box3 = layout.box()
+        row3 = box2.row()
+        row3.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
+     
+	box3 = layout.box()
 
-        if step != 3 :
-            box3.enabled = False
+	if step != 3 :
+		box3.enabled = False
+
 
         row1 = box3.row()
         row1.label(text="-> Step 3 : Choose your object orientation for printing")
@@ -90,7 +92,9 @@ class MeshVerificationPanel(bpy.types.Panel) :
         row3 = box3.row()
         row3.operator("ops.choose_current_plan")
         
-        
+        row4 = box4.row()
+        row4.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
+     
 ###################################################
 #  NonDestructiveManifoldWatertightOperator class #
 ###################################################
@@ -103,14 +107,12 @@ class NonDestructiveManifoldWatertightOperator(bpy.types.Operator) :
     
     def execute (self, context) :
 
-        """
-        Make the mesh watertight and often manifold but does not destroy it.
-        """
-
-        global step
+	global step
 
         self.report("INFO", "The mesh is now correct")
-        step = 2 # Disable the first box and enable the second one
+
+	step = 2
+
         return {'FINISHED'}
     
 ###############################################
@@ -125,14 +127,12 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
     
     def execute (self, context) :
 
-        """
-        Make the mesh watertight and manifold but might detroy some edges.
-        """
-
-        global step
+	global step
          
         self.report("INFO", "The mesh is now correct")
-        step = 2 # Disable the first box and enable the second one    
+
+	step = 2
+        
         return {'FINISHED'}
     
 
@@ -154,14 +154,12 @@ class GenerateSupportingPlansOperator(bpy.types.Operator) :
         
     def execute (self, context) :
 
-        """
-        Generate a list of supporting plans for the object on which it can be printed.
-        """
-
-        global step
+	global step
         
         self.report("INFO", "Several supporting plans have been calculated for your object")
-        step = 3 # Disable the second box and enable the third one
+
+	step = 3
+
         return {'FINISHED'}
     
 ###################################
@@ -176,11 +174,12 @@ class VizualizeNextPlanOperator(bpy.types.Operator) :
     
     def execute (self, context) :
 
-        """
-        Allows to vizualize the object on the next supporting plan on the list.
-        """
+	global step 
 
         self.report("INFO", "This is the next possible orientation for your object")
+
+	step = 1
+
         return {'FINISHED'}
     
     
@@ -195,10 +194,6 @@ class VizualizePreviousPlanOperator(bpy.types.Operator) :
     bl_description = "Vizualize your object on the previous supporting plan"
     
     def execute (self, context) :
-
-        """
-        Allows to vizualize the object on the previous supporting plan on the list.
-        """
         self.report("INFO", "This is the previous possible orientation for your object")
         return {'FINISHED'}
     
@@ -213,15 +208,7 @@ class ChooseCurrentPlanOperator(bpy.types.Operator) :
     bl_description = "Your object will be registered as vizualized now"
     
     def execute (self, context) :
-
-        """
-        Select the current supporting plan for printing.
-        """
-        
-        global step
-        
-        self.report("INFO", "You chose the current orientation for your object")      
-        step = 1 # Disable the third box and enable the first one
+        self.report("INFO", "You chose the current orientation for your object")
         return {'FINISHED'}
     
 #################
@@ -246,7 +233,7 @@ if __name__ == "__main__":
     
     bpy.utils.register_class(ChooseCurrentPlanOperator)
     
-    scn.FastProcessing = props.BoolProperty(name = "Fast processing", description = "Might not be as efficient as the normal processing", default = False)
+    scn.FastProcessing = props.BoolProperty(name = "Fast processing", default = False)
    
 
     
