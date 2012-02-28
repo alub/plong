@@ -72,9 +72,9 @@ def import_model(name, scale=None, rotation_xyz=None):
     orig = set(bpy.data.objects)
     
     if name.endswith(".ply"):
-        bpy.ops.import_mesh.ply(filepath="models/" + name)
+        bpy.ops.import_mesh.ply(filepath="../models/" + name)
     else:
-        bpy.ops.import_mesh.stl(filepath="models/" + name)
+        bpy.ops.import_mesh.stl(filepath="../models/" + name)
     
     
     unselect_all()

@@ -8,7 +8,7 @@ sys.path.append(realpath("."))
 
 import unittest
 from tests.utils import cleanup, import_model, select_object
-from structure.planar_faces import SupportPlanes
+from modules.planar_faces import SupportPlanes
 from math import pi
 
 def get_bounds(obj):
