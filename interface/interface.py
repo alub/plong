@@ -6,7 +6,8 @@
 from bpy import *
 import bpy
 import random
-
+   
+step = 1 # step in the pre-processing of the mesh (3)
 
 ###############################
 # MeshVerificationPanel class #
@@ -21,61 +22,75 @@ class MeshVerificationPanel(bpy.types.Panel) :
     bl_context = "object"  
 
     def draw(self, context) :
+
+        """
+        Draws the additional panel containing the buttons to pre-process each mesh before printing in Blender's interface.
+        """
         
         obj = context.object
+        mesh = obj.data
         scn = context.scene
     
         layout = self.layout
+
+	# Top of the panel
         row = layout.row()
         row.label(text="Verify your mesh before printing it", icon='MESH_ICOSPHERE')
    
         row = layout.row()
-        row.label(text="The active mesh is : " + obj.name)
+        row.label(text="The active mesh is : " + mesh.name)
+	
+	# First box of the panel (step 1) : correction of the mesh 
+        box1 = layout.box()
 
-        row = layout.row()
-        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------")
+        if step != 1 :
+            box1.enabled = False
 
-        row = layout.row()
-        row.label(text="-> Step 1 : Make it watertight & manifold")
+        row1 = box1.row()
+        row1.label(text="-> Step 1 : Make it watertight & manifold")
        
-        row = layout.row()
-        row.prop(scn,"FastProcessing")
+        row2 = box1.row()
+        row2.prop(scn,"FastProcessing")
         
-        row = layout.row()
-        c1 = row.column()
+        row3 = box1.row()
+        c1 = row3.column()
         c1.operator("ops.non_destructive_manifold_watertight")        
        
-        c2 = row.column()
+        c2 = row3.column()
         c2.operator("ops.destructive_manifold_watertight")
         
-        row = layout.row()
-        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
-     
-        row = layout.row()
-        row.label(text="-> Step 2 : Generate several adequate supporting plans for printing")
+	# Second box of the panel (step 2) : generation of the supporting plans
+        box2 = layout.box()
+
+        if step != 2 :
+            box2.enabled = False
+
+        row1 = box2.row()
+        row1.label(text="-> Step 2 : Generate adequate supporting plans for printing")
         
-        row = layout.row()
-        row.operator("ops.generate_plans")
+        row2 = box2.row()
+        row2.operator("ops.generate_plans")
         
-        row = layout.row()
-        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
-     
-        row = layout.row()
-        row.label(text="-> Step 3 : Choose your object orientation for printing")
+	# Third box of the panel (step 3) : Choice of the supporting plan
+        box3 = layout.box()
+
+        if step != 3 :
+            box3.enabled = False
+
+        row1 = box3.row()
+        row1.label(text="-> Step 3 : Choose your object orientation for printing")
         
-        row = layout.row()
-        c1 = row.column()
+        row2 = box3.row()
+        c1 = row2.column()
         c1.operator("ops.vizualize_previous_plan")        
        
-        c2 = row.column()
+        c2 = row2.column()
         c2.operator("ops.vizualize_next_plan")
         
-        row = layout.row()
-        row.operator("ops.choose_current_plan")
+        row3 = box3.row()
+        row3.operator("ops.choose_current_plan")
         
-        row = layout.row()
-        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
-     
+        
 ###################################################
 #  NonDestructiveManifoldWatertightOperator class #
 ###################################################
@@ -88,7 +103,14 @@ class NonDestructiveManifoldWatertightOperator(bpy.types.Operator) :
     
     def execute (self, context) :
 
+        """
+        Make the mesh watertight and often manifold but does not destroy it.
+        """
+
+        global step
+
         self.report("INFO", "The mesh is now correct")
+        step = 2 # Disable the first box and enable the second one
         return {'FINISHED'}
     
 ###############################################
@@ -102,18 +124,24 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
     bl_description = "This method might damage your mesh in some ways but will make it completely ok for printing"
     
     def execute (self, context) :
+
+        """
+        Make the mesh watertight and manifold but might detroy some edges.
+        """
+
+        global step
          
         self.report("INFO", "The mesh is now correct")
-        
+        step = 2 # Disable the first box and enable the second one    
         return {'FINISHED'}
     
 
-##################################
-# CheckOrientationOperator class #
-##################################
+#########################################
+# GenerateSupportingPlansOperator class #
+#########################################
 
               
-class CheckOrientationOperator(bpy.types.Operator) :
+class GenerateSupportingPlansOperator(bpy.types.Operator) :
     
     bl_idname = 'ops.generate_plans'
     bl_label = "Generate supporting plans"
@@ -125,9 +153,15 @@ class CheckOrientationOperator(bpy.types.Operator) :
         bpy.types.Operator.__init__(self)
         
     def execute (self, context) :
+
+        """
+        Generate a list of supporting plans for the object on which it can be printed.
+        """
+
+        global step
         
         self.report("INFO", "Several supporting plans have been calculated for your object")
-        MeshVerificationPanel.instance.layout
+        step = 3 # Disable the second box and enable the third one
         return {'FINISHED'}
     
 ###################################
@@ -141,6 +175,11 @@ class VizualizeNextPlanOperator(bpy.types.Operator) :
     bl_description = "Vizualize your object on the next supporting plan"
     
     def execute (self, context) :
+
+        """
+        Allows to vizualize the object on the next supporting plan on the list.
+        """
+
         self.report("INFO", "This is the next possible orientation for your object")
         return {'FINISHED'}
     
@@ -156,6 +195,10 @@ class VizualizePreviousPlanOperator(bpy.types.Operator) :
     bl_description = "Vizualize your object on the previous supporting plan"
     
     def execute (self, context) :
+
+        """
+        Allows to vizualize the object on the previous supporting plan on the list.
+        """
         self.report("INFO", "This is the previous possible orientation for your object")
         return {'FINISHED'}
     
@@ -170,7 +213,15 @@ class ChooseCurrentPlanOperator(bpy.types.Operator) :
     bl_description = "Your object will be registered as vizualized now"
     
     def execute (self, context) :
-        self.report("INFO", "You chose the current orientation for your object")
+
+        """
+        Select the current supporting plan for printing.
+        """
+        
+        global step
+        
+        self.report("INFO", "You chose the current orientation for your object")      
+        step = 1 # Disable the third box and enable the first one
         return {'FINISHED'}
     
 #################
@@ -187,7 +238,7 @@ if __name__ == "__main__":
     
     bpy.utils.register_class(DestructiveManifoldWatertightOperator)
 
-    bpy.utils.register_class(CheckOrientationOperator)
+    bpy.utils.register_class(GenerateSupportingPlansOperator)
     
     bpy.utils.register_class(VizualizeNextPlanOperator)
     
@@ -195,7 +246,7 @@ if __name__ == "__main__":
     
     bpy.utils.register_class(ChooseCurrentPlanOperator)
     
-    scn.FastProcessing = props.BoolProperty(name = "Fast processing", default = False)
+    scn.FastProcessing = props.BoolProperty(name = "Fast processing", description = "Might not be as efficient as the normal processing", default = False)
    
 
     
