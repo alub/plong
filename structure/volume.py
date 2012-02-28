@@ -76,6 +76,32 @@ def point_inside_object(point, obj):
         point = location + axis * 0.00001
     return (intersections_count % 2 == 1)
 
+def supported_volume(obj, sp):
+    """
+    Compute the volume actually supported by the plane `sp`.
+    The object meshes have to be manifold.
+    """
+    sp.select()
+    sp_normal, sp_vertex = sp.get_plane()
+    height = max(sp_normal.dot(obj.data.vertices[sp_vertex].co - vertex.co)
+                 for vertex in obj.data.vertices)
+    bpy.ops.mesh.duplicate()
+    bpy.ops.mesh.extrude_region_move(TRANSFORM_OT_translate =
+        {'value': - height * sp_normal.normalized()})
+    old_objects = [o.name for o in bpy.data.objects]
+    bpy.ops.mesh.separate(type='LOOSE')
+    bpy.ops.object.editmode_toggle()
+    bpy.ops.object.select_all(action='DESELECT')
+    for o in bpy.data.objects:
+        if o.name not in old_objects:
+            dup = o
+    bpy.ops.object.modifier_add(type='BOOLEAN')
+    obj.modifiers['Boolean'].object = dup
+    bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
+    sv = volume(obj)
+    bpy.ops.object.delete(use_global=False)
+    return sv
+
 if __name__ == '__main__':
     for ob in bpy.context.selected_objects:
         print("### Object “%s”" % ob.name)
@@ -86,3 +112,7 @@ if __name__ == '__main__':
             print("Center of gravity is inside the object.\n")
         else:
             print("Center of gravity is outside the object.\n")
+            
+        import planar_faces
+        sp = planar_faces.SupportPlanes(ob)[0]
+        print("Supported volume: %s\n" % supported_volume(ob, sp))
