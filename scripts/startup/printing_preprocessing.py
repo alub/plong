@@ -228,7 +228,7 @@ class ChooseCurrentPlanOperator(bpy.types.Operator) :
 # Main function #
 #################
 
-if __name__ == "__main__":
+def register():
     
     scn = types.Scene
     
@@ -247,6 +247,3 @@ if __name__ == "__main__":
     bpy.utils.register_class(ChooseCurrentPlanOperator)
     
     scn.FastProcessing = props.BoolProperty(name = "Fast processing", description = "Might not be as efficient as the normal processing", default = False)
-   
-
-    
