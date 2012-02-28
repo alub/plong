@@ -33,7 +33,7 @@ def separate_holes(edgeIndexList) :
     while edgeIndexList != []:
         n_e = len(edgeIndexList)
         i = 0
-        while i<n_e and not(neighbour(edge_new, edgeIndexList[i])) : #search for a neighbourind edge
+        while i<n_e and not(is_neighbour(edge_new, edgeIndexList[i])) : #search for a neighbourind edge
             i = i + 1
         if i == n_e : # if none the hole is complete
             num_holes = num_holes + 1
@@ -82,7 +82,7 @@ def test3():
     bpy.ops.object.mode_set(mode='EDIT')
     bpy.ops.mesh.select_all(action='DESELECT')
     bpy.ops.mesh.select_non_manifold()
-    sel_edges =selectToList()
+    sel_edges =select_to_list()
     bpy.ops.object.mode_set(mode = 'OBJECT')
     obj = bpy.context.active_object.data
     ef = edgeToFaces()

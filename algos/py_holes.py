@@ -55,8 +55,8 @@ def separate_holes(edges, edgeIndexList) :
             v_index = is_neighbour(edges, edgeIndexList[i], v_index)
             hole.append(edge_new)
             edge_new = edgeIndexList.pop(i)
-    print(holes)
-    print(uho)
+    #print(holes)
+    #print(uho)
     return holes, uho
 
 def clean_zero_edges():
@@ -72,7 +72,7 @@ def clean_zero_edges():
         for ThisEdge in ThisFace.edge_keys :
             if ThisEdge in edges_copy:
                 edges_copy.remove(ThisEdge)
-    print(edges_copy)
+    #print(edges_copy)
     for edge in obj.edges:
         if edge.key in edges_copy:
             edge.select = True
