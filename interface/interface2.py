@@ -7,6 +7,7 @@ from bpy import *
 import bpy
 import random
 
+step = 1
 
 ###############################
 # MeshVerificationPanel class #
@@ -23,6 +24,7 @@ class MeshVerificationPanel(bpy.types.Panel) :
     def draw(self, context) :
         
         obj = context.object
+	mesh = obj.data
         scn = context.scene
     
         layout = self.layout
@@ -30,51 +32,68 @@ class MeshVerificationPanel(bpy.types.Panel) :
         row.label(text="Verify your mesh before printing it", icon='MESH_ICOSPHERE')
    
         row = layout.row()
-        row.label(text="The active mesh is : " + obj.name)
+        row.label(text="The active mesh is : " + mesh.name)
 
         row = layout.row()
         row.label(text="------------------------------------------------------------------------------------------------------------------------------------------")
 
-        row = layout.row()
-        row.label(text="-> Step 1 : Make it watertight & manifold")
+	
+        box1 = layout.box()
+
+	if step != 1 :
+		box1.enabled = False
+
+	row1 = box1.row()
+        row1.label(text="-> Step 1 : Make it watertight & manifold")
        
-        row = layout.row()
-        row.prop(scn,"FastProcessing")
+        row2 = box1.row()
+        row2.prop(scn,"FastProcessing")
         
-        row = layout.row()
-        c1 = row.column()
+        row3 = box1.row()
+        c1 = row3.column()
         c1.operator("ops.non_destructive_manifold_watertight")        
        
-        c2 = row.column()
+        c2 = row3.column()
         c2.operator("ops.destructive_manifold_watertight")
         
-        row = layout.row()
-        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
+        row4 = box1.row()
+        row4.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
+      
+	box2 = layout.box()
+
+	if step != 2 :
+		box2.enabled = False
+
+        row1 = box2.row()
+        row1.label(text="-> Step 2 : Generate several adequate supporting plans for printing")
+        
+        row2 = box2.row()
+        row2.operator("ops.generate_plans")
+        
+        row3 = box2.row()
+        row3.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
      
-        row = layout.row()
-        row.label(text="-> Step 2 : Generate several adequate supporting plans for printing")
+	box3 = layout.box()
+
+	if step != 3 :
+		box3.enabled = False
+
+
+        row1 = box3.row()
+        row1.label(text="-> Step 3 : Choose your object orientation for printing")
         
-        row = layout.row()
-        row.operator("ops.generate_plans")
-        
-        row = layout.row()
-        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
-     
-        row = layout.row()
-        row.label(text="-> Step 3 : Choose your object orientation for printing")
-        
-        row = layout.row()
-        c1 = row.column()
+        row2 = box3.row()
+        c1 = row2.column()
         c1.operator("ops.vizualize_previous_plan")        
        
-        c2 = row.column()
+        c2 = row2.column()
         c2.operator("ops.vizualize_next_plan")
         
-        row = layout.row()
-        row.operator("ops.choose_current_plan")
+        row3 = box3.row()
+        row3.operator("ops.choose_current_plan")
         
-        row = layout.row()
-        row.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
+        row4 = box4.row()
+        row4.label(text="------------------------------------------------------------------------------------------------------------------------------------------") 
      
 ###################################################
 #  NonDestructiveManifoldWatertightOperator class #
@@ -88,7 +107,12 @@ class NonDestructiveManifoldWatertightOperator(bpy.types.Operator) :
     
     def execute (self, context) :
 
+	global step
+
         self.report("INFO", "The mesh is now correct")
+
+	step = 2
+
         return {'FINISHED'}
     
 ###############################################
@@ -102,18 +126,22 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
     bl_description = "This method might damage your mesh in some ways but will make it completely ok for printing"
     
     def execute (self, context) :
+
+	global step
          
         self.report("INFO", "The mesh is now correct")
+
+	step = 2
         
         return {'FINISHED'}
     
 
-##################################
-# CheckOrientationOperator class #
-##################################
+#########################################
+# GenerateSupportingPlansOperator class #
+#########################################
 
               
-class CheckOrientationOperator(bpy.types.Operator) :
+class GenerateSupportingPlansOperator(bpy.types.Operator) :
     
     bl_idname = 'ops.generate_plans'
     bl_label = "Generate supporting plans"
@@ -125,9 +153,13 @@ class CheckOrientationOperator(bpy.types.Operator) :
         bpy.types.Operator.__init__(self)
         
     def execute (self, context) :
+
+	global step
         
         self.report("INFO", "Several supporting plans have been calculated for your object")
-        MeshVerificationPanel.instance.layout
+
+	step = 3
+
         return {'FINISHED'}
     
 ###################################
@@ -141,7 +173,13 @@ class VizualizeNextPlanOperator(bpy.types.Operator) :
     bl_description = "Vizualize your object on the next supporting plan"
     
     def execute (self, context) :
+
+	global step 
+
         self.report("INFO", "This is the next possible orientation for your object")
+
+	step = 1
+
         return {'FINISHED'}
     
     
@@ -187,7 +225,7 @@ if __name__ == "__main__":
     
     bpy.utils.register_class(DestructiveManifoldWatertightOperator)
 
-    bpy.utils.register_class(CheckOrientationOperator)
+    bpy.utils.register_class(GenerateSupportingPlansOperator)
     
     bpy.utils.register_class(VizualizeNextPlanOperator)
     
