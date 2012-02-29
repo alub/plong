@@ -158,5 +158,3 @@ def test(destructive, fast_processing):
     #bpy.ops.object.mode_set(mode='EDIT')
     tf = time.time()-td
     print('ELAPSED TIME: ', tf)
-    
-test(True, True)
