@@ -1,7 +1,7 @@
 import bpy
 import sys
 import time
-import py_holes
+import holes
 
         
 def clean_and_select(edges):
@@ -97,7 +97,7 @@ def get_holes(edges):
         if e.select == True :
             nb_edges = nb_edges+1
             sel_edges.append(e.index)
-    holes, uho = py_holes.separate_holes(edges, sel_edges)
+    holes, uho = holes.separate_holes(edges, sel_edges)
     bpy.ops.object.mode_set(mode='EDIT')
     return holes, uho, nb_edges
 

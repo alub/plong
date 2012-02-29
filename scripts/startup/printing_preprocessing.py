@@ -5,7 +5,10 @@
 
 from bpy import *
 import bpy
-import random
+import sys
+from os.path import dirname, join
+sys.path.insert(0, join(dirname(__file__), '../modules'))
+import manifold
    
 step = 1 # step in the pre-processing of the mesh (3)
 
@@ -109,8 +112,9 @@ class NonDestructiveManifoldWatertightOperator(bpy.types.Operator) :
 
         global step
 
+        step = manifold.correction(False, context.scene.FastProcessing)
         self.report("INFO", "The mesh is now correct")
-        step = 2 # Disable the first box and enable the second one
+        #step = 2 # Disable the first box and enable the second one
         return {'FINISHED'}
     
 ###############################################
@@ -130,7 +134,8 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
         """
 
         global step
-         
+        
+        step = manifold.correction(True, context.scene.FastProcessing) 
         self.report("INFO", "The mesh is now correct")
         step = 2 # Disable the first box and enable the second one    
         return {'FINISHED'}
