@@ -12,8 +12,8 @@ import manifold
 import planar_faces
    
 step = 0 # step in the pre-processing of the mesh (3)
-sp = [] # adequate supporting plans
-plan = -1 # current supporting plan
+sp = [] # adequate supporting planes
+plane = -1 # current supporting plane
 
 ###############################
 # MeshVerificationPanel class #
@@ -68,17 +68,17 @@ class MeshVerificationPanel(bpy.types.Panel) :
         c2 = row3.column()
         c2.operator("ops.destructive_manifold_watertight")
         
-	# Second box of the panel (step 2) : generation of the supporting plans
+	# Second box of the panel (step 2) : generation of the supporting planes
         box2 = layout.box()
 
         if step != 2 :
             box2.enabled = False
 
         row1 = box2.row()
-        row1.label(text="-> Step 2 : Generate adequate supporting plans for printing")
+        row1.label(text="-> Step 2 : Generate adequate supporting planes for printing")
         
         row2 = box2.row()
-        row2.operator("ops.generate_plans")
+        row2.operator("ops.generate_planes")
         
 	# Third box of the panel (step 3) : Choice of the supporting plan
         box3 = layout.box()
@@ -91,13 +91,13 @@ class MeshVerificationPanel(bpy.types.Panel) :
         
         row2 = box3.row()
         c1 = row2.column()
-        c1.operator("ops.vizualize_previous_plan")        
+        c1.operator("ops.vizualize_previous_plane")        
        
         c2 = row2.column()
-        c2.operator("ops.vizualize_next_plan")
+        c2.operator("ops.vizualize_next_plane")
         
         row3 = box3.row()
-        row3.operator("ops.choose_current_plan")
+        row3.operator("ops.choose_current_plane")
         
 ###################################################
 #  NonDestructiveManifoldWatertightOperator class #
@@ -183,15 +183,15 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
     
 
 #########################################
-# GenerateSupportingPlansOperator class #
+# GenerateSupportingPlanesOperator class #
 #########################################
 
               
-class GenerateSupportingPlansOperator(bpy.types.Operator) :
+class GenerateSupportingPlanesOperator(bpy.types.Operator) :
     
-    bl_idname = 'ops.generate_plans'
-    bl_label = "Generate supporting plans"
-    bl_description = "This function will calculate several possible plans on which your object can be printed" 
+    bl_idname = 'ops.generate_planes'
+    bl_label = "Generate supporting planes"
+    bl_description = "This function will calculate several possible plans on which your object can be printed. The first one to be displayed shall be the best one" 
     
     def __init__ (self) :
         
@@ -201,7 +201,7 @@ class GenerateSupportingPlansOperator(bpy.types.Operator) :
     def execute (self, context) :
 
         """
-        Generate a list of supporting plans for the object on which it can be printed.
+        Generate a list of supporting plans for the object on which it can be printed and displays the "best" one.
         """
 
         global step
@@ -209,19 +209,20 @@ class GenerateSupportingPlansOperator(bpy.types.Operator) :
         
         obj = bpy.context.active_object
         sp = planar_faces.SupportPlanes(obj)
-        self.report({"INFO"}, "Several supporting plans have been calculated for your object")
+        sp[0].apply()
+        self.report({"INFO"}, "Several supporting planes have been calculated for your object")
         step = 3 # Disable the second box and enable the third one
         return {'FINISHED'}
     
 ###################################
-# VizualizeNextPlanOperator class #
+# VizualizeNextPlaneOperator class #
 ###################################
               
-class VizualizeNextPlanOperator(bpy.types.Operator) :
+class VizualizeNextPlaneOperator(bpy.types.Operator) :
     
-    bl_idname = 'ops.vizualize_next_plan'
+    bl_idname = 'ops.vizualize_next_plane'
     bl_label = "Next >"
-    bl_description = "Vizualize your object on the next supporting plan"
+    bl_description = "Vizualize your object on the next supporting plane"
     
     def execute (self, context) :
 
@@ -229,46 +230,46 @@ class VizualizeNextPlanOperator(bpy.types.Operator) :
         Allows to vizualize the object on the next supporting plan on the list.
         """
         
-        global plan
+        global plane
         
         l = len(sp)
-        if plan == l - 1 :
-            plan = 0
+        if plane == l - 1 :
+            plane = 0
         else :
-            plan = plan + 1
-        sp[plan].select()
+            plane = plane + 1
+        sp[plane].select()
         self.report({"INFO"}, "This is the next possible orientation for your object")
         return {'FINISHED'}
     
     
 #######################################
-# VizualizePreviousPlanOperator class #
+# VizualizePreviousPlaneOperator class #
 #############################"#########
               
-class VizualizePreviousPlanOperator(bpy.types.Operator) :
+class VizualizePreviousPlaneOperator(bpy.types.Operator) :
     
-    bl_idname = 'ops.vizualize_previous_plan'
+    bl_idname = 'ops.vizualize_previous_plane'
     bl_label = "< Previous"
-    bl_description = "Vizualize your object on the previous supporting plan"
+    bl_description = "Vizualize your object on the previous supporting plane"
     
     def execute (self, context) :
 
         """
         Allows to vizualize the object on the previous supporting plan on the list.
         """
-        global plan
+        global plane
         
         l = len(sp)
-        if plan == 0 or plan == -1:
-            plan = l - 1
+        if plane == 0 or plane == -1:
+            plane = l - 1
         else :
-            plan = plan - 1
-        sp[plan].select()
+            plane = plane - 1
+        sp[plane].select()
         self.report({"INFO"}, "This is the previous possible orientation for your object")
         return {'FINISHED'}
     
 ###################################
-# ChooseCurrentPlanOperator class #
+# ChooseCurrentPlaneOperator class #
 ###################################
               
 class ChooseCurrentPlanOperator(bpy.types.Operator) :
@@ -280,13 +281,13 @@ class ChooseCurrentPlanOperator(bpy.types.Operator) :
     def execute (self, context) :
 
         """
-        Select the current supporting plan for printing.
+        Select the current supporting plane for printing.
         """
         
         global step
-        global plan
+        global plane
         
-        sp[plan].apply()
+        sp[plane].apply()
         self.report({"INFO"}, "You chose the current orientation for your object")      
         step = 0 # Disable the third box and enable the first button
         return {'FINISHED'}
@@ -307,12 +308,12 @@ def register():
     
     bpy.utils.register_class(DestructiveManifoldWatertightOperator)
 
-    bpy.utils.register_class(GenerateSupportingPlansOperator)
+    bpy.utils.register_class(GenerateSupportingPlanesOperator)
     
-    bpy.utils.register_class(VizualizeNextPlanOperator)
+    bpy.utils.register_class(VizualizeNextPlaneOperator)
     
-    bpy.utils.register_class(VizualizePreviousPlanOperator)
+    bpy.utils.register_class(VizualizePreviousPlaneOperator)
     
-    bpy.utils.register_class(ChooseCurrentPlanOperator)
+    bpy.utils.register_class(ChooseCurrentPlaneOperator)
     
     scn.FastProcessing = props.BoolProperty(name = "Fast processing", description = "Might not be as efficient as the normal processing", default = False)
