@@ -176,7 +176,7 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
 
         global step
         
-        step = manifold.correction(True, context.scene.FastProcessing) 
+        step = manifold.correction(True, context.Scene.FastProcessing) 
         self.report({"INFO"}, "The mesh is now correct")
         step = 2 # Disable the first box and enable the second one    
         return {'FINISHED'}
@@ -242,9 +242,9 @@ class VizualizeNextPlaneOperator(bpy.types.Operator) :
         return {'FINISHED'}
     
     
-#######################################
+########################################
 # VizualizePreviousPlaneOperator class #
-#############################"#########
+########################################
               
 class VizualizePreviousPlaneOperator(bpy.types.Operator) :
     
@@ -268,13 +268,13 @@ class VizualizePreviousPlaneOperator(bpy.types.Operator) :
         self.report({"INFO"}, "This is the previous possible orientation for your object")
         return {'FINISHED'}
     
-###################################
+####################################
 # ChooseCurrentPlaneOperator class #
-###################################
+####################################
               
-class ChooseCurrentPlanOperator(bpy.types.Operator) :
+class ChooseCurrentPlaneOperator(bpy.types.Operator) :
     
-    bl_idname = 'ops.choose_current_plan'
+    bl_idname = 'ops.choose_current_plane'
     bl_label = "Choose the current plan"
     bl_description = "Your object will be registered as vizualized now"
     
