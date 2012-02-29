@@ -4,9 +4,10 @@ import time
 import holes
         
 def clean_and_select(edges):
-    """Remove reduntant faces and edges then select all non manifold edges
-    returns :
-        > is the resulting active object non manifold
+    """
+    Remove reduntant faces and edges then select all non manifold edges
+
+    :returns: the resulting active object non manifold
     """
     edges = bpy.context.active_object.data.edges
     set_selectmode(mode='EDGE')
@@ -26,13 +27,13 @@ def clean_and_select(edges):
     return not_manifold
 
 def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
-    """Fill selected holes and purge the meshes according to the parameters
-    parameters :
-        > destructive : allow the method to supress some vertices in order to obtain a full manifold object
-        > fast_processing : allow fast-processing which can result in bad accurate meshes
-        > old_nb_edges : used for recursivity purposes
-    returns :
-        > 1 if the resulting object is still not manifold, 2 otherwise
+    """
+    Fill selected holes and purge the meshes according to the parameters :
+
+    :param destructive: allow the method to supress some vertices in order to obtain a full manifold object
+    :param fast_processing: allow fast-processing which can result in bad accurate meshes
+    :param old_nb_edges: used for recursivity purposes
+    :returns: 1 if the resulting object is still not manifold, 2 otherwise
     """
     if clean_and_select(edges):
         edges_holes, uho, nb_edges = get_holes(edges)
@@ -86,8 +87,7 @@ def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
         
 def get_holes(edges):
     """
-    returns :
-        > a list of holes from the non-manifold selected edges
+    :returns: a list of holes from the non-manifold selected edges
     """
     nb_edges = 0
     sel_edges = []
@@ -101,17 +101,18 @@ def get_holes(edges):
     return edges_holes, uho, nb_edges
 
 def select_hole(edges, edgeList) :
-    """visually select a hole from its edges list
-    parameters :
-        > edgeList : contains the indices of one hole's edges
+    """
+    Visually select a hole from its edges list
+    :param edgeList: contains the indices of one hole's edges
     """
     for index in edgeList :
             edges[index].select = True
     
 def set_selectmode(mode):
-    """Change the selectMode
-    parameters :
-        > mode : one of the following: 'VERTEX', 'EDGE', 'FACE'
+    """
+    Change the selectMode
+
+    :param mode: one of the following: 'VERTEX', 'EDGE', 'FACE'
     """
     if mode == 'VERTEX':
        bpy.context.tool_settings.mesh_select_mode = [True, False, False]
@@ -122,12 +123,12 @@ def set_selectmode(mode):
 
 
 def correction(destructive, fast_processing):
-    """Main function which try to correct the active-object
-    parameters :
-        > destructive : allow the method to supress some vertices in order to obtain a full manifold object
-        > fast_processing : allow fast-processing which can result in bad accurate meshes
-    returns :
-        > 1 if the resulting object is still not manifold, 2 otherwise
+    """
+    Main function which try to correct the active-object
+
+    :param destructive: allow the method to supress some vertices in order to obtain a full manifold object
+    :param fast_processing: allow fast-processing which can result in bad accurate meshes
+    :returns: 1 if the resulting object is still not manifold, 2 otherwise
     """
     bpy.ops.object.mode_set(mode='EDIT')
     edges = bpy.context.active_object.data.edges
