@@ -63,12 +63,12 @@ class PlanarFacesTests(unittest.TestCase):
         
         sp[0].apply()
         xmin, xmax, ymin, ymax, zmin, zmax = get_bounds(obj)
-        self.assertAlmostEqual(xmin, -10.986856460571289)
-        self.assertAlmostEqual(xmax, 10.986856460571289)
-        self.assertAlmostEqual(ymin, -10.986852645874023)
-        self.assertAlmostEqual(ymax, 10.986856460571289)
-        self.assertAlmostEqual(zmin, -5.7220458984375e-06)
-        self.assertAlmostEqual(zmax, 32.62044143676758)
+        self.assertTrue(round(xmin - -10.986856460571289, 4) == 0)
+        self.assertTrue(round(xmax - 10.986856460571289, 4) == 0)
+        self.assertTrue(round(ymin - -10.986852645874023, 4) == 0)
+        self.assertTrue(round(ymax - 10.986856460571289, 4) == 0)
+        self.assertTrue(round(zmin - -5.7220458984375e-06, 4) == 0)
+        self.assertTrue(round(zmax - 32.62044143676758, 4) == 0)
 
 
 if __name__ == '__main__':
