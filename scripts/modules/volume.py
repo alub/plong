@@ -3,6 +3,9 @@ from mathutils.geometry import distance_point_to_plane, area_tri
 from mathutils import Vector, Matrix
 
 class OrientationException(Exception):
+    """
+    An exception to be raised in this module.
+    """
     pass
 
 def center_of_gravity(obj):
