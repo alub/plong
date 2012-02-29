@@ -1,8 +1,7 @@
 import bpy
 import sys
 import time
-import py_holes
-
+import holes
         
 def clean_and_select(edges):
     """Remove reduntant faces and edges then select all non manifold edges
@@ -36,14 +35,14 @@ def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
         > 1 if the resulting object is still not manifold, 2 otherwise
     """
     if clean_and_select(edges):
-        holes, uho, nb_edges = get_holes(edges)
+        edges_holes, uho, nb_edges = get_holes(edges)
         if(nb_edges != old_nb_edges):
             set_selectmode(mode='EDGE')
             if fast_processing:
                 print(nb_edges, "edges non manifold left")
                 bpy.ops.mesh.select_all(action='DESELECT')
                 bpy.ops.object.mode_set(mode='OBJECT')
-                for hole in holes:
+                for hole in edges_holes:
                    # sys.stdout.write('.%s' % len(hole))
                    # sys.stdout.flush()
                     select_hole(edges, hole)
@@ -54,13 +53,13 @@ def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
             else:
                 sys.stdout.write("%s edges non manifold left" % nb_edges)
                 sys.stdout.flush()
-                for hole in holes:
+                for hole in edges_holes:
                     #sys.stdout.write('.%s' % len(hole))
                     sys.stdout.write('.')
                     sys.stdout.flush()
                     bpy.ops.mesh.select_all(action='DESELECT')
                     bpy.ops.object.mode_set(mode='OBJECT')
-                    select_hole(hole)
+                    select_hole(edges, hole)
                     bpy.ops.object.mode_set(mode='EDIT')
                     bpy.ops.mesh.fill()
                 sys.stdout.write('\n')
@@ -97,9 +96,9 @@ def get_holes(edges):
         if e.select == True :
             nb_edges = nb_edges+1
             sel_edges.append(e.index)
-    holes, uho = py_holes.separate_holes(edges, sel_edges)
+    edges_holes, uho = holes.separate_holes(edges, sel_edges)
     bpy.ops.object.mode_set(mode='EDIT')
-    return holes, uho, nb_edges
+    return edges_holes, uho, nb_edges
 
 def select_hole(edges, edgeList) :
     """visually select a hole from its edges list
@@ -150,11 +149,11 @@ def test(destructive, fast_processing):
     print('NEXT STEP : ', step)
     #bpy.ops.object.mode_set(mode='EDIT')
     #clean_and_select()
-    #holes, uho ,nbedges = get_holes()
+    #edges_holes, uho ,nbedges = get_holes()
     #bpy.ops.object.mode_set(mode='EDIT')
     #bpy.ops.mesh.select_all(action='DESELECT')
     #bpy.ops.object.mode_set(mode='OBJECT')
-    #for hole in holes:
+    #for hole in edges_holes:
     #    select_hole(hole)
     #bpy.ops.object.mode_set(mode='EDIT')
     tf = time.time()-td
