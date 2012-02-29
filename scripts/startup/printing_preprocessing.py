@@ -128,11 +128,11 @@ class CheckMeshOperator(bpy.types.Operator) :
                 not_manifold = True
         bpy.ops.object.mode_set(mode='EDIT')
         if not_manifold :
-            self.report("INFO", "The mesh is not correct")
+            self.report({"INFO"}, "The mesh is not correct")
             step = 1
         else :
             step = 2
-            self.report("INFO", "The mesh is correct")
+            self.report({"INFO"}, "The mesh is correct")
         return {'FINISHED'}
                 
 ###################################################
@@ -154,7 +154,7 @@ class NonDestructiveManifoldWatertightOperator(bpy.types.Operator) :
         global step
 
         step = manifold.correction(False, context.scene.FastProcessing)
-        self.report("INFO", "The mesh is now correct")
+        self.report({"INFO"}, "The mesh is now correct")
         #step = 2 # Disable the first box and enable the second one
         return {'FINISHED'}
     
@@ -177,7 +177,7 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
         global step
         
         step = manifold.correction(True, context.scene.FastProcessing) 
-        self.report("INFO", "The mesh is now correct")
+        self.report({"INFO"}, "The mesh is now correct")
         step = 2 # Disable the first box and enable the second one    
         return {'FINISHED'}
     
@@ -209,7 +209,7 @@ class GenerateSupportingPlansOperator(bpy.types.Operator) :
         
         obj = bpy.context.active_object
         sp = planar_faces.SupportPlanes(obj)
-        self.report("INFO", "Several supporting plans have been calculated for your object")
+        self.report({"INFO"}, "Several supporting plans have been calculated for your object")
         step = 3 # Disable the second box and enable the third one
         return {'FINISHED'}
     
@@ -237,7 +237,7 @@ class VizualizeNextPlanOperator(bpy.types.Operator) :
         else :
             plan = plan + 1
         sp[plan].select()
-        self.report("INFO", "This is the next possible orientation for your object")
+        self.report({"INFO"}, "This is the next possible orientation for your object")
         return {'FINISHED'}
     
     
@@ -264,7 +264,7 @@ class VizualizePreviousPlanOperator(bpy.types.Operator) :
         else :
             plan = plan - 1
         sp[plan].select()
-        self.report("INFO", "This is the previous possible orientation for your object")
+        self.report({"INFO"}, "This is the previous possible orientation for your object")
         return {'FINISHED'}
     
 ###################################
@@ -287,7 +287,7 @@ class ChooseCurrentPlanOperator(bpy.types.Operator) :
         global plan
         
         sp[plan].apply()
-        self.report("INFO", "You chose the current orientation for your object")      
+        self.report({"INFO"}, "You chose the current orientation for your object")      
         step = 0 # Disable the third box and enable the first button
         return {'FINISHED'}
     
