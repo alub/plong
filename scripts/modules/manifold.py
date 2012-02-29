@@ -31,8 +31,11 @@ def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
     Fill selected holes and purge the meshes according to the parameters :
 
     :param destructive: allow the method to supress some vertices in order to obtain a full manifold object
+    :type destructive: bool
     :param fast_processing: allow fast-processing which can result in bad accurate meshes
+    :type fast_processing: bool
     :param old_nb_edges: used for recursivity purposes
+    :type old_nb_edges: int
     :returns: 1 if the resulting object is still not manifold, 2 otherwise
     """
     if clean_and_select(edges):
@@ -104,6 +107,7 @@ def select_hole(edges, edgeList) :
     """
     Visually select a hole from its edges list
     :param edgeList: contains the indices of one hole's edges
+    :type edgeList: list
     """
     for index in edgeList :
             edges[index].select = True
@@ -127,7 +131,9 @@ def correction(destructive, fast_processing):
     Main function which try to correct the active-object
 
     :param destructive: allow the method to supress some vertices in order to obtain a full manifold object
+    :type destructive: bool
     :param fast_processing: allow fast-processing which can result in bad accurate meshes
+    :type fast_processing: bool
     :returns: 1 if the resulting object is still not manifold, 2 otherwise
     """
     bpy.ops.object.mode_set(mode='EDIT')

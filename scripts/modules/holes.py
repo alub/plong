@@ -5,6 +5,7 @@ def is_neighbour(edges, ind, vertex):
     This function determines if an edge in the active mesh contains a vertex
     
     :param ind: indexes of edges in the active object
+    :type ind: list
     :returns: a boolean, True if and only if the two indicated edges are neihgbours in the active object
     """
     obj = bpy.context.active_object
@@ -21,6 +22,7 @@ def is_neighbour(edges, ind, vertex):
 def separate_holes(edges, edgeIndexList) :
     """
     :param edgeIndexList: a list of edges of multiples holes in a 3D mesh
+    :type edgeIndexList: list
     :returns: a list of lists of edges where each list represents a hole 
     """
     holes = [] # a list of lists of edges...
