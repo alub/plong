@@ -11,6 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   interface
+
    holes
    manifold
    planar_faces
