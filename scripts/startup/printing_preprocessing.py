@@ -9,8 +9,11 @@ import sys
 from os.path import dirname, join
 sys.path.insert(0, join(dirname(__file__), '../modules'))
 import manifold
+import planar_faces
    
-step = 1 # step in the pre-processing of the mesh (3)
+step = 0 # step in the pre-processing of the mesh (3)
+sp = [] # adequate supporting plans
+plan = -1 # current supporting plan
 
 ###############################
 # MeshVerificationPanel class #
@@ -30,7 +33,7 @@ class MeshVerificationPanel(bpy.types.Panel) :
         Draws the additional panel containing the buttons to pre-process each mesh before printing in Blender's interface.
         """
         
-        obj = context.object
+        obj = context.active_object
         mesh = obj.data
         scn = context.scene
     
@@ -42,7 +45,10 @@ class MeshVerificationPanel(bpy.types.Panel) :
    
         row = layout.row()
         row.label(text="The active mesh is : " + mesh.name)
-	
+        
+        row = layout.row()
+        row.operator("ops.check_mesh")
+       	
 	# First box of the panel (step 1) : correction of the mesh 
         box1 = layout.box()
 
@@ -93,7 +99,42 @@ class MeshVerificationPanel(bpy.types.Panel) :
         row3 = box3.row()
         row3.operator("ops.choose_current_plan")
         
+###################################################
+#  NonDestructiveManifoldWatertightOperator class #
+###################################################
+              
+class CheckMeshOperator(bpy.types.Operator) :
+    
+    bl_idname = 'ops.check_mesh'
+    bl_label = "Check your mesh"
+    bl_description = "This operator will check if your mesh is correct or not"
+    
+    def execute (self, context) :
+
+        """
+        Check if the mesh is correct.
+        """
+
+        global step
         
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.context.tool_settings.mesh_select_mode = [False, True, False]
+        bpy.ops.mesh.select_all(action='DESELECT')
+        bpy.ops.mesh.select_non_manifold()
+        bpy.ops.object.mode_set(mode='OBJECT')
+        not_manifold = False
+        for e in context.active_object.data.edges:
+            if e.select:
+                not_manifold = True
+        bpy.ops.object.mode_set(mode='EDIT')
+        if not_manifold :
+            self.report("INFO", "The mesh is not correct")
+            step = 1
+        else :
+            step = 2
+            self.report("INFO", "The mesh is correct")
+        return {'FINISHED'}
+                
 ###################################################
 #  NonDestructiveManifoldWatertightOperator class #
 ###################################################
@@ -164,7 +205,10 @@ class GenerateSupportingPlansOperator(bpy.types.Operator) :
         """
 
         global step
+        global sp
         
+        obj = bpy.context.active_object
+        sp = planar_faces.SupportPlanes(obj)
         self.report("INFO", "Several supporting plans have been calculated for your object")
         step = 3 # Disable the second box and enable the third one
         return {'FINISHED'}
@@ -184,7 +228,15 @@ class VizualizeNextPlanOperator(bpy.types.Operator) :
         """
         Allows to vizualize the object on the next supporting plan on the list.
         """
-
+        
+        global plan
+        
+        l = len(sp)
+        if plan == l - 1 :
+            plan = 0
+        else :
+            plan = plan + 1
+        sp[plan].select()
         self.report("INFO", "This is the next possible orientation for your object")
         return {'FINISHED'}
     
@@ -204,6 +256,14 @@ class VizualizePreviousPlanOperator(bpy.types.Operator) :
         """
         Allows to vizualize the object on the previous supporting plan on the list.
         """
+        global plan
+        
+        l = len(sp)
+        if plan == 0 or plan == -1:
+            plan = l - 1
+        else :
+            plan = plan - 1
+        sp[plan].select()
         self.report("INFO", "This is the previous possible orientation for your object")
         return {'FINISHED'}
     
@@ -224,9 +284,11 @@ class ChooseCurrentPlanOperator(bpy.types.Operator) :
         """
         
         global step
+        global plan
         
+        sp[plan].apply()
         self.report("INFO", "You chose the current orientation for your object")      
-        step = 1 # Disable the third box and enable the first one
+        step = 0 # Disable the third box and enable the first button
         return {'FINISHED'}
     
 #################
@@ -238,6 +300,8 @@ def register():
     scn = types.Scene
     
     bpy.utils.register_class(MeshVerificationPanel)
+    
+    bpy.utils.register_class(CheckMeshOperator)
 
     bpy.utils.register_class(NonDestructiveManifoldWatertightOperator)
     
