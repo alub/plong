@@ -209,7 +209,7 @@ class GenerateSupportingPlanesOperator(bpy.types.Operator) :
         
         obj = bpy.context.active_object
         sp = planar_faces.SupportPlanes(obj)
-        sp[0].apply()
+        sp[0].select()
         self.report({"INFO"}, "Several supporting planes have been calculated for your object")
         step = 3 # Disable the second box and enable the third one
         return {'FINISHED'}
