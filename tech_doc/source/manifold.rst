@@ -1,0 +1,4 @@
+Manifold
+========
+
+.. automodule:: manifold
