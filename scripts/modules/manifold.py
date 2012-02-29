@@ -59,7 +59,7 @@ def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
                     sys.stdout.flush()
                     bpy.ops.mesh.select_all(action='DESELECT')
                     bpy.ops.object.mode_set(mode='OBJECT')
-                    select_hole(hole)
+                    select_hole(edges, hole)
                     bpy.ops.object.mode_set(mode='EDIT')
                     bpy.ops.mesh.fill()
                 sys.stdout.write('\n')
