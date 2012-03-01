@@ -1,3 +1,9 @@
+"""
+This module provides general purpose functions related to volumetric parameters
+of the object. It is designed to provide a criterion for choosing a supporting
+a supporting plane.
+"""
+
 import bpy
 from mathutils.geometry import distance_point_to_plane, area_tri
 from mathutils import Vector, Matrix
