@@ -1,6 +1,6 @@
 texc = xelatex
 
-setUpDoc.pdf: setUpDoc.tex
+setup_doc.pdf: setup_doc.tex
 
 %.pdf: %.tex
 	$(texc) $<
@@ -9,4 +9,4 @@ clean:
 	rm -f *.{aux,bib,log,toc}
 
 empty: clean
-	rm -f setUpDoc.pdf
+	rm -f setup_doc.pdf
