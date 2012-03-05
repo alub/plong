@@ -1,3 +1,21 @@
+# -*- coding: utf8 -*-
+
+"""
+This module implements a planar faces detection tool, which allows finding
+the largest same-plane faces which may be used to support the object (the
+defined plane will not cut the object in half).
+When used, it computes a small list (max. 10 items) of adequate support planes,
+ordered by decreasing order of area.
+
+Example use::
+
+    sp = SupportPlanes(some_blender_object) # Computes the planes right away
+    sp[0].select() # Select the faces contained in the biggest support plane
+    sp[1].select() # Select the faces in the second biggest… etc
+    sp[0].apply() # Reorients the objects to put the first support plane as z=0
+    
+"""
+
 from mathutils import Euler, Vector
 from math import pi
 import bpy
@@ -10,6 +28,10 @@ OUTSIDE_PROJ_TOLERANCE = .1  # Tolerance to ident. planes "outside" of the obj.
 PROPOSAL_COUNT = 10  # Maximum number of face sets to propose
 
 class PlanarFacesSet(object):
+    """
+    A set of faces defining a support plane.
+    """
+
     __slots__ = ('_obj', '_normal', '_comp_face', '_proj_dist', 'total_area',
         'faces')
 
@@ -151,8 +173,9 @@ class PlanarFacesSet(object):
 
 class SupportPlanes(object):
     """
-    This class calculates planes which may be used to
-    support the object.
+    This class calculates planar face sets for the specified object.
+    It has an array-like interface to access the sets in decreasing
+    order of area.
     """
 
     def __init__(self, obj):
