@@ -5,7 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = blender --background --factory-startup -noaudio --python sphinx_blender.py --
 #SPHINXBUILD   = sphinx-build
-PAPER         =
+PAPER         = "a4"
 BUILDDIR      = build
 
 # Internal variables.
