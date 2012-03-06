@@ -211,12 +211,13 @@ class FindSupportingPlanesOperator(bpy.types.Operator) :
         """
 
         global step
+        global plane
         global sp
         
         obj = bpy.context.active_object
         sp = planar_faces.SupportPlanes(obj)
         plane = 0
-        sp[0].select()
+        sp[plane].select()
         self.report({"INFO"}, "Several supporting planes have been found for your object")
         step = 3 # Disable the second box and enable the third one
         return {'FINISHED'}
