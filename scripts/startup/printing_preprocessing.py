@@ -32,7 +32,6 @@ class MeshVerificationPanel(bpy.types.Panel):
         Draws the additional panel containing the buttons to pre-process each
         mesh before printing in Blender's interface.
         """
-        
         obj = context.active_object
         mesh = obj.data
         scn = context.scene
@@ -69,18 +68,25 @@ class MeshVerificationPanel(bpy.types.Panel):
         c2 = row3.column()
         c2.operator("ops.destructive_manifold_watertight")
         
-	# Second box of the panel (step 2) : generation of the supporting planes
+	# Second box of the panel (step 2) : finding of the supporting planes
         box2 = layout.box()
 
         if step != 2 :
             box2.enabled = False
 
         row1 = box2.row()
-        row1.label(text="-> Step 2 : Generate adequate supporting planes for printing")
+        row1.label(text="-> Step 2 : Find adequate supporting planes for printing")
         
         row2 = box2.row()
-        row2.operator("ops.generate_planes")
+        row2.operator("ops.cut_under_base_plane")
         
+        row3 = box2.row()
+        row3.operator("ops.find_planes")
+        
+        row4 = box2.row()
+        row4.operator("ops.choose_selected_faces")
+        
+                
 	# Third box of the panel (step 3) : Choice of the supporting plan
         box3 = layout.box()
 
@@ -117,6 +123,12 @@ class CheckMeshOperator(bpy.types.Operator) :
 
         global step
         
+        obj = context.active_object
+        
+        if obj.type != 'MESH':
+            self.report({"INFO"}, "Please select a mesh object")
+            return {'FINISHED'}
+        
         bpy.ops.object.mode_set(mode='EDIT')
         bpy.context.tool_settings.mesh_select_mode = [False, True, False]
         bpy.ops.mesh.select_all(action='DESELECT')
@@ -131,7 +143,7 @@ class CheckMeshOperator(bpy.types.Operator) :
             self.report({"INFO"}, "The mesh is not correct")
             step = 1
         else :
-            step = 2
+            step = 2 # Disable the first box and enable the second one
             self.report({"INFO"}, "The mesh is correct")
         return {'FINISHED'}
                 
@@ -154,7 +166,6 @@ class NonDestructiveManifoldWatertightOperator(bpy.types.Operator) :
 
         step = manifold.correction(False, context.scene.FastProcessing)
         self.report({"INFO"}, "The mesh is now correct")
-        #step = 2 # Disable the first box and enable the second one
         return {'FINISHED'}
     
 ###############################################
@@ -180,15 +191,15 @@ class DestructiveManifoldWatertightOperator(bpy.types.Operator) :
     
 
 #########################################
-# GenerateSupportingPlanesOperator class #
+# FindSupportingPlanesOperator class #
 #########################################
 
               
-class GenerateSupportingPlanesOperator(bpy.types.Operator) :
+class FindSupportingPlanesOperator(bpy.types.Operator) :
     
-    bl_idname = 'ops.generate_planes'
-    bl_label = "Generate supporting planes"
-    bl_description = "This function will calculate several possible plans on which your object can be printed. The first one to be displayed shall be the best one" 
+    bl_idname = 'ops.find_planes'
+    bl_label = "Find supporting planes"
+    bl_description = "This function will find several possible plans on which your object can be printed. The first one to be displayed shall be the best one" 
     
     def __init__ (self) :
         self.value = 0
@@ -200,18 +211,48 @@ class GenerateSupportingPlanesOperator(bpy.types.Operator) :
         """
 
         global step
+        global plane
         global sp
         
         obj = bpy.context.active_object
         sp = planar_faces.SupportPlanes(obj)
-        sp[0].select()
-        self.report({"INFO"}, "Several supporting planes have been calculated for your object")
+        plane = 0
+        sp[plane].select()
+        self.report({"INFO"}, "Several supporting planes have been found for your object")
         step = 3 # Disable the second box and enable the third one
         return {'FINISHED'}
+        
+#########################################
+# CutObjectUnderBasePlaneOperator class #
+#########################################
+
+              
+class CutObjectUnderBasePlaneOperator(bpy.types.Operator) :
     
-###################################
+    bl_idname = 'ops.cut_under_base_plane'
+    bl_label = "Cut the object under the base plane"
+    bl_description = "This function will cut the part of your object that is located under the base plane" 
+    
+    def __init__ (self) :
+        self.value = 0
+        bpy.types.Operator.__init__(self)
+        
+    def execute (self, context) :
+        """
+        Cut the object under the base plane.
+        """
+
+        global step
+        global sp
+        
+        obj = bpy.context.active_object
+        planar_faces.cut_under_plane(obj)
+        self.report({"INFO"}, "The object has been cut under the base plane")
+        return {'FINISHED'}
+    
+####################################
 # VizualizeNextPlaneOperator class #
-###################################
+####################################
               
 class VizualizeNextPlaneOperator(bpy.types.Operator) :
     
@@ -283,6 +324,30 @@ class ChooseCurrentPlaneOperator(bpy.types.Operator) :
         self.report({"INFO"}, "You chose the current orientation for your object")      
         step = 0 # Disable the third box and enable the first button
         return {'FINISHED'}
+        
+####################################
+# ChooseCurrentPlaneOperator class #
+####################################
+              
+class ChooseSelectedFacesOperator(bpy.types.Operator) :
+    
+    bl_idname = 'ops.choose_selected_faces'
+    bl_label = "Choose the selected faces as a supporting plane"
+    bl_description = "Your object will be registered as supported by the selected faces"
+    
+    def execute (self, context) :
+        """
+        Choose the selected faces as a supporting plane.
+        """
+        
+        global step
+        global plane
+        
+        if planar_faces.use_selection_for_support() :	
+            self.report({"INFO"}, "You chose these faces as a supporting plane")    
+        else :
+            self.report({"WARNING"}, "You did not select any faces")      
+        return {'FINISHED'}
     
 def register():
     """
@@ -299,12 +364,18 @@ def register():
     
     bpy.utils.register_class(DestructiveManifoldWatertightOperator)
 
-    bpy.utils.register_class(GenerateSupportingPlanesOperator)
+    bpy.utils.register_class(FindSupportingPlanesOperator)
+    
+    bpy.utils.register_class(CutObjectUnderBasePlaneOperator)
     
     bpy.utils.register_class(VizualizeNextPlaneOperator)
     
     bpy.utils.register_class(VizualizePreviousPlaneOperator)
     
     bpy.utils.register_class(ChooseCurrentPlaneOperator)
+  
+    bpy.utils.register_class(ChooseSelectedFacesOperator)
     
     scn.FastProcessing = props.BoolProperty(name="Fast processing", description="Might not be as efficient as the normal processing", default=False)
+
+   
