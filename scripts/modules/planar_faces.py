@@ -276,13 +276,49 @@ def _get_bounds(obj):
     
     return xmin, xmax, ymin, ymax, zmin, zmax
 
-def cut_under_plane(obj):
+
+def use_selection_for_support():
     """
-    Additional function to remove parts of the object whose are under the z=0
+    This function use the selected object faces to define a support plane,
+    and then orient the object accordingly and cut the part under the z=0
     plane.
     """
     
-    obj = bpy.data.objects[obj.name]
+    obj = bpy.context.active_object
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.ops.object.mode_set(mode='EDIT')
+    faces = []
+    for face in obj.data.faces:
+        if face.select:
+            faces.append(face)
+    
+    if not faces:
+        return False
+    
+    face_sets = []
+    
+    while faces:
+        current_face = faces.pop()
+        
+        set_found = False
+        for face_set in face_sets:
+            if face_set.test_face(current_face):
+                set_found = True
+                break
+        
+        if not set_found:
+            face_sets.append(PlanarFacesSet(obj, current_face))
+
+    pf_set = max(face_sets, key=lambda f_set: f_set.total_area)
+    
+    pf_set.apply()
+    cut_under_plane(obj)
+
+def cut_under_plane(obj):
+    """
+    This function removes parts of the object whose are under the z=0
+    plane.
+    """
     
     bpy.ops.object.mode_set(mode='EDIT')
     bpy.ops.mesh.select_all(action='DESELECT')
@@ -339,4 +375,5 @@ if __name__ == '__main__':
     #sp = SupportPlanes(obj)
     #sp[0].select()
 
-    cut_under_plane(obj)
+    #cut_under_plane(obj)
+    use_selection_for_support()
