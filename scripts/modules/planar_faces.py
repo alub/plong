@@ -313,6 +313,7 @@ def use_selection_for_support():
     
     pf_set.apply()
     cut_under_plane(obj)
+    return True
 
 def cut_under_plane(obj):
     """
@@ -365,9 +366,10 @@ def cut_under_plane(obj):
         ob.select = False
     bpy.context.scene.objects.active = cube
     cube.select = True
+    bpy.ops.object.delete()
     
-    bpy.ops.object.delete(use_global=False)
-        
+    bpy.context.scene.objects.active = obj
+    obj.select = True
 
 if __name__ == '__main__':
     obj = bpy.context.active_object
