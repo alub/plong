@@ -32,7 +32,6 @@ class MeshVerificationPanel(bpy.types.Panel):
         Draws the additional panel containing the buttons to pre-process each
         mesh before printing in Blender's interface.
         """
-        
         obj = context.active_object
         mesh = obj.data
         scn = context.scene
@@ -123,6 +122,12 @@ class CheckMeshOperator(bpy.types.Operator) :
         """
 
         global step
+        
+        obj = context.active_object
+        
+        if obj.type != 'MESH':
+            self.report({"INFO"}, "Please select a mesh object")
+            return {'FINISHED'}
         
         bpy.ops.object.mode_set(mode='EDIT')
         bpy.context.tool_settings.mesh_select_mode = [False, True, False]
@@ -366,7 +371,9 @@ def register():
     bpy.utils.register_class(VizualizePreviousPlaneOperator)
     
     bpy.utils.register_class(ChooseCurrentPlaneOperator)
-    
+  
     bpy.utils.register_class(ChooseSelectedFacesOperator)
     
     scn.FastProcessing = props.BoolProperty(name="Fast processing", description="Might not be as efficient as the normal processing", default=False)
+
+   
