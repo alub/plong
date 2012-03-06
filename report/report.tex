@@ -168,17 +168,17 @@ F-31062 TOULOUSE CEDEX 9
 
 \section{Project supervision}
 
-	During the first week of the project we were introduced to Lionel \textsc{Cremel}, project manager at \textsc{Airbus}, who had volunteered to guide us in managing our project. We agreed on that day to meet him at least once a week nearly every week so that he could guide us throughout the project. We give here the dates on which we successively met :
+	During the first week of the project we were introduced to Lionel \textsc{Cremel}, project manager at \textsc{Airbus}, who had volunteered to guide us in managing our project. We agreed on that day to meet him at least once a week nearly every week so that he could guide us throughout the project. We give here the dates on which we successively met and the main content of the meeting :
 	
 \begin{itemize}
-\item Week 1 : 
-\item Week 2 :
-\item Week 3 :
-\item Week 4 :
-\item Week 5 :
-\item Week 6 :
-\item Week 7 :
-\item Week 8 :
+\item Week 1 (January, 24) : introduction of the project members, choice of the project management model, introduction of the specification phase of the V model
+\item Week 2 (January, 27) : choice of the project manager, 
+\item Week 3 (February, 6) :
+\item Week 4 (February, 9) :
+\item Week 5 (February, 20) :
+\item Week 6 (February, 29) :
+\item Week 7 (March, 8) :
+\item Week 8 (March, 14) :
 \end{itemize}
 
 On each meeting, Lionel successively explained us how to decide of a macroscopic planning for our project, told us about the different milestone they use in Airbus projects and the documents that should sometimes be available when arriving at a milestone and guided us throughout the management of our human and material resources. Of course, we couldn't do exactly as he was used to doing in Airbus (simply because our project is happening in quite special conditions) but thanks to that, we could have a real idea of what project management would be in the future. 
@@ -188,22 +188,27 @@ On each meeting, Lionel successively explained us how to decide of a macroscopic
 With the help of Lionel, we all agreed on saying that a V-cycle was adequate for the progress of our project. This cycle includes (as shown on the picture below) :
 
 \begin{itemize}
-\item a specification part on which the final user tests and the functional tests are decided,
+\item a specification part (requirements, design and architecture) on which the final user tests and the functional tests are decided,
 \item an implementation part on which unit tests are run on the different functionalities implemented,
 \item a validation phase on which all the tests are run and at the end of which a final acceptance should be obtained from the client.
 \end{itemize}
 
-\bigskip
--- image du cycle en V
-\bigskip
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[scale=4.5]{VCycle}
+\end{center}
+\end{figure}
 
-However, our project was special an could not totally follow that scheme since it contained a part on which we had to learn how to use the printer and which were the adapted parameters to get good quality objects. We thus thought that this part deserved to have at least one member of the team dedicated to it at full time. This member would of course participate in the rest of the project but would spend most of his time on the printer. The four other members would equally participate in all the different steps of the project. Three of us would use their personal computers while the last one would sometimes work from his place or from the computer room at ENSEEIHT and would sometimes use the computer made available to us by the client team. This last one would also often be used by the student dealing with the printer to pilot it.
+However, our project was special an could not totally follow that scheme since it contained a part on which we had to learn how to use the printer and which were the adapted parameters to get good quality objects. We thus thought that this part deserved to have at least one member of the team dedicated to it at full time. This member would of course participate in the rest of the project but would spend most of his time on the printer. The four other members would equally participate in all the different steps of the project. Three of us would use their personal computers while the last one would sometimes work from his place or from the computer room at ENSEEIHT and would sometimes use the computer made available to us by the client team. This last one would also often be used by the student dealing with the printer to pilot it.\\\\
 
 The macroscopic planning we chose is given here :
 
 \bigskip
--- planning macro
-\bigskip
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[scale=0.4]{PlanningMacroscopique}
+\end{center}
+\end{figure}
 
 As shown here, we decided to give approximatively the same time to each mail part of our project, this is to say 2 to 3 weeks. The first main phase is here the only one containing milestones. This is because these were quite the most important milestones to us. They corresponded to the main documents we had to produce before starting the development. These documents will be given later in this report. They had to be submitted to the client so that we would be totally sure that we add completely understood their need. \\
 
@@ -235,11 +240,11 @@ As we all started to discover the printer, it came to us that the final applicat
 
 \begin{figure}[!h]
 \begin{center}
-	\includegraphics[scale=0.4]{ARD1}
+	\includegraphics[scale=0.2]{ARD1}
 \end{center}
 \end{figure}
 
-The terms written in orange are the only one we decided to act on. The printer's firmware could actually be changed by some others but we decided that this was not necessary and that we would rather focus on the modeller, Gcode generator and printer's pilote. These choice of these is explained later in this report. 
+The terms written in orange are the only one we decided to act on. The printer's firmware could actually be replaced by some others but we decided that this was not necessary and that we would rather focus on the modeller, Gcode generator and printer's pilote. These choice of these is explained later in this report. 
 
 \section{The redaction of the technical specifications}
 
@@ -248,6 +253,38 @@ One we had determined the clients' needs, we had to
 \section{The technical choices}
 
 \chapter{The implementation phase}
+
+\section{The mesh correction : Florian \& James}
+
+\section{The choice of the supporting plane : Antoine \& Vincent}
+
+\section{The interface : Caroline}
+
+Although we had decided to work on Blender, its graphic interface remained quite difficult to use for inexperienced users and still showed ``useless'' functions. \\
+While making researches about Blender, we discovered that we could manipulate its graphic interface as we wanted to only keep the most useful features visible. This was done while drag 	and dropping some windows and panels. We then registered the corresponding file (\textit{startup.blend}) to had it to the adequate place in the final product. We give here the original interface and the one we configured :
+
+\bigskip
+
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[scale=0.25]{NotreInterface}
+\end{center}
+\end{figure}
+
+The part we see circled with red is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible here :
+
+\bigskip
+--mettre le panneau--
+\bigskip
+
+As for the organization of the panel, we chose to divide if into 4 main parts that we called ``steps'' since we considered that the the user would have to use them successively. We detail these steps here below :
+
+\begin{itemize}
+\item Step 0 : gives the user the current mesh's name and allow to check if the mesh is correct for printing (manifold and watertight)
+\item Step 1 : allow the user to correct the mesh
+\item Step 2 : allow the user to find the most adequate supporting planes for the object
+\item Step 3 : allow the user to visualize all the planes generated and to choose the one he prefers
+\end{itemize}
 
 \chapter{The printer calibration}
 

@@ -91,6 +91,49 @@ def import_model(name, scale=None, rotation_xyz=None):
     
     return obj
 
+def get_bounds(obj):
+    """
+    Returns the bounds (xmin, xmax, ymin, ymax, zmin, zmax) of
+    an object.
+    This method assumes that no transformations are applied to
+    the object.
+    """
+    
+    xmin, ymin, zmin = tuple(obj.data.vertices[0].co)
+    xmax, ymax, zmax = xmin, ymin, zmin
+    
+    for point in obj.data.vertices:
+        x, y, z = tuple(point.co)
+        if x < xmin:
+            xmin = x
+        elif x > xmax:
+            xmax = x
+        
+        if y < ymin:
+            ymin = y
+        elif y > ymax:
+            ymax = y
+        
+        if z < zmin:
+            zmin = z
+        elif z > zmax:
+            zmax = z
+    
+    return xmin, xmax, ymin, ymax, zmin, zmax
+
+def get_selected_points():
+    """
+    Returns the selected points of the current object.
+    """
+    
+    points = []
+    
+    for point in bpy.context.active_object.data.vertices:
+        if point.select:
+            points.append(point)
+    
+    return points
+
 if __name__ == '__main__':
     cleanup()
     import_model("happy_vrip_res4.ply", scale=(200, 200, 200))

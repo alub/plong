@@ -7,39 +7,9 @@ from os.path import realpath
 sys.path.append(realpath("."))
 
 import unittest
-from tests.utils import cleanup, import_model, select_object
+from tests.utils import cleanup, import_model, select_object, get_bounds
 from modules.planar_faces import SupportPlanes
 from math import pi
-
-def get_bounds(obj):
-    """
-    Returns the bounds (xmin, xmax, ymin, ymax, zmin, zmax) of
-    an object.
-    This method assumes that no transformations are applied to
-    the object.
-    """
-    
-    xmin, ymin, zmin = tuple(obj.data.vertices[0].co)
-    xmax, ymax, zmax = xmin, ymin, zmin
-    
-    for point in obj.data.vertices:
-        x, y, z = tuple(point.co)
-        if x < xmin:
-            xmin = x
-        elif x > xmax:
-            xmax = x
-        
-        if y < ymin:
-            ymin = y
-        elif y > ymax:
-            ymax = y
-        
-        if z < zmin:
-            zmin = z
-        elif z > zmax:
-            zmax = z
-    
-    return xmin, xmax, ymin, ymax, zmin, zmax
 
 class PlanarFacesTests(unittest.TestCase):
     def setUp(self):

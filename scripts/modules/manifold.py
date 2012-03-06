@@ -1,7 +1,7 @@
 import bpy
 import sys
 import time
-import holes
+from modules import holes
         
 def clean_and_select(edges):
     """

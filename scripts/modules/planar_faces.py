@@ -13,7 +13,9 @@ Example use::
     sp[0].select() # Select the faces contained in the biggest support plane
     sp[1].select() # Select the faces in the second biggest… etc
     sp[0].apply() # Reorients the objects to put the first support plane as z=0
-    
+
+The :py:func:`cut_under_plane` function can be used to remove parts of the
+object which are under the z=0 plane.
 """
 
 from mathutils import Euler, Vector
@@ -243,8 +245,135 @@ class SupportPlanes(object):
     def __iter__(self):
         return iter(self.face_sets)
 
+
+def _get_bounds(obj):
+    """
+    Returns the bounds (xmin, xmax, ymin, ymax, zmin, zmax) of
+    an object.
+    This method assumes that no transformations are applied to
+    the object.
+    """
+    
+    xmin, ymin, zmin = tuple(obj.data.vertices[0].co)
+    xmax, ymax, zmax = xmin, ymin, zmin
+    
+    for point in obj.data.vertices:
+        x, y, z = tuple(point.co)
+        if x < xmin:
+            xmin = x
+        elif x > xmax:
+            xmax = x
+        
+        if y < ymin:
+            ymin = y
+        elif y > ymax:
+            ymax = y
+        
+        if z < zmin:
+            zmin = z
+        elif z > zmax:
+            zmax = z
+    
+    return xmin, xmax, ymin, ymax, zmin, zmax
+
+
+def use_selection_for_support():
+    """
+    This function use the selected object faces to define a support plane,
+    and then orient the object accordingly and cut the part under the z=0
+    plane.
+    """
+    
+    obj = bpy.context.active_object
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.ops.object.mode_set(mode='EDIT')
+    faces = []
+    for face in obj.data.faces:
+        if face.select:
+            faces.append(face)
+    
+    if not faces:
+        return False
+    
+    face_sets = []
+    
+    while faces:
+        current_face = faces.pop()
+        
+        set_found = False
+        for face_set in face_sets:
+            if face_set.test_face(current_face):
+                set_found = True
+                break
+        
+        if not set_found:
+            face_sets.append(PlanarFacesSet(obj, current_face))
+
+    pf_set = max(face_sets, key=lambda f_set: f_set.total_area)
+    
+    pf_set.apply()
+    cut_under_plane(obj)
+
+def cut_under_plane(obj):
+    """
+    This function removes parts of the object whose are under the z=0
+    plane.
+    """
+    
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='DESELECT')
+    bpy.ops.object.mode_set(mode='OBJECT')
+    
+    for ob in bpy.data.objects.values():
+        ob.select = False
+    bpy.context.scene.objects.active = obj
+    obj.select = True
+    
+    # Apply pending tranformations to the object
+    bpy.ops.object.transform_apply(location=True,
+        rotation=True, scale=True)
+    
+    xmin, xmax, ymin, ymax, zmin, zmax = _get_bounds(obj)
+    
+    if zmin >= 0:
+        return
+    
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.mesh.primitive_cube_add()
+    cube = bpy.context.active_object
+    vertices = cube.data.vertices
+    vertices[0].co = Vector((xmin - 1, ymin - 1, 0))
+    vertices[1].co = Vector((xmin - 1, ymax + 1, 0))
+    vertices[2].co = Vector((xmax + 1, ymax + 1, 0))
+    vertices[3].co = Vector((xmax + 1, ymin - 1, 0))
+    vertices[4].co = Vector((xmin - 1, ymin - 1, zmin - 1))
+    vertices[5].co = Vector((xmin - 1, ymax + 1, zmin - 1))
+    vertices[6].co = Vector((xmax + 1, ymax + 1, zmin - 1))
+    vertices[7].co = Vector((xmax + 1, ymin - 1, zmin - 1))
+
+    for ob in bpy.data.objects.values():
+        ob.select = False
+    bpy.context.scene.objects.active = obj
+    obj.select = True
+
+    bpy.ops.object.modifier_add(type='BOOLEAN')
+    obj.modifiers['Boolean'].object = cube
+    bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
+    
+    bpy.ops.object.select_all(action='DESELECT')
+    for ob in bpy.data.objects.values():
+        ob.select = False
+    bpy.context.scene.objects.active = cube
+    cube.select = True
+    
+    bpy.ops.object.delete(use_global=False)
+        
+
 if __name__ == '__main__':
     obj = bpy.context.active_object
     
-    sp = SupportPlanes(obj)
-    sp[0].select()
+    #sp = SupportPlanes(obj)
+    #sp[0].select()
+
+    #cut_under_plane(obj)
+    use_selection_for_support()

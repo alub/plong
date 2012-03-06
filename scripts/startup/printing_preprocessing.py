@@ -7,7 +7,8 @@ from bpy import *
 import bpy
 import sys
 from os.path import dirname, join
-sys.path.insert(0, join(dirname(__file__), '../modules'))
+sys.path.insert(0, dirname(dirname(__file__)))
+sys.path.insert(0, join(dirname(dirname(__file__)), 'modules'))
 import manifold
 import planar_faces
    
