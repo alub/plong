@@ -18,6 +18,8 @@ Contents:
    planar_faces
    volume
 
+   tests
+
 Indices and tables
 ==================
 
