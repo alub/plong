@@ -1,41 +1,35 @@
 \documentclass{article}
 
-%%%%%%%%%%%%%%%%%%%%%%%% Importation de paquets %%%%%%%%%%%%%%%%%%%%
-\usepackage{polyglossia}
-\usepackage{graphics}
+% Page layout
+\usepackage{geometry}
+\geometry{
+	a4paper,
+}
+
+% Fonts
 \usepackage{fontspec}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{graphics}
-\usepackage{fancyhdr}
-\usepackage{vmargin}
-\usepackage{epsfig}   
-\usepackage{multicol}
-\usepackage{multirow}
-
-%%%%%%%%%%%%%%%%%%%%%%%% Format, langue, marges %%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\setdefaultlanguage{english}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
 \setmainfont{Linux Libertine O}
-\setpapersize{A4}
-\setmarginsrb   
-{35mm}  % leftmargin
-{20mm}  % topmargin
-{35mm}  % rightmargin
-{40mm}  % bottommargin
-{14pt}  % headheight
-{15mm}   % headsep
-{20pt}  % footheight
-{20mm}  % footskip
 
-%%%%%%%%%%%%%%%%%%%%%%%% En-tete et pied de page %%%%%%%%%%%%%%%%%%%%%%%%%%
+% Language
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+
+% Graphics
+\usepackage{graphicx}
+\graphicspath{{./images/}}
+
+% Headers and footers
+\usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\scalebox{0.1}[0.1]{\includegraphics{./images/inp-enseeiht.pdf}}}
-\rhead{\scalebox{0.1}[0.1]{\includegraphics{./Images/irit}}
-\lfoot{Three-dimensional modeling and printing}}
+\lhead{\includegraphics[scale=0.4]{inp-enseeiht}}
+\rhead{\includegraphics[scale=0.4]{irit}}
+\lfoot{Three-dimensional modelling and printing}
 \rfoot{\bfseries \thepage}
+
+% Code
+%\usepackage{minted}
 
 \begin{document}
 
@@ -49,10 +43,10 @@
 \bigskip
 
 \begin{center}
-\LARGE{Three-dimensional modeling and printing project :\\Set up documentation : \\}
-\bigskip
-\bigskip
-\Large{from January 23 to March 16, 2012}
+	\LARGE{Three-dimensional modelling and printing project:\\Set up documentation\\}
+	\bigskip
+	\bigskip
+	\Large{from January 23 to March 16, 2012}
 \end{center}
 
 \bigskip
@@ -80,7 +74,7 @@ INP-ENSEEIHT/IMA
 
 \begin{figure}[!h]
 \begin{center}
-\scalebox{0.4}[0.4]{\includegraphics{./Images/enseeiht}}
+	\includegraphics[scale=0.4]{inp-enseeiht}
 \end{center}
 \end{figure}
 
@@ -96,7 +90,7 @@ http://www.enseeiht.fr/fr/index.html \\
 
 \begin{figure}[!h]
 \begin{center}
-\scalebox{0.4}[0.4]{\includegraphics{./Images/irit}}
+	\includegraphics[scale=0.4]{irit}
 \end{center}
 \end{figure}
 
@@ -121,7 +115,7 @@ Here is (in orange) the different software and material you will have to get ins
 
 \begin{figure}[!h]
 \begin{center}
-\scalebox{0.4}[0.4]{\includegraphics{./Images/ARD1}}
+	\includegraphics[scale=0.4]{ARD1}
 \end{center}
 \end{figure}
 
