@@ -19,17 +19,20 @@
 \usepackage{graphicx}
 \graphicspath{{./images/}}
 
+% Links
+\usepackage{url,hyperref}
+
 % Headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{\includegraphics[scale=0.4]{inp-enseeiht}}
-\rhead{\includegraphics[scale=0.4]{irit}}
+\rhead{\includegraphics[scale=0.2]{irit}}
 \lfoot{Three-dimensional modelling and printing}
 \rfoot{\bfseries \thepage}
 
 % Code
-%\usepackage{minted}
+\usepackage{minted}
 
 \begin{document}
 
@@ -119,12 +122,37 @@ Here is (in orange) the different software and material you will have to get ins
 \end{center}
 \end{figure}
 
-\newpage
+\section{Installing Blender}
 
-\section{Windows}
+\begin{description}
+	\item[Homepage:] \url{http://www.blender.org/}
+	\item[Recommended version:] \textbf{2.50 and older} because we use the Python 3 API, but scripts were only tested from versions 2.58 to 2.62.
+\end{description}
 
-\newpage
+\begin{description}
+	\item[Windows] Download the latest version on \url{http://www.blender.org/download/get-blender/}.
+	\item[Linux] Providing your distribution has a recent version of Blender, you should use your package manager. Else, you can download the 32~bits or 64~bits on \url{http://www.blender.org/download/get-blender/}.
+	\item[MaxOS X] Go to \url{http://www.blender.org/download/get-blender/}.
+\end{description}
 
-\section{Ubuntu}
+\section{Installing Slic3r}
+
+\begin{description}
+	\item[Homepage:] \url{http://slic3r.org/}
+	\item[Recommended version:] \textbf{0.7.0 and older}, as it provides cooling support, better mesh slicing, binary compatibility with Ubuntu 11.10, etc.
+\end{description}
+
+\begin{description}
+	\item[Windows] Go to \url{http://dl.slic3r.org/win/} and download \texttt{slic3r-mswin-x86-0-7-0.zip}. Extract the file, and you can launch \texttt{slic3r.exe} from the \texttt{Slic3r} folder.
+	\item[Linux] Go to \url{http://dl.slic3r.org/linux/} and download \texttt{slic3r-linux-x86-0-7-0.tar.gz}. To launch Slic3r:
+		\begin{minted}{bash}
+tar xz slic3r-linux-x86-0-7-0.tar.gz
+cd Slic3r/bin
+./slic3r
+		\end{minted}
+	\item[MaxOS X] Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}.
+\end{description}
+
+\section{Installing Printrun}
 
 \end{document}
