@@ -223,7 +223,7 @@ class SupportPlanes(object):
             for point_ident in points:
                 proj = vector.dot(obj.data.vertices[point_ident].co)
                 if proj > ref_proj:
-                    error = abs(proj - ref_proj) / abs(proj) if proj else 1.0
+                    error = abs(proj - ref_proj) / abs(ref_proj) if ref_proj else proj
                     if error > OUTSIDE_PROJ_TOLERANCE:
                         is_valid = False
                         break
@@ -358,6 +358,7 @@ def cut_under_plane(obj):
     obj.select = True
 
     bpy.ops.object.modifier_add(type='BOOLEAN')
+    obj.modifiers['Boolean'].operation = 'DIFFERENCE'
     obj.modifiers['Boolean'].object = cube
     bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
     
