@@ -18,6 +18,7 @@
 % Graphics
 \usepackage{graphicx}
 \graphicspath{{./images/}}
+\usepackage{dirtree}
 
 % Links
 \usepackage{url,hyperref}
@@ -112,6 +113,8 @@ Here are (in orange) the different software and material you will have to get in
 \end{center}
 \end{figure}
 
+\newpage
+
 \section{Installing Blender}
 
 	\paragraph{Description} Blender is a free, open-source and multi-platform 3D modelling software.
@@ -124,7 +127,9 @@ Here are (in orange) the different software and material you will have to get in
 
 	\paragraph{Linux} Providing your distribution has a recent version of Blender, you should use your package manager. Else, you can download the 32~bits or 64~bits on \url{http://www.blender.org/download/get-blender/}.
 
-	\paragraph{MaxOS X} Go to \url{http://www.blender.org/download/get-blender/}.
+	\paragraph{MaxOS X} Go to \url{http://www.blender.org/download/get-blender/}. % TODO
+
+\newpage
 
 \section{Installing Slic3r}
 
@@ -137,15 +142,54 @@ Here are (in orange) the different software and material you will have to get in
 	\paragraph{Windows} Go to \url{http://dl.slic3r.org/win/} and download \texttt{slic3r-mswin-x86-0-7-0.zip}. Extract the file, and you can launch \texttt{slic3r.exe} from the \texttt{Slic3r} folder.
 
 	\paragraph{Linux} Go to \url{http://dl.slic3r.org/linux/} and download \texttt{slic3r-linux-x86-0-7-0.tar.gz}. To launch Slic3r:
-		\begin{minted}{bash}
+		\begin{verbatim}
 tar xz slic3r-linux-x86-0-7-0.tar.gz
 cd Slic3r/bin
 ./slic3r
-		\end{minted}
+		\end{verbatim}
 
-	\paragraph{MaxOS X} Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}.
+	\paragraph{MaxOS X} Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}. % TODO
 
 	\paragraph{Alternatives} Skeinforge is also one the most popular slicing software. It has many more options than Slic3r, and is divided in modules. In some cases, the code makes less visible wires outside the objects. Yet it is more difficult to configure (many settings are not obvious), and it is quite slow (it relies on Psyco, a Python accelerator which is not more actively supported). It is available on \url{http://fabmetheus.crsndoo.com/}.
+
+\newpage
+
+\section{Installing Blender plugin for printing and mesh preprocessing}
+
+	\paragraph{Description} You should have an archive of those scripts.
+
+	\paragraph{Windows} % TODO
+
+	\paragraph{Linux} In \texttt{\~ {}/.blender/\emph{<version>}} (where \texttt{\emph{<version>}} is the Blender version you are using, such as \texttt{2.62}), put the \texttt{scripts} folder. Then copy \texttt{startup.blend} in a \texttt{config} directory (it may or may not exist). You should have the following directory structure:\\
+
+\dirtree{%
+ .1 .blender.
+ .2 <version>.
+.3 config.
+.4 startup.blend.
+.3 scripts.
+.4 modules.
+.5 \_\_init\_\_.py.
+.5 holes.py.
+.5 manifold.py.
+.5 planar\_faces.py.
+.5 volume.py.
+.4 run\_tests.sh.
+.4 startup.
+.5 printing\_preprocessing.py.
+.4 tests.
+.5 \_\_init\_\_.py.
+.5 all.py.
+.5 test\_manifold.py.
+.5 test\_planar\_faces.py.
+.5 utils.py.
+}
+
+	\paragraph{MacOS X} % TODO
+
+	Once everything is installed, every time you start Blender, you should have a customized interface, with a new panel in the object editor, “Mesh verification”.
+
+\newpage
 
 \section{Installing Printrun}
 
@@ -155,6 +199,6 @@ cd Slic3r/bin
 
 	\paragraph{Installation} Instructions are available on \url{https://github.com/kliment/Printrun}.
 
-	\paragraph{Alternatives} 
+	\paragraph{Alternatives} ReplicatorG is also very used with 3D printers; it is available on \url{http://replicat.org/}.
 
 \end{document}
