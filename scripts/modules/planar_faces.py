@@ -16,6 +16,11 @@ Example use::
 
 The :py:func:`cut_under_plane` function can be used to remove parts of the
 object which are under the z=0 plane.
+
+The :py:func:`use_selection_for_support` function allows creating a custom
+support plane from the selected faces.
+
+The py:func:`generate_socle` function generates a socle.
 """
 
 from mathutils import Euler, Vector
@@ -28,6 +33,7 @@ MAX_ANGLE = .01  # Maximum angle between face normals
 ALIGN_TOLERANCE = .1  # Alignement tolerance between two faces
 OUTSIDE_PROJ_TOLERANCE = .1  # Tolerance to ident. planes "outside" of the obj.
 PROPOSAL_COUNT = 10  # Maximum number of face sets to propose
+SOCLE_HEIGHT = 1  # Height of the generated socle, in Blender units
 
 class PlanarFacesSet(object):
     """
@@ -223,7 +229,7 @@ class SupportPlanes(object):
             for point_ident in points:
                 proj = vector.dot(obj.data.vertices[point_ident].co)
                 if proj > ref_proj:
-                    error = abs(proj - ref_proj) / abs(proj) if proj else 1.0
+                    error = abs(proj - ref_proj) / abs(ref_proj) if round(ref_proj, 8) else proj
                     if error > OUTSIDE_PROJ_TOLERANCE:
                         is_valid = False
                         break
@@ -358,6 +364,7 @@ def cut_under_plane(obj):
     obj.select = True
 
     bpy.ops.object.modifier_add(type='BOOLEAN')
+    obj.modifiers['Boolean'].operation = 'DIFFERENCE'
     obj.modifiers['Boolean'].object = cube
     bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
     
@@ -371,11 +378,74 @@ def cut_under_plane(obj):
     bpy.context.scene.objects.active = obj
     obj.select = True
 
+
+def generate_socle(obj):
+    """
+    This functions puts the bottom of the object on the z=0 plane, create
+    a socle between z=0 and z=SOCLE_HEIGHT, and merges it with the object.
+    """
+    
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='DESELECT')
+    bpy.ops.object.mode_set(mode='OBJECT')
+    
+    for ob in bpy.data.objects.values():
+        ob.select = False
+    bpy.context.scene.objects.active = obj
+    obj.select = True
+    
+    # Apply pending tranformations to the object
+    bpy.ops.object.transform_apply(location=True,
+        rotation=True, scale=True)
+    
+    xmin, xmax, ymin, ymax, zmin, zmax = _get_bounds(obj)
+    
+    # Set the location
+    obj.location = (0.0, 0.0, -zmin)
+    
+    # Apply the location
+    bpy.ops.object.transform_apply(location=True, rotation=False, scale=False)
+
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.mesh.primitive_cube_add()
+    cube = bpy.context.active_object
+    vertices = cube.data.vertices
+    vertices[0].co = Vector((xmin, ymin, 0))
+    vertices[1].co = Vector((xmin, ymax, 0))
+    vertices[2].co = Vector((xmax, ymax, 0))
+    vertices[3].co = Vector((xmax, ymin, 0))
+    vertices[4].co = Vector((xmin, ymin, SOCLE_HEIGHT))
+    vertices[5].co = Vector((xmin, ymax, SOCLE_HEIGHT))
+    vertices[6].co = Vector((xmax, ymax, SOCLE_HEIGHT))
+    vertices[7].co = Vector((xmax, ymin, SOCLE_HEIGHT))
+
+    for ob in bpy.data.objects.values():
+        ob.select = False
+    bpy.context.scene.objects.active = obj
+    obj.select = True
+
+    bpy.ops.object.modifier_add(type='BOOLEAN')
+    obj.modifiers['Boolean'].operation = 'UNION'
+    obj.modifiers['Boolean'].object = cube
+    bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
+    
+    bpy.ops.object.select_all(action='DESELECT')
+    for ob in bpy.data.objects.values():
+        ob.select = False
+    bpy.context.scene.objects.active = cube
+    cube.select = True
+    bpy.ops.object.delete()
+    
+    bpy.context.scene.objects.active = obj
+    obj.select = True
+
+
 if __name__ == '__main__':
     obj = bpy.context.active_object
     
     #sp = SupportPlanes(obj)
     #sp[0].select()
-
+    generate_socle(obj)
     #cut_under_plane(obj)
-    use_selection_for_support()
+    
+    #use_selection_for_support()

@@ -3,10 +3,12 @@ texc = xelatex
 userDoc.pdf: userDoc.tex
 
 %.pdf: %.tex
-	$(texc) $<
+	($(texc) $< || (rm -f $@ && false)) && $(texc) $<
 
 clean:
 	rm -f *.{aux,bib,log,toc}
 
 empty: clean
 	rm -f userDoc.pdf
+
+.PHONY: empty clean
