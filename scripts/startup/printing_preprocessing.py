@@ -214,8 +214,9 @@ class FindSupportingPlanesOperator(bpy.types.Operator) :
         global plane
         global sp
         
+        self.report({"INFO"}, "Please wait, this might take a few minutes")
         obj = bpy.context.active_object
-        sp = planar_faces.SupportPlanes(obj)
+        sp = planar_faces.SupportPlanes(obj) 
         plane = 0
         sp[plane].select()
         self.report({"INFO"}, "Several supporting planes have been found for your object")
