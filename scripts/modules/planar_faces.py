@@ -229,7 +229,7 @@ class SupportPlanes(object):
             for point_ident in points:
                 proj = vector.dot(obj.data.vertices[point_ident].co)
                 if proj > ref_proj:
-                    error = abs(proj - ref_proj) / abs(ref_proj) if ref_proj else proj
+                    error = abs(proj - ref_proj) / abs(ref_proj) if round(ref_proj, 8) else proj
                     if error > OUTSIDE_PROJ_TOLERANCE:
                         is_valid = False
                         break
