@@ -28,7 +28,7 @@
 \fancyhf{}
 \lhead{\includegraphics[scale=0.4]{inp-enseeiht}}
 \rhead{\includegraphics[scale=0.2]{irit}}
-\lfoot{Three-dimensional modelling and printing}
+\lfoot{Install guide}
 \rfoot{\bfseries \thepage}
 
 % Code
@@ -36,20 +36,16 @@
 
 \begin{document}
 
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+\sloppy
+
+\vfill
 
 \begin{center}
-	\LARGE{Three-dimensional modelling and printing project:\\Set up documentation\\}
+	{\Large Three-dimensional modelling and printing project}\\
 	\bigskip
+	{\Huge Install guide}\\
 	\bigskip
-	\Large{from January 23 to March 16, 2012}
+	{\Large from January 23 to March 16, 2012}
 \end{center}
 
 \bigskip
@@ -67,13 +63,7 @@ INP-ENSEEIHT/IMA
 }
 \end{center}
 
-\bigskip
-\bigskip
-
-	This report summarizes the context, organization, work and outcomes within the project 3D modeling and printing project suggested by the VORTEX team of IRIT to some of the third-year students in the IMA department of ENSEEIHT.
-
-\bigskip
-\bigskip
+\vfill
 
 \begin{figure}[!h]
 \begin{center}
@@ -89,7 +79,7 @@ http://www.enseeiht.fr/fr/index.html \\
 31 071 TOULOUSE
 \end{center}
 
-\bigskip
+\vfill
 
 \begin{figure}[!h]
 \begin{center}
@@ -98,7 +88,7 @@ http://www.enseeiht.fr/fr/index.html \\
 \end{figure}
 
 \begin{center}
-http://www.info@irit.fr\\
+http://www.irit.fr\\
 Université Paul Sabatier \\
 118 Route de Narbonne \\
 F-31062 TOULOUSE CEDEX 9
@@ -114,7 +104,7 @@ F-31062 TOULOUSE CEDEX 9
 
 \section{Global architecture of the application}
 
-Here is (in orange) the different software and material you will have to get installed in order to use the complete application. The firmware is integrated in the printer and has not been modified in any way so you won't have to deal with it.
+Here are (in orange) the different software and material you will have to get installed in order to use the complete application. The firmware is integrated in the printer and has not been modified in any way so you won't have to deal with it.
 
 \begin{figure}[!h]
 \begin{center}
@@ -124,35 +114,47 @@ Here is (in orange) the different software and material you will have to get ins
 
 \section{Installing Blender}
 
-\begin{description}
-	\item[Homepage:] \url{http://www.blender.org/}
-	\item[Recommended version:] \textbf{2.50 and older} because we use the Python 3 API, but scripts were only tested from versions 2.58 to 2.62.
-\end{description}
+	\paragraph{Description} Blender is a free, open-source and multi-platform 3D modelling software.
 
-\begin{description}
-	\item[Windows] Download the latest version on \url{http://www.blender.org/download/get-blender/}.
-	\item[Linux] Providing your distribution has a recent version of Blender, you should use your package manager. Else, you can download the 32~bits or 64~bits on \url{http://www.blender.org/download/get-blender/}.
-	\item[MaxOS X] Go to \url{http://www.blender.org/download/get-blender/}.
-\end{description}
+	\paragraph{Homepage} \url{http://www.blender.org/}
+
+	\paragraph{Recommended version} \textbf{2.50 and older} because we use the Python 3 API, but scripts were only tested from versions 2.58 to 2.62 (latest available). From version 2.63, Blender will include BMesh, a complete rewrite of some parts of the modelling engine; the main change will be the support of n-sided polygons (instead of triangles and quads currently). This might break some of our functions, as the API will also change. Progress on integration of BMesh can be seen here: \url{https://bmeshblender.wordpress.com/}.
+
+	\paragraph{Windows} Download the latest version on \url{http://www.blender.org/download/get-blender/}.
+
+	\paragraph{Linux} Providing your distribution has a recent version of Blender, you should use your package manager. Else, you can download the 32~bits or 64~bits on \url{http://www.blender.org/download/get-blender/}.
+
+	\paragraph{MaxOS X} Go to \url{http://www.blender.org/download/get-blender/}.
 
 \section{Installing Slic3r}
 
-\begin{description}
-	\item[Homepage:] \url{http://slic3r.org/}
-	\item[Recommended version:] \textbf{0.7.0 and older}, as it provides cooling support, better mesh slicing, binary compatibility with Ubuntu 11.10, etc.
-\end{description}
+	\paragraph{Description} Slic3r reads 3D models from STL files, and produces instructions for the printer as G-code (and M-code).
 
-\begin{description}
-	\item[Windows] Go to \url{http://dl.slic3r.org/win/} and download \texttt{slic3r-mswin-x86-0-7-0.zip}. Extract the file, and you can launch \texttt{slic3r.exe} from the \texttt{Slic3r} folder.
-	\item[Linux] Go to \url{http://dl.slic3r.org/linux/} and download \texttt{slic3r-linux-x86-0-7-0.tar.gz}. To launch Slic3r:
+	\paragraph{Homepage} \url{http://slic3r.org/}
+
+	\paragraph{Recommended version} \textbf{0.7.0 and older}, as it provides cooling support, better mesh slicing, binary compatibility with Ubuntu 11.10, etc.
+
+	\paragraph{Windows} Go to \url{http://dl.slic3r.org/win/} and download \texttt{slic3r-mswin-x86-0-7-0.zip}. Extract the file, and you can launch \texttt{slic3r.exe} from the \texttt{Slic3r} folder.
+
+	\paragraph{Linux} Go to \url{http://dl.slic3r.org/linux/} and download \texttt{slic3r-linux-x86-0-7-0.tar.gz}. To launch Slic3r:
 		\begin{minted}{bash}
 tar xz slic3r-linux-x86-0-7-0.tar.gz
 cd Slic3r/bin
 ./slic3r
 		\end{minted}
-	\item[MaxOS X] Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}.
-\end{description}
+
+	\paragraph{MaxOS X} Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}.
+
+	\paragraph{Alternatives} Skeinforge is also one the most popular slicing software. It has many more options than Slic3r, and is divided in modules. In some cases, the code makes less visible wires outside the objects. Yet it is more difficult to configure (many settings are not obvious), and it is quite slow (it relies on Psyco, a Python accelerator which is not more actively supported). It is available on \url{http://fabmetheus.crsndoo.com/}.
 
 \section{Installing Printrun}
+
+	\paragraph{Description} Printrun is an interface for uploading G-code to the printer, and for manual piloting. One can also visualize the G-code in realtime while the object is printed.
+
+	\paragraph{Home page} \url{https://github.com/kliment/Printrun}
+
+	\paragraph{Installation} Instructions are available on \url{https://github.com/kliment/Printrun}.
+
+	\paragraph{Alternatives} 
 
 \end{document}
