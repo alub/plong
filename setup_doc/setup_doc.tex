@@ -129,6 +129,12 @@ Here are (in orange) the different software and material you will have to get in
 
 	\paragraph{MaxOS X} Go to \url{http://www.blender.org/download/get-blender/}. % TODO
 
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\linewidth]{blender.png}
+		\caption{Blender default interface}
+	\end{figure}
+
 \newpage
 
 \section{Installing Slic3r}
@@ -143,14 +149,26 @@ Here are (in orange) the different software and material you will have to get in
 
 	\paragraph{Linux} Go to \url{http://dl.slic3r.org/linux/} and download \texttt{slic3r-linux-x86-0-7-0.tar.gz}. To launch Slic3r:
 		\begin{verbatim}
-tar xz slic3r-linux-x86-0-7-0.tar.gz
+tar xf slic3r-linux-x86-0-7-0.tar.gz
 cd Slic3r/bin
 ./slic3r
 		\end{verbatim}
 
 	\paragraph{MaxOS X} Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}. % TODO
 
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.6\linewidth]{slic3r.png}
+		\caption{Slic3r interface}
+	\end{figure}
+
 	\paragraph{Alternatives} Skeinforge is also one the most popular slicing software. It has many more options than Slic3r, and is divided in modules. In some cases, the code makes less visible wires outside the objects. Yet it is more difficult to configure (many settings are not obvious), and it is quite slow (it relies on Psyco, a Python accelerator which is not more actively supported). It is available on \url{http://fabmetheus.crsndoo.com/}.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.6\linewidth]{skeinforge.png}
+		\caption{Skeinforge interface}
+	\end{figure}
 
 \newpage
 
@@ -185,6 +203,12 @@ cd Slic3r/bin
 .5 utils.py.
 }
 
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\linewidth]{blender-plugin.png}
+		\caption{Blender interface using the plugin}
+	\end{figure}
+
 	\paragraph{MacOS X} % TODO
 
 	Once everything is installed, every time you start Blender, you should have a customized interface, with a new panel in the object editor, “Mesh verification”.
@@ -199,6 +223,17 @@ cd Slic3r/bin
 
 	\paragraph{Installation} Instructions are available on \url{https://github.com/kliment/Printrun}.
 
-	\paragraph{Alternatives} ReplicatorG is also very used with 3D printers; it is available on \url{http://replicat.org/}.
+	\paragraph{Alternatives} ReplicatorG is also very used with 3D printers; it is available on \url{http://replicat.org/}. It comes bundled with Skeinforge, and it has a 3D preview.
 
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\linewidth]{printrun.png}
+		\caption{Printrun main screen: printer controls on the left, object preview in the middle, and event logger on the right}
+	\end{figure}
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.5\linewidth]{replicatorg.png}
+		\caption{ReplicatorG: 3D preview}
+	\end{figure}
 \end{document}
