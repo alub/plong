@@ -3,6 +3,7 @@ GUI functions for the Python scripts to show progress.
 """
 
 import subprocess
+import sys
 
 class ProgressBar:
     """
@@ -24,11 +25,11 @@ class ProgressBar:
 
         if self.proc and indeterminate:
             try:
-                self.proc.write(("0\n").encode('ascii'))
+                self.proc.stdin.write(("0\n").encode('ascii'))
             except IOError:
                 pass
-
-        print("%s: 0%%" % self.description, end='')
+        elif not self.proc:
+            print("%s: 0%%" % self.description, end='')
         sys.stdout.flush()
 
     def progress(self, percentage):
@@ -39,14 +40,14 @@ class ProgressBar:
 
         if self.proc:
             try:
-                self.proc.write(("%d\n" % percentage).encode('ascii'))
+                self.proc.stdin.write(("%d\n" % percentage).encode('ascii'))
             except IOError:
                 pass
         else:
             print("\r%s: 0%%" % self.description, end='')
             sys.stdout.flush()
 
-    def close():
+    def close(self):
         """
         Closes the progress dialog, if any
         """
@@ -55,6 +56,9 @@ class ProgressBar:
             self.proc.terminate()
         else:
             print("")
+
+    def __enter__(self):
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
@@ -80,14 +84,14 @@ class ProgressText:
 
         if self.proc:
             try:
-                self.proc.write(text.encode('utf-8'))
+                self.proc.stdin.write(text.encode('utf-8'))
             except IOError:
                 pass
         else:
             sys.stdout.write(text.encode('utf-8'))
             sys.stdout.flush()
 
-    def close():
+    def close(self):
         """
         Closes the progress dialog, if any
         """
@@ -96,6 +100,9 @@ class ProgressText:
             self.proc.terminate()
         else:
             print("Done.")
+
+    def __enter__(self):
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
