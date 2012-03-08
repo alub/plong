@@ -1,0 +1,136 @@
+% gapz's theme
+%
+% This program can be redistributed and/or modified under the terms
+% of the GNU Public License, version 2.
+
+%\DeclareOptionBeamer{compress}{\beamer@compresstrue}
+%\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\useinnertheme[shadow=true]{rounded}
+%\useoutertheme{split}
+
+\usecolortheme{gark}
+
+\setbeamercolor{section in head/foot}{parent=palette secondary}
+\setbeamercolor{subsection in head/foot}{parent=palette quaternary}
+
+\setbeamercolor{author in head/foot}{parent=palette quaternary}
+\setbeamercolor{title in head/foot}{parent=palette tertiary}
+
+
+%\usecolortheme{orchid}
+%\usecolortheme{whale}
+
+%\usefonttheme{professionalfonts}
+
+\setbeamerfont{block title}{size={}}
+\setbeamerfont{section in toc}{series=\bfseries}
+
+%\setbeamersize{text margin left=1em,text margin right=1em}
+\setbeamertemplate{navigation symbols}{}
+
+\usesectionheadtemplate
+  {\hfill\insertsectionhead}
+  {\hfill\color{fg!40!bg}\insertsectionhead}
+
+\defbeamertemplate*{headline}{split theme}
+{%
+ \begin{beamercolorbox}[wd=\paperwidth,colsep=1pt]{upper separation line head}
+ \end{beamercolorbox}
+  \leavevmode%
+  \@tempdimb=2.4375ex%
+  \ifnum\beamer@subsectionmax<\beamer@sectionmax%
+    \multiply\@tempdimb by\beamer@sectionmax%
+  \else%
+    \multiply\@tempdimb by\beamer@subsectionmax%
+  \fi%
+  \ifdim\@tempdimb>0pt%
+    \advance\@tempdimb by 1.125ex%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=\@tempdimb]{section in head/foot}%
+      \vbox to\@tempdimb{\vfil\insertsectionnavigation{.5\paperwidth}\vfil}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=\@tempdimb]{subsection in head/foot}%
+      \vbox to\@tempdimb{\vfil\insertsubsectionnavigation{.5\paperwidth}\vfil}%
+    \end{beamercolorbox}%
+  \fi%
+
+  \begin{beamercolorbox}[wd=\paperwidth,colsep=1pt]{lower separation line head}
+  \end{beamercolorbox}
+}
+
+\defbeamertemplate*{footline}{footline theme}
+{
+ \begin{beamercolorbox}[wd=\paperwidth,colsep=1pt]{upper separation line foot}
+ \end{beamercolorbox}
+  \leavevmode%
+  \vskip0pt%
+   \leavevmode%
+  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle\hfill\insertframenumber{} / \inserttotalframenumber
+  \end{beamercolorbox}}%
+  \vskip0pt%
+ \begin{beamercolorbox}[wd=\paperwidth,colsep=1pt]{lower separation line foot}
+ \end{beamercolorbox}
+}
+
+%\setbeamertemplate{title page}[default][wd=8cm,rounded=true,shadow=\beamer@themerounded@shadow]
+% pourquoi wd=8cm me fou la premiere page decentrée ?
+% -> reduire la taille de la beamerbox de la premiere page (car j'ai augmenté les dimensions)
+
+\setbeamerfont{frametitle}{size=\Large}
+
+
+\pgfdeclarehorizontalshading[frametitle.bg,frametitle right.bg]{beamer@frametitleshade}{\paperheight}{%
+  color(0pt)=(frametitle.bg);
+  color(\paperwidth)=(frametitle right.bg)}
+
+\defbeamertemplate*{frametitle}{shadow theme}
+{%
+  
+  \nointerlineskip%
+  %\vskip 0.5pt%
+  \hbox{\leavevmode
+    \advance\beamer@leftmargin by -12bp%
+    \advance\beamer@rightmargin by -12bp%
+    \beamer@tempdim=\textwidth%
+    \advance\beamer@tempdim by \beamer@leftmargin%
+    \advance\beamer@tempdim by \beamer@rightmargin%
+    \hskip-\Gm@lmargin\hbox{%
+      \setbox\beamer@tempbox=\hbox{\begin{minipage}[b]{\paperwidth}%
+          \vbox{}\vskip-.75ex%
+          \leftskip0.3cm%
+          \rightskip0.3cm plus1fil\leavevmode
+          \insertframetitle%
+          \ifx\insertframesubtitle\@empty%
+            \strut\par%
+          \else
+            \par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\strut\par}%
+          \fi%
+          \nointerlineskip
+          \vbox{}%
+          \end{minipage}}%
+      \beamer@tempdim=\ht\beamer@tempbox%
+      \advance\beamer@tempdim by 2pt%
+      \begin{pgfpicture}{0pt}{0pt}{\paperwidth}{\beamer@tempdim}
+        \usebeamercolor{frametitle right}
+        \pgfpathrectangle{\pgfpointorigin}{\pgfpoint{\paperwidth}{\beamer@tempdim}}
+        \pgfusepath{clip}
+        \pgftext[left,base]{\pgfuseshading{beamer@frametitleshade}}
+      \end{pgfpicture}
+      \hskip-\paperwidth%
+      \box\beamer@tempbox%
+    }%
+    \hskip-\Gm@rmargin%
+  }%
+ \vskip-16pt
+ \begin{beamercolorbox}[wd=\paperwidth,colsep=1pt]{separation line}
+ \end{beamercolorbox}
+}
+
+\mode
+<all>
