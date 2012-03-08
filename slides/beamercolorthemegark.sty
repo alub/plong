@@ -1,0 +1,50 @@
+% themecolor « gark »
+%
+% This program can be redistributed and/or modified under the terms
+% of the GNU Public License, version 2.
+
+% TODO: mettre nettoyer les valeurs des palettes et changer les noms des variables
+
+\mode<presentation>
+
+\definecolor{adr}{RGB}{70,113,213} %
+\definecolor{bloc}{RGB}{255,255,255} % 
+\definecolor{titre}{RGB}{108,140,213} %
+
+\setbeamercolor*{palette primary}{fg=white,bg=bloc}
+\setbeamercolor*{palette secondary}{fg=white,bg=adr}
+\setbeamercolor*{palette tertiary}{fg=white,bg=adr}
+\setbeamercolor*{palette quaternary}{fg=black,bg=white}
+
+\setbeamercolor*{sidebar}{fg=black,bg=bloc}
+
+\setbeamercolor*{palette sidebar primary}{fg=bloc}
+\setbeamercolor*{palette sidebar secondary}{fg=white}
+\setbeamercolor*{palette sidebar tertiary}{fg=bloc}
+\setbeamercolor*{palette sidebar quaternary}{fg=white}
+
+\setbeamercolor*{titlelike}{parent=titre}
+\setbeamercolor{frametitle}{bg=white,fg=titre}
+\setbeamercolor{frametitle right}{bg=adr!50!white}
+\setbeamercolor{frametitle left}{fg=white,bg=white}
+
+\setbeamercolor{section in toc}{fg=titre,bg=white}
+\setbeamercolor{item projected}{fg=white,bg=adr}
+\setbeamercolor{item}{use={structure,normal text},bg=adr}
+\setbeamercolor{block title}{fg=bloc}
+
+\setbeamercolor{title}{bg=adr, fg=white}
+
+\setbeamercolor*{separation line}{bg=adr}
+\setbeamercolor*{fine separation line}{}
+
+\setbeamercolor{block title}{fg=white,bg=adr} 
+%\setbeamercolor{block body}{parent=normal text,fg=black, bg=white}
+\setbeamercolor{block body}{parent=normal text,use=block title, bg=block title.bg!20!bg}
+
+\setbeamercolor{alerted text}{fg=red}
+
+\setbeamercolor*{bibliography}{bg=white, fg=titre}
+
+\mode
+<all>
