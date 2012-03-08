@@ -20,6 +20,7 @@ object which are under the z=0 plane.
 
 from mathutils import Euler, Vector
 from math import pi
+from modules.gui import ProgressBar
 import bpy
 import heapq
 
@@ -184,52 +185,58 @@ class SupportPlanes(object):
         face_sets = []
         
         # We take the MAX_FACES largest faces and the associated points.
-        faces = heapq.nlargest(MAX_FACES, obj.data.faces,
-            lambda face: face.area)
-        points = set()
-        for face in faces:
-            points |= set(face.vertices)
-        points = list(points)
+        with ProgressBar("Planar faces", "Sorting faces...", True):
+            faces = heapq.nlargest(MAX_FACES, obj.data.faces,
+                lambda face: face.area)
+            points = set()
+            for face in faces:
+                points |= set(face.vertices)
+            points = list(points)
         
         # Initial face clustering
-        while faces:
-            current_face = faces.pop()
-            
-            set_found = False
-            for face_set in face_sets:
-                if face_set.test_face(current_face):
-                    set_found = True
-                    break
-            
-            if not set_found:
-                face_sets.append(PlanarFacesSet(obj, current_face))
+        with ProgressBar("Planar faces", "Clustering...") as pb:
+            total = len(faces)
+            while faces:
+                current_face = faces.pop()
+                
+                set_found = False
+                for face_set in face_sets:
+                    if face_set.test_face(current_face):
+                        set_found = True
+                        break
+                
+                if not set_found:
+                    face_sets.append(PlanarFacesSet(obj, current_face))
+
+                pb.progress(round(100 * (total - len(faces)) / total))
         
         # We now take the PROPOSAL_COUNT largest face sets which are not
         # inside of the object.
-        
-        face_sets_heap = []
-        for id, f_set in enumerate(face_sets):
-            heapq.heappush(face_sets_heap, (-f_set.total_area, id, f_set))
-        
-        valid_face_sets = []
-        
-        while len(valid_face_sets) < PROPOSAL_COUNT and face_sets_heap:
-            _, _, face_set = heapq.heappop(face_sets_heap)
-            vector, point = face_set.get_plane()
+        with ProgressBar("Planar faces", "Validating face sets...") as pb:
+            face_sets_heap = []
+            for id, f_set in enumerate(face_sets):
+                heapq.heappush(face_sets_heap, (-f_set.total_area, id, f_set))
             
-            ref_proj = vector.dot(obj.data.vertices[point].co)
-            is_valid = True
+            valid_face_sets = []
             
-            for point_ident in points:
-                proj = vector.dot(obj.data.vertices[point_ident].co)
-                if proj > ref_proj:
-                    error = abs(proj - ref_proj) / abs(proj) if proj else 1.0
-                    if error > OUTSIDE_PROJ_TOLERANCE:
-                        is_valid = False
-                        break
-            
-            if is_valid:
-                valid_face_sets.append(face_set)
+            while len(valid_face_sets) < PROPOSAL_COUNT and face_sets_heap:
+                _, _, face_set = heapq.heappop(face_sets_heap)
+                vector, point = face_set.get_plane()
+                
+                ref_proj = vector.dot(obj.data.vertices[point].co)
+                is_valid = True
+                
+                for point_ident in points:
+                    proj = vector.dot(obj.data.vertices[point_ident].co)
+                    if proj > ref_proj:
+                        error = abs(proj - ref_proj) / abs(proj) if proj else 1.0
+                        if error > OUTSIDE_PROJ_TOLERANCE:
+                            is_valid = False
+                            break
+                
+                if is_valid:
+                    valid_face_sets.append(face_set)
+                    pb.progress(round(100 * len(valid_face_sets) / PROPOSAL_COUNT))
         
         self.face_sets = valid_face_sets
     
