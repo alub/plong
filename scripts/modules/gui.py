@@ -30,7 +30,7 @@ class ProgressBar:
                 pass
         elif not self.proc:
             print("%s: 0%%" % self.description, end='')
-        sys.stdout.flush()
+            sys.stdout.flush()
 
     def progress(self, percentage):
         """
@@ -70,14 +70,15 @@ class ProgressText:
 
     def __init__(self, title):
         try:
-            self.proc = subprocess.Popen(["zenity", "--text-info",
-                "--title=%s" % title], stdin=subprocess.PIPE)
+            self.proc = subprocess.Popen(["zenity", "--text-info", "--width=600",
+                "--height=400", "--title=%s" % title], stdin=subprocess.PIPE)
         except OSError:
             self.proc = None
 
-        print("%s:" % title)
+        if not self.proc:
+            print("%s:" % title)
 
-    def output_text(self, text):
+    def output(self, text):
         """
         Reports progress to the user. 
         """
