@@ -9,5 +9,6 @@
 *~
 report/*.pdf
 slides/*.pdf
+userDocumentation/*.pdf
 tech_doc/build
 __pycache__
