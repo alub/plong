@@ -2,6 +2,7 @@ import bpy
 import sys
 import time
 from modules import holes
+from modules.gui import ProgressText
         
 def clean_and_select(edges):
     """
@@ -26,7 +27,7 @@ def clean_and_select(edges):
     bpy.ops.object.mode_set(mode='EDIT')
     return not_manifold
 
-def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
+def fill_and_check(edges, destructive, fast_processing, old_nb_edges, pt):
     """
     Fill selected holes and purge the meshes according to the parameters :
 
@@ -43,7 +44,7 @@ def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
         if(nb_edges != old_nb_edges):
             set_selectmode(mode='EDGE')
             if fast_processing:
-                print(nb_edges, "edges non manifold left")
+                pt.output("%d edges non manifold left\n" % nb_edges)
                 bpy.ops.mesh.select_all(action='DESELECT')
                 bpy.ops.object.mode_set(mode='OBJECT')
                 for hole in edges_holes:
@@ -53,35 +54,33 @@ def fill_and_check(edges, destructive, fast_processing, old_nb_edges):
                 bpy.ops.object.mode_set(mode='EDIT')
                 bpy.ops.mesh.fill()
                 # sys.stdout.write('\n')
-                return fill_and_check(edges, destructive, fast_processing, nb_edges)
+                return fill_and_check(edges, destructive, fast_processing, nb_edges, pt)
             else:
-                sys.stdout.write("%s edges non manifold left" % nb_edges)
-                sys.stdout.flush()
+                pt.output("%d edges non manifold left" % nb_edges)
                 for hole in edges_holes:
                     #sys.stdout.write('.%s' % len(hole))
-                    sys.stdout.write('.')
-                    sys.stdout.flush()
+                    pt.output('.')
                     bpy.ops.mesh.select_all(action='DESELECT')
                     bpy.ops.object.mode_set(mode='OBJECT')
                     select_hole(edges, hole)
                     bpy.ops.object.mode_set(mode='EDIT')
                     bpy.ops.mesh.fill()
-                sys.stdout.write('\n')
-                return fill_and_check(edges, destructive, fast_processing, nb_edges)
+                pt.output("\n")
+                return fill_and_check(edges, destructive, fast_processing, nb_edges, pt)
         else:
             if destructive:
-                print('Filling can\'t process further, removing broken vertices...')
+                pt.output("Filling can\'t process further, removing broken vertices...\n")
                 bpy.ops.mesh.delete(type='VERT')
-                return fill_and_check(edges, destructive, fast_processing, 0)
+                return fill_and_check(edges, destructive, fast_processing, 0, pt)
             else:
-                print('Filling can\'t process further, end of process')
+                pt.output("Filling can\'t process further, end of process\n")
                 bpy.ops.mesh.select_all(action='SELECT')
                 bpy.ops.mesh.normals_make_consistent(inside=False)
                 bpy.ops.mesh.select_all(action='DESELECT')
                 bpy.ops.object.mode_set(mode='OBJECT')
                 return 1
     else:
-        print('Repairing complete')
+        pt.output("Repairing complete\n")
         bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.normals_make_consistent(inside=False)
         bpy.ops.mesh.select_all(action='DESELECT')
@@ -138,15 +137,21 @@ def correction(destructive, fast_processing):
     """
     bpy.ops.object.mode_set(mode='EDIT')
     edges = bpy.context.active_object.data.edges
-    if destructive and fast_processing:
-        print('Fast-processing and destructive repairing of object ', bpy.context.active_object.name)
-    elif destructive and not fast_processing:
-        print('Accurate and destructive repairing of object ', bpy.context.active_object.name)
-    elif not destructive and fast_processing:
-        print('Fast-processing simple cleaning of object ', bpy.context.active_object.name)
-    else:
-        print('Accurate simple cleaning of object ', bpy.context.active_object.name)
-    step = fill_and_check(edges, destructive, fast_processing, 0)
+    with ProgressText("Manifold correction") as pt:
+
+        if destructive and fast_processing:
+            pt.output("Fast-processing and destructive repairing of object %s:\n" %
+                bpy.context.active_object.name)
+        elif destructive and not fast_processing:
+            pt.output("Accurate and destructive repairing of object %s:\n" %
+                bpy.context.active_object.name)
+        elif not destructive and fast_processing:
+            pt.output("Fast-processing simple cleaning of object %s:\n" %
+                bpy.context.active_object.name)
+        else:
+            pt.output("Accurate simple cleaning of object %s:\n" %
+                bpy.context.active_object.name)
+        step = fill_and_check(edges, destructive, fast_processing, 0, pt)
     return step
 
 

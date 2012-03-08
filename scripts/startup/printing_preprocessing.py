@@ -85,6 +85,9 @@ class MeshVerificationPanel(bpy.types.Panel):
         
         row4 = box2.row()
         row4.operator("ops.choose_selected_faces")
+
+        row5 = box2.row()
+        row5.operator("ops.generate_socle")
         
                 
 	# Third box of the panel (step 3) : Choice of the supporting plan
@@ -214,7 +217,6 @@ class FindSupportingPlanesOperator(bpy.types.Operator) :
         global plane
         global sp
         
-        self.report({"INFO"}, "Please wait, this might take a few minutes")
         obj = bpy.context.active_object
         sp = planar_faces.SupportPlanes(obj) 
         plane = 0
@@ -349,6 +351,33 @@ class ChooseSelectedFacesOperator(bpy.types.Operator) :
         else :
             self.report({"WARNING"}, "You did not select any faces")      
         return {'FINISHED'}
+
+###############################
+# GenerateSocleOperator class #
+###############################
+              
+class GenerateSocleOperator(bpy.types.Operator) :
+    
+    bl_idname = 'ops.generate_socle'
+    bl_label = "Generate a socle under the object"
+    bl_description = "This function will generate a socle for the object." 
+    
+    def __init__ (self) :
+        self.value = 0
+        bpy.types.Operator.__init__(self)
+        
+    def execute (self, context) :
+        """
+        Generate a socle for the object.
+        """
+
+        global step
+        global sp
+        
+        obj = bpy.context.active_object
+        planar_faces.generate_socle(obj)
+        self.report({"INFO"}, "The socle has been generated")
+        return {'FINISHED'}
     
 def register():
     """
@@ -376,6 +405,8 @@ def register():
     bpy.utils.register_class(ChooseCurrentPlaneOperator)
   
     bpy.utils.register_class(ChooseSelectedFacesOperator)
+
+    bpy.utils.register_class(GenerateSocleOperator)
     
     scn.FastProcessing = props.BoolProperty(name="Fast processing", description="Might not be as efficient as the normal processing", default=False)
 
