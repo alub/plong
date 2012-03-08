@@ -25,6 +25,7 @@ The py:func:`generate_socle` function generates a socle.
 
 from mathutils import Euler, Vector
 from math import pi
+from modules.gui import ProgressBar
 import bpy
 import heapq
 
@@ -190,52 +191,58 @@ class SupportPlanes(object):
         face_sets = []
         
         # We take the MAX_FACES largest faces and the associated points.
-        faces = heapq.nlargest(MAX_FACES, obj.data.faces,
-            lambda face: face.area)
-        points = set()
-        for face in faces:
-            points |= set(face.vertices)
-        points = list(points)
+        with ProgressBar("Planar faces", "Sorting faces...", True):
+            faces = heapq.nlargest(MAX_FACES, obj.data.faces,
+                lambda face: face.area)
+            points = set()
+            for face in faces:
+                points |= set(face.vertices)
+            points = list(points)
         
         # Initial face clustering
-        while faces:
-            current_face = faces.pop()
-            
-            set_found = False
-            for face_set in face_sets:
-                if face_set.test_face(current_face):
-                    set_found = True
-                    break
-            
-            if not set_found:
-                face_sets.append(PlanarFacesSet(obj, current_face))
+        with ProgressBar("Planar faces", "Clustering...") as pb:
+            total = len(faces)
+            while faces:
+                current_face = faces.pop()
+                
+                set_found = False
+                for face_set in face_sets:
+                    if face_set.test_face(current_face):
+                        set_found = True
+                        break
+                
+                if not set_found:
+                    face_sets.append(PlanarFacesSet(obj, current_face))
+
+                pb.progress(round(100 * (total - len(faces)) / total))
         
         # We now take the PROPOSAL_COUNT largest face sets which are not
         # inside of the object.
-        
-        face_sets_heap = []
-        for id, f_set in enumerate(face_sets):
-            heapq.heappush(face_sets_heap, (-f_set.total_area, id, f_set))
-        
-        valid_face_sets = []
-        
-        while len(valid_face_sets) < PROPOSAL_COUNT and face_sets_heap:
-            _, _, face_set = heapq.heappop(face_sets_heap)
-            vector, point = face_set.get_plane()
+        with ProgressBar("Planar faces", "Validating face sets...") as pb:
+            face_sets_heap = []
+            for id, f_set in enumerate(face_sets):
+                heapq.heappush(face_sets_heap, (-f_set.total_area, id, f_set))
             
-            ref_proj = vector.dot(obj.data.vertices[point].co)
-            is_valid = True
+            valid_face_sets = []
             
-            for point_ident in points:
-                proj = vector.dot(obj.data.vertices[point_ident].co)
-                if proj > ref_proj:
-                    error = abs(proj - ref_proj) / abs(ref_proj) if round(ref_proj, 8) else proj
-                    if error > OUTSIDE_PROJ_TOLERANCE:
-                        is_valid = False
-                        break
-            
-            if is_valid:
-                valid_face_sets.append(face_set)
+            while len(valid_face_sets) < PROPOSAL_COUNT and face_sets_heap:
+                _, _, face_set = heapq.heappop(face_sets_heap)
+                vector, point = face_set.get_plane()
+                
+                ref_proj = vector.dot(obj.data.vertices[point].co)
+                is_valid = True
+                
+                for point_ident in points:
+                    proj = vector.dot(obj.data.vertices[point_ident].co)
+                    if proj > ref_proj:
+                        error = abs(proj - ref_proj) / abs(ref_proj) if round(ref_proj, 8) else proj
+                        if error > OUTSIDE_PROJ_TOLERANCE:
+                            is_valid = False
+                            break
+                
+                if is_valid:
+                    valid_face_sets.append(face_set)
+                    pb.progress(round(100 * len(valid_face_sets) / PROPOSAL_COUNT))
         
         self.face_sets = valid_face_sets
     
@@ -358,14 +365,21 @@ def cut_under_plane(obj):
     vertices[6].co = Vector((xmax + 1, ymax + 1, zmin - 1))
     vertices[7].co = Vector((xmax + 1, ymin - 1, zmin - 1))
 
+    # The cube normals may be reversed (inside it), which may cause problems
+    # with the boolean operation. Let's recalculate them.
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.normals_make_consistent(inside=False)
+    bpy.ops.object.mode_set(mode='OBJECT')
+
     for ob in bpy.data.objects.values():
         ob.select = False
     bpy.context.scene.objects.active = obj
     obj.select = True
 
     bpy.ops.object.modifier_add(type='BOOLEAN')
-    obj.modifiers['Boolean'].operation = 'DIFFERENCE'
+    obj.modifiers['Boolean'].operation = 'DIFFERENCE'    
     obj.modifiers['Boolean'].object = cube
+    obj.modifiers['Boolean'].operation = 'DIFFERENCE'
     bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
     
     bpy.ops.object.select_all(action='DESELECT')
@@ -419,6 +433,12 @@ def generate_socle(obj):
     vertices[6].co = Vector((xmax, ymax, SOCLE_HEIGHT))
     vertices[7].co = Vector((xmax, ymin, SOCLE_HEIGHT))
 
+    # The cube normals may be reversed (inside it), which may cause problems
+    # with the boolean operation. Let's recalculate them.
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.normals_make_consistent(inside=False)
+    bpy.ops.object.mode_set(mode='OBJECT')
+
     for ob in bpy.data.objects.values():
         ob.select = False
     bpy.context.scene.objects.active = obj
@@ -443,9 +463,9 @@ def generate_socle(obj):
 if __name__ == '__main__':
     obj = bpy.context.active_object
     
-    #sp = SupportPlanes(obj)
-    #sp[0].select()
-    generate_socle(obj)
+    sp = SupportPlanes(obj)
+    sp[0].select()
+    #generate_socle(obj)
     #cut_under_plane(obj)
     
     #use_selection_for_support()

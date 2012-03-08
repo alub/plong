@@ -1,4 +1,4 @@
-texc = xelatex -shell-escape
+texc = xelatex
 
 setup_doc.pdf: setup_doc.tex
 
@@ -6,7 +6,7 @@ setup_doc.pdf: setup_doc.tex
 	($(texc) $< || (rm -f $@ && false)) && $(texc) $<
 
 clean:
-	rm -f *.{aux,bib,log,toc}
+	rm -f *.{aux,bib,log,toc,pyg}
 
 empty: clean
 	rm -f setup_doc.pdf
