@@ -365,14 +365,21 @@ def cut_under_plane(obj):
     vertices[6].co = Vector((xmax + 1, ymax + 1, zmin - 1))
     vertices[7].co = Vector((xmax + 1, ymin - 1, zmin - 1))
 
+    # The cube normals may be reversed (inside it), which may cause problems
+    # with the boolean operation. Let's recalculate them.
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.normals_make_consistent(inside=False)
+    bpy.ops.object.mode_set(mode='OBJECT')
+
     for ob in bpy.data.objects.values():
         ob.select = False
     bpy.context.scene.objects.active = obj
     obj.select = True
 
     bpy.ops.object.modifier_add(type='BOOLEAN')
-    obj.modifiers['Boolean'].operation = 'DIFFERENCE'
+    obj.modifiers['Boolean'].operation = 'DIFFERENCE'    
     obj.modifiers['Boolean'].object = cube
+    obj.modifiers['Boolean'].operation = 'DIFFERENCE'
     bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
     
     bpy.ops.object.select_all(action='DESELECT')
@@ -426,6 +433,12 @@ def generate_socle(obj):
     vertices[6].co = Vector((xmax, ymax, SOCLE_HEIGHT))
     vertices[7].co = Vector((xmax, ymin, SOCLE_HEIGHT))
 
+    # The cube normals may be reversed (inside it), which may cause problems
+    # with the boolean operation. Let's recalculate them.
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.normals_make_consistent(inside=False)
+    bpy.ops.object.mode_set(mode='OBJECT')
+
     for ob in bpy.data.objects.values():
         ob.select = False
     bpy.context.scene.objects.active = obj
@@ -450,9 +463,9 @@ def generate_socle(obj):
 if __name__ == '__main__':
     obj = bpy.context.active_object
     
-    #sp = SupportPlanes(obj)
-    #sp[0].select()
-    generate_socle(obj)
+    sp = SupportPlanes(obj)
+    sp[0].select()
+    #generate_socle(obj)
     #cut_under_plane(obj)
     
     #use_selection_for_support()
