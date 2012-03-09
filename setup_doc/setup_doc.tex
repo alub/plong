@@ -27,6 +27,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
+\setlength{\headheight}{25pt}
 \lhead{\includegraphics[scale=0.4]{inp-enseeiht}}
 \rhead{\includegraphics[scale=0.2]{irit}}
 \lfoot{Install guide}
@@ -127,7 +128,7 @@ Here are (in orange) the different software and material you will have to get in
 
 	\paragraph{Linux} Providing your distribution has a recent version of Blender, you should use your package manager. Else, you can download the 32~bits or 64~bits on \url{http://www.blender.org/download/get-blender/}.
 
-	\paragraph{MaxOS X} Go to \url{http://www.blender.org/download/get-blender/}. % TODO
+	\paragraph{MaxOS X} Go to \url{http://www.blender.org/download/get-blender/}, download the version corresponding to your OS version, and follow the instructions in the provided \texttt{readme.html} file.
 
 	\begin{figure}[h!]
 		\centering
@@ -153,8 +154,9 @@ tar xf slic3r-linux-x86-0-7-0.tar.gz
 cd Slic3r/bin
 ./slic3r
 		\end{verbatim}
+	If you have a 64-bit system, you will need to install the 32-bit support libraries (Debian/Ubuntu: \texttt{ia32-libs} and \texttt{ia32-libs-gtk} packages). You can install Slic3r by copying its folder into /opt and starting /opt/Slic3r/bin/slic3r (you will need to enable write permission for every user of the system to the contents of the /opt/Slic3r/lib/ folder).
 
-	\paragraph{MaxOS X} Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}. % TODO
+	\paragraph{MaxOS X} Go to \url{http://dl.slic3r.org/mac/} and download \texttt{slic3r-osx-uni-0-7-0.dmg}. Open the disk image and drag the \emph{Slic3r} application to your Application folder. You can then start it by double-clicking on it.
 
 	\begin{figure}[h!]
 		\centering
@@ -183,9 +185,9 @@ cd Slic3r/bin
 
 	\paragraph{Windows} The Blender data directory is \texttt{\emph{<your user profile>}\textbackslash{}Application Data\textbackslash{}Blender Foundation\textbackslash{}Blender\textbackslash{}\emph{<version>}\textbackslash{}}. The Application Data is a hidden folder, you can find it by opening the \emph{Run} panel (Start Menu>Run… or [Windows key]-R), and entering \texttt{\%APPDATA\%}. 
 
-	\paragraph{Linux} The Blender data directory is \texttt{\~ {}/.blender/\emph{<version>}} (where \texttt{~} is your user directory).
+	\paragraph{Linux} The Blender data directory is \texttt{\~ {}/.blender/\emph{<version>}} (where \texttt{\~{}} is your user directory).
 	
-	\paragraph{Mac OS X} The Blender data directory is \texttt{~/Library/Application Support/Blender/\emph{<version>}} (where \texttt{~} is your user directory). If you cannot find the \texttt{Library} folder, press the Option (⌥) key and choose \emph{Library} in the \emph{Go} menu item.
+	\paragraph{Mac OS X} The Blender data directory is \texttt{\~{}/Library/Application Support/Blender/\emph{<version>}} (where \texttt{\~{}} is your user directory). If you cannot find the \texttt{Library} folder, press the Option (\emph{alt}) key and choose \emph{Library} in the \emph{Go} menu item.
 	
 	Once you are in the Blender data directory, put the provided \texttt{scripts} folder in it. Then copy \texttt{startup.blend} in a \texttt{config} directory (it may or may not exist). You should have the following directory structure:\\
 
@@ -203,14 +205,14 @@ cd Slic3r/bin
 .3 startup.
 .4 printing\_preprocessing.py.
 }
+	
+	\paragraph{} If you are using Linux, make sure that the \texttt{zenity} utility is installed in order to see the progress dialogs (Under Debian/Ubuntu, you can install the \texttt{zenity} package)
 
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=\linewidth]{blender-plugin.png}
 		\caption{Blender interface using the plugin}
 	\end{figure}
-
-	\paragraph{MacOS X} % TODO
 
 	Once everything is installed, every time you start Blender, you should have a customized interface, with a new panel in the object editor, “Mesh verification”.
 
@@ -222,7 +224,7 @@ cd Slic3r/bin
 
 	\paragraph{Home page} \url{https://github.com/kliment/Printrun}
 
-	\paragraph{Installation} Instructions are available on \url{https://github.com/kliment/Printrun}.
+	\paragraph{Installation} Instructions are available on \url{https://github.com/kliment/Printrun}. For Debian/Ubuntu, you can use the instructions provided on \url{http://reprap.org/wiki/Printrun}. Mac OS X users can download a pre-built executable at \url{http://koti.kapsi.fi/~kliment/printrun/pronterfacemac.zip}.
 
 	\paragraph{Alternatives} ReplicatorG is also very used with 3D printers; it is available on \url{http://replicat.org/}. It comes bundled with Skeinforge, and it has a 3D preview.
 
