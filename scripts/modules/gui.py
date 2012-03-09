@@ -87,6 +87,7 @@ class ProgressText:
             self.proc = None
 
         if not self.proc:
+            _toggle_console()
             print("%s:" % title)
 
     def output(self, text):
@@ -112,6 +113,7 @@ class ProgressText:
             self.proc.terminate()
         else:
             print("Done.")
+            _toggle_console()
 
     def __enter__(self):
         return self
