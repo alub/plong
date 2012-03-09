@@ -381,7 +381,8 @@ def cut_under_plane(obj):
     obj.modifiers['Boolean'].operation = 'DIFFERENCE'
     obj.modifiers['Boolean'].object = cube
     obj.modifiers['Boolean'].operation = 'DIFFERENCE'
-    bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
+    with ProgressBar("Planar faces", "Cutting the object...", True):
+        bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
 
     bpy.ops.object.select_all(action='DESELECT')
     for ob in bpy.data.objects.values():
@@ -448,7 +449,8 @@ def generate_socle(obj):
     bpy.ops.object.modifier_add(type='BOOLEAN')
     obj.modifiers['Boolean'].operation = 'UNION'
     obj.modifiers['Boolean'].object = cube
-    bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
+    with ProgressBar("Planar faces", "Merging the socle...", True):
+        bpy.ops.object.modifier_apply(apply_as='DATA', modifier='Boolean')
 
     bpy.ops.object.select_all(action='DESELECT')
     for ob in bpy.data.objects.values():
