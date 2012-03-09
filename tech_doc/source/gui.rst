@@ -1,0 +1,4 @@
+GUI
+===
+
+.. automodule:: gui

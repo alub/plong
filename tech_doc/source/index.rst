@@ -18,6 +18,7 @@ Contents:
    planar_faces
    volume
 
+   gui
    tests
 
 Indices and tables

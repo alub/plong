@@ -5,13 +5,15 @@ GUI functions for the Python scripts to show progress.
 import subprocess
 import sys
 
+
 def _toggle_console():
     """
     Toggles the display of the Windows console, if applicable
     """
-    
+
     if sys.platform.startswith("win"):
         bpy.ops.wm.console_toggle()
+
 
 class ProgressBar:
     """
@@ -40,7 +42,6 @@ class ProgressBar:
             _toggle_console()
             print("%s: 0%%" % self.description, end='')
             sys.stdout.flush()
-        
 
     def progress(self, percentage):
         """
@@ -74,6 +75,7 @@ class ProgressBar:
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
+
 class ProgressText:
     """
     This class allows a running script to output text during its execution.
@@ -92,7 +94,7 @@ class ProgressText:
 
     def output(self, text):
         """
-        Reports progress to the user. 
+        Reports progress to the user.
         """
 
         if self.proc:
@@ -120,4 +122,3 @@ class ProgressText:
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
-
