@@ -176,12 +176,11 @@ F-31062 TOULOUSE CEDEX 9
 \begin{itemize}
 \item Week 1 (January, 24): introduction of the project members, choice of the project management model, introduction of the specification phase of the V model
 \item Week 2 (January, 27): choice of the project manager, 
-\item Week 3 (February, 6):
-\item Week 4 (February, 9):
-\item Week 5 (February, 20):
-\item Week 6 (February, 29):
-\item Week 7 (March, 8):
-\item Week 8 (March, 14):
+\item Week 3 (February, 6): evaluation planning, risks assessement,
+\item Week 4 (February, 9): start of development phase, 
+\item Week 5 (February, 20): progress update, client meeting planning, risks assessement
+\item Week 6 (February, 29): planning of testing phase, client meeting report
+\item Week 7 (March, 7): testing phase results, documentation writing planning
 \end{itemize}
 
 On each meeting, Lionel successively explained us how to decide of a macroscopic planning for our project, told us about the different milestone they use in Airbus projects and the documents that should sometimes be available when arriving at a milestone and guided us throughout the management of our human and material resources. Of course, we couldn't do exactly as he was used to doing in Airbus (simply because our project is happening in quite special conditions) but thanks to that, we could have a real idea of what project management would be in the future. 
@@ -223,9 +222,18 @@ Our supervisor also taught us how to manage the possible risks in our project so
 
 We give here an example of this assessment we did on our second week of work:
 
-\bigskip
--- first risks assessment
-\bigskip
+\begin{tabular}{|p{4cm}|p{5cm}|p{5cm}|}
+\hline
+Category & Risk & Prevention solution \\ \hline
+Material resources & Printer failure & Warn the Fablab that we could use their printer, use ours with caution \\
+Documentation & Lack of documentation & Ask the teachers for help \\
+Client's needs and specifications & Late change in the customer's expectations & Tell them we won't accept any change after a certain date \\
+Project management & Not enough slack & Include consequent slacks in the planning \\
+Tests and deployment & Ineffective tests & Plan enough time to prepare relevant tests \\
+Quality & Disagreement between the needs and the solution & Organize as many meetings as possible with the client \\
+Technical risks on development & Bad modeller choice & Plan enough time to pick the best solution possible \\
+\hline
+\end{tabular}
 
 \chapter{The specification phase}
 
@@ -243,17 +251,53 @@ As we all started to discover the printer, it came to us that the final applicat
 
 \begin{figure}[!h]
 \begin{center}
-	\includegraphics[scale=0.2]{ARD1}
+	\includegraphics[width=.8\textwidth]{schema}
 \end{center}
 \end{figure}
 
-The terms written in orange are the only one we decided to act on. The printer's firmware could actually be replaced by some others but we decided that this was not necessary and that we would rather focus on the modeller, Gcode generator and printer's pilote. These choice of these is explained later in this report. 
+We decided not to act on the printer's firmware (although it is possible to do so), and to focus on the modeller, the G-code generator and the printer driver. These choices are explained later in this report. 
 
 \section{The redaction of the technical specifications}
 
-One we had determined the clients' needs, we had to
+One we had determined the clients' needs, we had to specify exactly what would be integrated into our application. The technical requirements are listed below.
+
+\subsection{Modeler}
+\begin{enumerate}
+	\item Create, model and edit 3D objects on Windows and Linux:
+	\begin{enumerate}
+		\item STL and PLY import from the computer
+		\item STL export to the G-code generator
+		\item Directly deform meshes:
+		\begin{enumerate}
+			\item Add, remove, translate a vertex
+			\item Smooth a surface (automatically add faces, etc.)
+			\item Cut an object
+			\item Handle the case of several objects (multiple verifications, multiple exports)
+		\end{enumerate}
+	\end{enumerate}
+	\item{Check mesh printability:}
+	\begin{enumerate}
+		\item Check if the mesh is manifold and fill it if not
+		\item Check if the mesh is watertight
+		\item Check if the orientation is good for printing:
+		\begin{enumerate}
+			\item Report a bad supporting plan
+			\item Suggest a good supporting plan
+			\item Suggest to add a platform to the object if there is no adequate supporting plane
+		\end{enumerate}
+	\end{enumerate}
+	\item{Provide a simple and easy to use interface:}
+	\begin{enumerate}
+		\item Provide an adequate layout for mesh interaction and verification
+		\item Automatically verify the printability of a mesh (either in reaction to events, periodically or on demand)
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{Printer}
+Find the adequate printing parameters.
 
 \section{The technical choices}
+Developing a 3D modeller ``from scratch'' would have needed a considerable amount of time. We chose to start from an existing modelling program, \emph{Blender}\footnote{\url{http://www.blender.org}}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language allows provides some programming facilities (automatic memory management, for instance) which ease the implementation of algorithms.
 
 \chapter{The implementation phase}
 
