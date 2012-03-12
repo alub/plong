@@ -111,11 +111,11 @@ F-31062 TOULOUSE CEDEX 9
 \chapter*{Acknowledgments}
 \addcontentsline{toc}{chapter}{\numberline{}Acknowledgments}
 
-	Our most sincere thanks go to our technical supervisor, Lionel \textsc{Cremel} for guiding us throughout this two-months project and having initiated us in a progressive and efficient way to the art that is project management. Our project would certainly not have got the same results without him.\\
+	Our most sinceres thanks go to our technical supervisor, Lionel \textsc{Cremel}, for guiding us throughout this two-months project and having initiated us in a progressive and efficient way to the art that is project management. Our project would certainly not have got the same results without him.\\
 
 \bigskip
 
-	Therefore we want to thank Axel \textsc{Carlier}, Jean \textsc{Conter} and Géraldine \textsc{Morin} for proposing such an interesting subject and for all the help and the pieces of advice they have been giving us during the project.\\
+	Therefore we want to thank Axel \textsc{Carlier}, Jean \textsc{Conter} and Géraldine \textsc{Morin} for having proposed us such an interesting subject and for all the help and the pieces of advice they have been giving us during the project.\\
 
 \bigskip
 
@@ -127,7 +127,7 @@ F-31062 TOULOUSE CEDEX 9
 
 \section{The context}
 
-	The \textit{3D printing} phrase is used to describe the process of creating three dimensional objects from digital file using a materials printer in a manner similar to printing images on paper. The term is most closely associated with additive manufacturing technology, where an object is created by laying down successive layers of material.\\
+	The \textit{3D printing} phrase is used to describe the process of creating three dimensional objects from digital files using a materials printer in a manner similar to printing images on paper. The term is most closely associated with additive manufacturing technology, where an object is created by laying down successive layers of material.\\
 
 	Since 2003 there has been a large growth in the sale of 3D printers since the technology actually finds use in more and more fields such as the fields of jewellery, footwear, industrial design, architecture, engineering and construction (AEC), automotive, aerospace, dental and medical industries, education, geographic information systems, civil engineering, and many others.\\
 
@@ -257,11 +257,22 @@ One we had determined the clients' needs, we had to
 
 \chapter{The implementation phase}
 
-\section{The mesh correction: Florian \& James}
+\section{The mesh correction - \textit{Florian \& James}}
 
-\section{The choice of the supporting plane: Antoine \& Vincent}
+We have implemented a script which allows the user to track broken, non-manifold edges on the working object in Blender, and offers him two different ways to correct them.
 
-\section{The interface: Caroline}
+First of all, a press on the Check button highlights all the potential non-manifold edges and gives to the user the possibility to repair them if the mesh is actually non-manifold.
+
+The first method is a soft correction algorithm, which detects all distincts holes in the mesh, then cleans theses holes (for instance if there are some faces not connected to any vertex), and finally try to fill them, each one after each one. This method is considered non-destructive (even if the cleaning part may remove unwanted faces) and is not recursive. The algorithm has been proven to make a broken mesh watertight, so there is no more holes remaining after its execution.
+
+But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edges-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non manifold edges (and thus which didn't belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).
+
+Both for the destructive method and the non-destructive one, we added a fast-processing option which makes the correction algorithms way faster than without enabling it. But activating it may results in various artifacts between some edges. Since it works better on bigger and well-detailed objects (with finer meshes), the user should try to use it first on big objects and if the result is not satisfying, he simply have to cancel the last operations then try again with fast-processing disabled. This option only acts during the holes filling action, by trying to fill all of them with only one single filling call, while the standard option requires another algorithm which we developed which detects and separates all distinct holes within the mesh.
+
+
+\section{The choice of the supporting plane - \textit{Antoine \& Vincent}}
+
+\section{The interface - \textit{Caroline}}
 
 Although we had decided to work on Blender, its graphic interface remained quite difficult to use for inexperienced users and still showed ``useless'' functions. \\
 While making researches about Blender, we discovered that we could manipulate its graphic interface as we wanted to only keep the most useful features visible. This was done while drag 	and dropping some windows and panels. We then registered the corresponding file (\textit{startup.blend}) to had it to the adequate place in the final product. We give here the original interface and the one we configured:
