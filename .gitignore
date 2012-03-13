@@ -6,9 +6,11 @@
 *.log
 *.toc
 *.swp
+*.pyg
 *~
 report/*.pdf
 slides/*.pdf
+setup_doc/*.pdf
 userDocumentation/*.pdf
 tech_doc/build
 __pycache__

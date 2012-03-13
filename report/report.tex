@@ -19,6 +19,9 @@
 \usepackage{graphicx}
 \graphicspath{{./images/}}
 
+% Links
+\usepackage{url,hyperref}
+
 % Headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -43,7 +46,7 @@
 \bigskip
 
 \begin{center}
-\huge{Three-dimensional modeling and printing :\\ Project report\\}
+\huge{Three-dimensional modeling and printing:\\ Project report\\}
 \bigskip
 \bigskip
 \Large{from January 23 to March 16, 2012}
@@ -81,12 +84,12 @@ INP-ENSEEIHT/IMA
 \bigskip
 
 \begin{center}
-http://www.enseeiht.fr/fr/index.html \\
+\url{http://www.enseeiht.fr/fr/index.html} \\
 2 Rue Charles Camichel \\
 31 071 TOULOUSE
 \end{center}
 
-\bigskip
+\vfill
 
 \begin{figure}[!h]
 \begin{center}
@@ -95,7 +98,7 @@ http://www.enseeiht.fr/fr/index.html \\
 \end{figure}
 
 \begin{center}
-http://www.info@irit.fr\\
+\url{http://www.irit.fr}\\
 Université Paul Sabatier \\
 118 Route de Narbonne \\
 F-31062 TOULOUSE CEDEX 9
@@ -142,10 +145,10 @@ F-31062 TOULOUSE CEDEX 9
 
 \subsection{The project team}
 
-	Our team was composed of five students from the Computing and Applied Mathematics department of ENSEEIHT who all showed a real interest in the subject. These people are listed here :
+	Our team was composed of five students from the Computing and Applied Mathematics department of ENSEEIHT who all showed a real interest in the subject. These people are listed here:
 
 \begin{itemize}
-\item Caroline \textsc{NAUD} : project manager
+\item Caroline \textsc{NAUD}: project manager
 \item Vincent \textsc{DUVERT}
 \item Antoine \textsc{LUBINEAU}
 \item James \textsc{PACKER}
@@ -154,7 +157,7 @@ F-31062 TOULOUSE CEDEX 9
 
 \subsection{Material resources}
 
-	We list below all the material resources which were available to us during the project :
+	We list below all the material resources which were available to us during the project:
 
 \begin{itemize}
 \item the room F117 in building F at ENSEEIHT (same building that the one the \textsc{VORTEX} team works in
@@ -168,9 +171,10 @@ F-31062 TOULOUSE CEDEX 9
 
 \section{Project supervision}
 
-	During the first week of the project we were introduced to Lionel \textsc{Cremel}, project manager at \textsc{Airbus}, who had volunteered to guide us in managing our project. We agreed on that day to meet him at least once a week nearly every week so that he could guide us throughout the project. We give here the dates on which we successively met and the main content of the meeting :
+	During the first week of the project we were introduced to Lionel \textsc{Cremel}, project manager at \textsc{Airbus}, who had volunteered to guide us in managing our project. We agreed on that day to meet him at least once a week nearly every week so that he could guide us throughout the project. We give here the dates on which we successively met and the main content of the meeting:
 	
 \begin{itemize}
+<<<<<<< HEAD
 \item Week 1 (January, 24) : introduction of the project members, choice of the project management model, introduction of the specification phase of the V model
 \item Week 2 (January, 27) : choice of the project manager, 
 \item Week 3 (February, 6) :
@@ -178,13 +182,23 @@ F-31062 TOULOUSE CEDEX 9
 \item Week 5 (February, 20) :
 \item Week 6 (February, 29) :
 \item Week 7 (March, 8) :
+=======
+\item Week 1 (January, 24): introduction of the project members, choice of the project management model, introduction of the specification phase of the V model
+\item Week 2 (January, 27): choice of the project manager, 
+\item Week 3 (February, 6):
+\item Week 4 (February, 9):
+\item Week 5 (February, 20):
+\item Week 6 (February, 29):
+\item Week 7 (March, 8):
+\item Week 8 (March, 14):
+>>>>>>> e18af71f22e0f3390904113a07a8633e6855d7ba
 \end{itemize}
 
 On each meeting, Lionel successively explained us how to decide of a macroscopic planning for our project, told us about the different milestone they use in Airbus projects and the documents that should sometimes be available when arriving at a milestone and guided us throughout the management of our human and material resources. Of course, we couldn't do exactly as he was used to doing in Airbus (simply because our project is happening in quite special conditions) but thanks to that, we could have a real idea of what project management would be in the future. 
 
 \section{Resource management and planning}
 
-With the help of Lionel, we all agreed on saying that a V-cycle was adequate for the progress of our project. This cycle includes (as shown on the picture below) :
+With the help of Lionel, we all agreed on saying that a V-cycle was adequate for the progress of our project. This cycle includes (as shown on the picture below):
 
 \begin{itemize}
 \item a specification part (requirements, design and architecture) on which the final user tests and the functional tests are decided,
@@ -200,7 +214,7 @@ With the help of Lionel, we all agreed on saying that a V-cycle was adequate for
 
 However, our project was special an could not totally follow that scheme since it contained a part on which we had to learn how to use the printer and which were the adapted parameters to get good quality objects. We thus thought that this part deserved to have at least one member of the team dedicated to it at full time. This member would of course participate in the rest of the project but would spend most of his time on the printer. The four other members would equally participate in all the different steps of the project. Three of us would use their personal computers while the last one would sometimes work from his place or from the computer room at ENSEEIHT and would sometimes use the computer made available to us by the client team. This last one would also often be used by the student dealing with the printer to pilot it.\\\\
 
-The macroscopic planning we chose is given here :
+The macroscopic planning we chose is given here:
 
 \bigskip
 \begin{figure}[!h]
@@ -217,7 +231,7 @@ A more detailed planning containing the different tasks we achieved is available
 
 Our supervisor also taught us how to manage the possible risks in our project so that we would not have any delay of major issues which would prevent us from delivering a good quality product. This work included the detection of theses risks, the finding of a way to prevent them and of a way to correct them if they would still happen. Of course, this assessment changed as time went by since some of the risks disappeared or actually happened and new appeared.
 
-We give here an example of this assessment we did on our second week of work :
+We give here an example of this assessment we did on our second week of work:
 
 \bigskip
 -- first risks assessment
@@ -235,7 +249,7 @@ The client team first told us about this Ultimaker 3D printer she recently acqui
 
 \section{The general architecture of the project}
 
-As we all started to discover the printer, it came to us that the final application would include the use of several software. Indeed, the use of the printer first implies the transformation of the mesh created with the modeller into instructions for the printer (GCode) which we then need to send to the printer previously parametrized. This makes the 4 main parts given in the following figure :
+As we all started to discover the printer, it came to us that the final application would include the use of several software. Indeed, the use of the printer first implies the transformation of the mesh created with the modeller into instructions for the printer (GCode) which we then need to send to the printer previously parametrized. This makes the 4 main parts given in the following figure:
 
 \begin{figure}[!h]
 \begin{center}
@@ -253,14 +267,14 @@ One we had determined the clients' needs, we had to
 
 \chapter{The implementation phase}
 
-\section{The mesh correction : Florian \& James}
+\section{The mesh correction: Florian \& James}
 
-\section{The choice of the supporting plane : Antoine \& Vincent}
+\section{The choice of the supporting plane: Antoine \& Vincent}
 
-\section{The interface : Caroline}
+\section{The interface: Caroline}
 
 Although we had decided to work on Blender, its graphic interface remained quite difficult to use for inexperienced users and still showed ``useless'' functions. \\
-While making researches about Blender, we discovered that we could manipulate its graphic interface as we wanted to only keep the most useful features visible. This was done while drag 	and dropping some windows and panels. We then registered the corresponding file (\textit{startup.blend}) to had it to the adequate place in the final product. We give here the original interface and the one we configured :
+While making researches about Blender, we discovered that we could manipulate its graphic interface as we wanted to only keep the most useful features visible. This was done while drag 	and dropping some windows and panels. We then registered the corresponding file (\textit{startup.blend}) to had it to the adequate place in the final product. We give here the original interface and the one we configured:
 
 \bigskip
 
@@ -270,19 +284,19 @@ While making researches about Blender, we discovered that we could manipulate it
 \end{center}
 \end{figure}
 
-The part we see circled with red is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible here :
+The part we see circled with red is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible here:
 
 \bigskip
 --mettre le panneau--
 \bigskip
 
-As for the organization of the panel, we chose to divide if into 4 main parts that we called ``steps'' since we considered that the the user would have to use them successively. We detail these steps here below :
+As for the organization of the panel, we chose to divide if into 4 main parts that we called ``steps'' since we considered that the the user would have to use them successively. We detail these steps here below:
 
 \begin{itemize}
-\item Step 0 : gives the user the current mesh's name and allow to check if the mesh is correct for printing (manifold and watertight)
-\item Step 1 : allow the user to correct the mesh
-\item Step 2 : allow the user to find the most adequate supporting planes for the object
-\item Step 3 : allow the user to visualize all the planes generated and to choose the one he prefers
+\item Step 0: gives the user the current mesh's name and allow to check if the mesh is correct for printing (manifold and watertight)
+\item Step 1: allow the user to correct the mesh
+\item Step 2: allow the user to find the most adequate supporting planes for the object
+\item Step 3: allow the user to visualize all the planes generated and to choose the one he prefers
 \end{itemize}
 
 \chapter{The printer calibration}

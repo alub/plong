@@ -1,6 +1,5 @@
 \documentclass{beamer}
 
-
 % Theme and page layout
 \usetheme{gapz}
 \setbeamertemplate{navigation symbols}{}
@@ -22,13 +21,12 @@
 % Graphics
 \usepackage{graphicx}
 \graphicspath{{./images/}}
-
-
+\usepackage{multicol}
 
 \title{Three-dimensional modeling and printing project}
-\subtitle{}
-\author[V. D., A. L., C. N., J. P., F. R.]{\begin{scriptsize}
-Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~Ribon\end{scriptsize}}
+\subtitle{Third-year project}
+\author[V. Duvert, A. Lubineau, C. Naud, J. Packer, F. Ribon]{\scriptsize
+Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~Ribon}
 \date{from January 23 to March 16, 2012}
 
 \titlegraphic{\includegraphics[width=4cm]{inp-enseeiht}}
@@ -39,9 +37,9 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \section{Presentation of the project}
 
-\subsection{The client team}
+\subsection{Clients}
 \begin{frame}
-	\frametitle{The client team}
+	\frametitle{}
 	
 	\begin{block}{The \textsc{VORTEX} team of IRIT}
 		\begin{itemize}
@@ -53,18 +51,19 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
     \end{block}
     
     \begin{center}
-		\includegraphics[width=4cm]{irit}	
+		\includegraphics[width=4cm]{irit}
 	\end{center}
     
 \end{frame}
 
-\subsection{The resources}
+\subsection{Resources}
 \begin{frame}
-	\frametitle{The resources}
+	\frametitle{}
 	
 	\begin{block}{The project team}
 		\begin{itemize}
-		\item Five final year students at ENSEEIHT, Computing and Applied Mathematics department, interested in using the printer
+		\item Five final year students at ENSEEIHT, Computing and Applied Mathematics department
+		\item several followed the “multimedia” option in third year
 		\end{itemize}
     \end{block}
     
@@ -81,14 +80,28 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \begin{frame}
 	\frametitle{Ultimaker 3D printer}
-
-    \begin{center}
+	
+	\begin{columns}[t]
+  	\begin{column}{5cm}
+  		\begin{figure}
 		\includegraphics[width=4cm]{Ultimaker}	
-	\end{center}
-    
+		\end{figure}
+  	\end{column}
+  
+  	\begin{column}{5cm}
+  		\begin{block}{Process description}
+  		\begin{enumerate}
+  		\item The mesh is sliced to create instructions
+  		\item The instructions are sent to the printer
+  		\item The object is created by laying down successive layers of material
+  		\end{enumerate}
+ 	 	\end{block}   
+  	\end{column}
+ 	\end{columns}  
 \end{frame}
 
-\subsection{The objectives}
+
+\subsection{Objectives}
 \begin{frame}
 	\frametitle{The main client's requests}
 	\begin{block}{Main goals of the project} 
@@ -107,18 +120,72 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
     
 \end{frame}
 
-\section{About the project management ...}
+\section{Project management}
+
 \begin{frame}
-	\frametitle{The V cycle management strategy}
+	\frametitle{The tools}
+Project manager : Caroline \textsc{NAUD}
+	\begin{block}{}
+    \begin{itemize}
+		\item a web based project management system : Chiliprojet (Gantt charts, calendars, documents, Wiki, code deposit, notifications ...)
+		\item a technical supervisor from \textsc{Airbus} : Lionel \textsc{CREMEL}
+		\item regular meetings with the clients and the supervisor (at least once a week)
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Extract of our Gantt chart}
 
     \begin{center}
 		\includegraphics[width=8cm]{VCycle}	
 	\end{center}
 \end{frame}
 
-\section{Architecture of the project}
 \begin{frame}
-	\frametitle{blabla}
+	\frametitle{The V cycle management strategy}
+
+    
+\end{frame}
+
+\begin{frame}
+	\frametitle{The macroscopic planning}
+
+    \begin{center}
+		\includegraphics[width=9cm]{PlanningMacroscopique}	
+	\end{center}
+	
+	\begin{block}{}
+    \begin{itemize}
+		\item Mx : milestones to respect : mainly documents to provide
+		\item BC: Business Case
+		\item SOW : Statement Of Work
+		\item BRD \& ARD : the application design 
+	\end{itemize}
+	\end{block}
+	
+\end{frame}
+
+
+\section{Architecture of the project}
+
+\begin{frame}
+	\frametitle{A four steps application ... }
+	
+	\begin{block}{}
+	\begin{itemize}
+	\item The modeller : to import/create STL and PLY meshes and to pre-process them.
+	\item The Gcode Generator : to generate the printer's instructions.
+	\item The printer's pilote : to send the instructions including special parameters such as the temperature.
+	\item The printer : to create the final object. It must be monitored.
+	\end{itemize}
+	\end{block}
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{From the modeller to the printer ...}
 
     \begin{center}
 		\includegraphics[width=8cm]{ARD1}	
@@ -126,35 +193,146 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	
 \end{frame}
 
-\section{Mesh correction}
-\begin{frame}
-	\frametitle{blabla}
+\section{The main specifications}
 
-    \begin{block}{blabla}
+\subsection{About the application}
+\begin{frame}
+	\frametitle{}
+	 \begin{block}{The application characteristics}
+		\begin{itemize}
+			\item must be fully open source
+			\item must be usable on both Linux Ubuntu and Windows (if possible)
+			\item must be delivered as a tarball
+		\end{itemize}
+    \end{block}
+\end{frame}
+    
+\subsection{About the modeller}
+\begin{frame}
+	\frametitle{}
+	 \begin{block}{The modeller characteristics}
+		\begin{itemize}
+			\item must allow the import of STL and PLY meshes
+			\item must allow the export of STL meshes
+			\item all the functions implemented must be run in less than a few hours
+		\end{itemize}
+    \end{block}
+    
+    \begin{block}{The interactions required on the meshes}
+		\begin{itemize}
+			\item 
+			\item 
+		\end{itemize}
+    \end{block}
+
+\end{frame}
+
+\subsection{About the documentation}
+\begin{frame}
+	\frametitle{}
+	 \begin{block}{The documentation required}
+		\begin{itemize}
+			\item a user documentation : to use the application properly just by reading it. It should include the limits of the application.
+			\item a technical documentation : so that the client or an other team can continue the work if needed
+		\end{itemize}
+    \end{block}    
+
+\end{frame}
+
+\section{Our technical solutions and results}
+
+\subsection{Choice of the modeller}
+\begin{frame}
+	\frametitle{}
+		--> Implementation of a modeller from scratch excluded \\
+		--> Choice reduced to Blender or Meshlab
+    \begin{columns}[t]
+  	\begin{column}{5cm}
+  		\begin{block}{Meshlab}
+  		Advantages :
+  		\begin{itemize}
+  		\item 
+  		\item 
+  		\item
+  		\end{itemize}
+  		
+  		Drawbacks :
+  		\begin{itemize}
+  		\item 
+  		\item 
+  		\item
+  		\end{itemize}
+ 	 	\end{block}   
+  	\end{column}
+  
+  	\begin{column}{5cm}
+  		\begin{block}{Blender (the chosen one)}
+  		Advantages :
+  		\begin{itemize}
+  		\item 
+  		\item 
+  		\item
+  		\end{itemize}
+  		
+  		Drawbacks :
+  		\begin{itemize}
+  		\item 
+  		\item 
+  		\item
+  		\end{itemize}
+ 	 	\end{block}   
+  	\end{column}
+ 	\end{columns}  
+    
+\end{frame}
+
+\subsection{Mesh correction}
+\begin{frame}
+	\frametitle{}
+
+    \begin{block}{Manifold correction}
+		\begin{itemize}
+			\item manifold checking and hole filling already included in Blender
+			\item some bad results
+		\end{itemize}
     \end{block}
 \end{frame}
 
-\section{Modifications in Blender's interface}
+\subsection{Modifications in Blender's interface}
 \begin{frame}
-	\frametitle{blabla}
+	\frametitle{}
 
-    \begin{block}{blabla}
+    \begin{block}{A new screen for Blender}
+Possibility in Blender to manually modify the interface and to register it as the default one.
+Changes operated :
+	\begin{itemize}
+	\item 
+	\item
+	\item
+	\end{itemize}
+    \end{block}
+    
+    \begin{block}{A new panel}
+    \begin{itemize}
+	\item Addition on a new panel named "Mesh verification" thank to the Blender Python API
+	\item Insertion of buttons appearing conditionally and calling the mesh corrections implemented
+	\end{itemize}
     \end{block}
 \end{frame}
 
-\section{Calibration of the printer}
+\subsection{Calibration of the printer}
 \begin{frame}
-	\frametitle{blabla}
+	\frametitle{}
 
-    \begin{block}{blabla}
+    \begin{block}{}
     \end{block}
 \end{frame}
 
 \section{Conclusions and thanks}
 \begin{frame}
-	\frametitle{blabla}
+	\frametitle{}
 
-    \begin{block}{blablabla}
+    \begin{block}{}
     \end{block}
 \end{frame}
 
