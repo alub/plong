@@ -135,7 +135,7 @@ Mettre des Imprim écrans
 
 \subsection{Obtaining a mesh}
 
-\subsubsection{Loading a mesh for your personnal files}
+\subsubsection{Loading a mesh for your personal files}
 
 \subsubsection{Editing your own mesh}
 
@@ -153,8 +153,25 @@ Mettre des Imprim écrans
 
 \subsection{Preparing the Utimaker 3D printer}
 
+It usually takes a bit of time to get a nice consistant extrusion at the beggining of the print, to avoid that put a few perimeters of skirt in Slic3r and push a bit on the filament during the first few seconds.
+It is also a good idea to regularly check that the screw pushing on the filament stays nice and tight and that the roll of filament doesn't get caught and stop turning
+
 \subsection{Generating the GCode on Slic3r}
 
+First read \href{http://richrap.blogspot.com/2012/01/slic3r-is-nicer-part-1-settings-and.html}{this wiki} about the meaning of most the parameters.
+
+And here are some useful values we found out worked fairly well in most cases :
+Temperature : A good value is usually between 220 and 240. Lower and the plastic has difficulties sticking to the board at the beginning, higher and it might not cool down fast enough between layers. A high temperature also decreases the pressure the extruder has to apply
+Extrusion multiplier : Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoritical value by a coefficient between 150 and 180.
+Print speed : these five parameters depend mostly of the object's size. Indeed for most objects (30-30-60-60-60) are good value as they will insure a good quality and a good speed. However for small objects going too fast will not allow for enough time the layers to cool down and so the print will be less precise. The most 0.7 version of Slic"r corrects that bug by automatically slowing down when a layer is too small to cool down fast enough otherwise.
+Layer height : The evident idea here is that a smaller layer height will make for a better quality. The values should be between 0.2 and 0.4 mm, however while 0.2 mm provides a very nice quality print it makes it longer and sometimes the plastic will bend more easily while cooling down.
+Skirt : adding more loops before the actual print gives you a bit more time to make sur the extrusion is good.
+Retraction : the values influence what the printer will do in case of a bridge (jumping from a position to another without extruding). Playing
+There other settings we have tested that don't necessarily have an impact on the quality of the print but that are useful for other reasons.
+Center : sets the center of the object you're going to print, the center of the plate is (100,100).
+Copies along X/Y: very useful to do numerous copies of small objects.
+Perimeters : can be played wth in the case of thin walled objects.
+Infilling : the fastest to calculate is rectilinear but in some cases concentric is much more sensible (for instance, when most layer are homeomorphic to a circle.
 \subsection{Sending the instructions to the printer with PrintRun}
 
 \newpage
