@@ -316,6 +316,34 @@ Both for the destructive method and the non-destructive one, we added a fast-pro
 
 \section{The choice of the supporting plane - \textit{Antoine \& Vincent}}
 
+\subsection{Supporting planes autodetection}
+Before being printed, the objects need to be placed correctly; they have to stand on the the printer’s support. From the modeler point of view, the object need to have faces included into the base ($z = 0$) plane, and may not have any points under this base plane. We need to provide the user an automated way to correctly place the object.
+
+Correct positioning is not enough, though. The object support must be large enough for the object to be stable during printing; some gravity center considerations may also be taken into consideration.
+
+The first algorithm we developed finds “supporting planes” for an object. It works in multiple steps:
+\begin{enumerate}
+\item Cluster faces belonging to the same plane. This is done by first comparing the angle between the normals of the two faces. If it is close to $0$, the faces have approximatively the same orientation; we then need to check if they are on the same plane. This is done by picking a point of each face and projecting both on the common normal of these two faces. If the projections are equal, we assume that the two faces are in the same plane, and they are placed in the same cluster.
+\item The planes defined by the face clusters may cut the object in half; we want to filter out these clusters and only provide the other clusters to the user. We start by defining, for each cluster, the corresponding plane: we define it by a point and a normal. We then check that every point of the object is on the “right” side of the plane: this is done by projecting the points on the plane’s normal, and checking that the projection result is lower than the plane’s point own projection on the normal. If every point passes the test, the plane is accepted as a supporting plane.
+\end{enumerate}
+
+Since the bigger supporting surfaces are preferred, we provide the user the 10 largest surfaces found, in decreasing order of area. When a supporting surface is selected, we need to correctly orient the object (rotation + translation) so it stands on this surface.
+
+\begin{itemize}
+\item The rotation to apply is the one which transform the chosen plane’s normal into the base plane’s normal (which is $(0, 0, -1)$).
+\item The translation to apply is the one which places the chosen plane’s point into the base plane: we just need to take this point’s $z$ and apply a translation of $(0, 0, -z)$ so this point’s new coordinates are $(x, y, z=0)$.
+\end{itemize}
+
+\subsection{User-helped face selection/Object cutting}
+The above system is helpful for a large variety of objects, but may not work correctly for ones without large “exterior” supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
+\begin{itemize}
+\item The first one simply cuts all parts of the object which are under the base plane. This operation is done by using Blender’s “boolean difference” operation between the object and a rectangular parallelepiped of the correct size (placed under the base plane).
+\item The second one asks the user to select some faces of the object. Those faces are used to calculate a supporting plane (possibly cutting the object in half) which is the used to position the object. The parts of the object under the base plane are then removed.
+\end{itemize}
+
+\subsection{Socle generation}
+Finally, another feature allows the automatic generation of a “socle”, which can support the object. This is done by adding a socle (rectangular parallelepiped of the correct size) and merging it to the object (using a “boolean union” operation).
+
 \section{The interface - \textit{Caroline}}
 
 Although we had decided to work on Blender, its graphic interface remained quite difficult to use for inexperienced users and still showed ``useless'' functions. \\
