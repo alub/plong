@@ -330,7 +330,7 @@ The first algorithm we developed finds “supporting planes” for an object. It
 \item The planes defined by the face clusters may cut the object in half; we want to filter out these clusters and only provide the other clusters to the user. We start by defining, for each cluster, the corresponding plane: we define it by a point and a normal. We then check that every point of the object is on the “right” side of the plane: this is done by projecting the points on the plane’s normal, and checking that the projection result is lower than the plane’s point own projection on the normal. If every point passes the test, the plane is accepted as a supporting plane.
 \end{enumerate}
 
-Since the bigger supporting surfaces are preferred, we provide the user the 10 largest surfaces found, in decreasing order of area. When a supporting surface is selected, we need to correctly orient the object (rotation + translation) so it stands on this surface.
+Since the bigger supporting surfaces are preferred, we provide the user the 10 largest surfaces found (this number may be changed in the Python script), in decreasing order of area. When a supporting surface is selected, we need to correctly orient the object (rotation + translation) so it stands on this surface.
 
 \begin{itemize}
 \item The rotation to apply is the one which transform the chosen plane’s normal into the base plane’s normal (which is $(0, 0, -1)$).
