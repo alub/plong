@@ -332,15 +332,23 @@ Changes operated:
     
     \begin{block}{A new panel}
     \begin{itemize}
-	\item Addition on a new panel named "Mesh verification" thank to the Blender Python API
+	\item Addition on a new panel named “Mesh verification” thank to the Blender Python API
 	\item Insertion of buttons appearing conditionally and calling the mesh corrections implemented
 	\end{itemize}
     \end{block}
-    
-    \begin{block}{Progression bar integration}
-
+\end{frame}
+\begin{frame}
+    \begin{block}{Progress display}
+	\begin{itemize}
+	\item Algorithms may take time to execute
+	\item No feedback from Blender during execution
+	\item A small “progress report” framework was developped:
+	\begin{itemize}
+		\item Linux: uses an external program to display progress dialogs
+		\item Windows: progress messages are displayed on the standard console
+	\end{itemize}
+	\end{itemize}
     \end{block}
-    
 \end{frame}
 
 \subsection{Calibration of the printer}
