@@ -291,12 +291,33 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 			\item parler du temps d'execution et des limites
 		\end{itemize}
     \end{block}
-    
-    \begin{block}{Choice of the orientation}
+\end{frame}
+\begin{frame}
+	\begin{block}{Choice of the orientation}
 		\begin{itemize}
-			\item parler du temps d'execution et des limites
+			\item Objects need to be correctly oriented before printing
+			\item Planar faces detection and orientation algorithm
+			\item Bounded execution time
 		\end{itemize}
     \end{block}
+
+	\begin{center}
+		\includegraphics[width=\textwidth]{pf_detect}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Difficult cases}
+		\begin{itemize}
+			\item No large planar faces? Create them by cutting the object (with the help of the user)
+			\item Another option is to create a socle for the object
+		\end{itemize}
+    \end{block}
+
+	\begin{center}
+		\includegraphics[width=.7\textwidth]{pf_socle}
+	\end{center}
+    
     
 \end{frame}
 
