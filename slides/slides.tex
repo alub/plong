@@ -47,6 +47,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 		\item \textsc{VORTEX} : Visual Objects : from Reality To EXpression
 		\item skills in the areas of graphic computing,  computer vision, artificial intelligence and networks
 		\item recently acquired an uncalibrated Ultimaker 3D printer
+		\item recently acquired an Ultimaker 3D printer that it can not actually use
 		\end{itemize}
     \end{block}
     
@@ -63,16 +64,17 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\begin{block}{The project team}
 		\begin{itemize}
 		\item Five final year students at ENSEEIHT, Computing and Applied Mathematics department
-		\item several followed the “multimedia” option in third year
+		\item Several followed the “multimedia” option in third year
+		\item Project manager : Caroline \textsc{Naud}
 		\end{itemize}
     \end{block}
     
     \begin{block}{The material resources}
     	\begin{itemize}
-		\item room F117 in building F at ENSEEIHT
+		\item Room F117 in building F at ENSEEIHT
     	\item Ultimaker 3D printer with a roll of PLA plastic
-    	\item computer with dual-touch screen Acer T231H
-    	\item computer rooms of the ENSEEIHT and personal computer
+    	\item Computer with dual-touch screen Acer T231H
+    	\item Computer rooms of the ENSEEIHT and personal computers
 		\end{itemize}
     \end{block}
       
@@ -126,7 +128,6 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \begin{frame}
 	\frametitle{The tools}
-Project manager : Caroline Naud
 	\begin{block}{}
     \begin{itemize}
 		\item a web based project management system : Chiliproject (Gantt charts, calendars, documents, wiki, notifications\ldots )
@@ -140,7 +141,7 @@ Project manager : Caroline Naud
 \begin{frame}
 	\frametitle{The V cycle management strategy}
 	\begin{center}
-		\includegraphics[width=8cm]{VCycle}	
+		\includegraphics[width=\textwidth]{VCycle}	
 	\end{center}
     
 \end{frame}
@@ -149,7 +150,7 @@ Project manager : Caroline Naud
 	\frametitle{The macroscopic planning}
 
     \begin{center}
-		\includegraphics[width=9cm]{PlanningMacroscopique}	
+		\includegraphics[width=\textwidth]{planning}	
 	\end{center}
 	
 	\begin{block}{}
@@ -157,7 +158,7 @@ Project manager : Caroline Naud
 		\item Mx: milestones to respect: mainly documents to provide
 		\item BC: Business Case
 		\item SOW: Statement Of Work
-		\item BRD \& ARD : the application design 
+		\item BRD \& ARD: the application design 
 	\end{itemize}
 	\end{block}
 	
@@ -170,19 +171,19 @@ Project manager : Caroline Naud
 	\frametitle{A four steps application}
 	
 	\begin{block}{}
-	\begin{itemize}
-	\item Modeler: to import/create STL and PLY meshes and to pre-process them
-	\item G-code generator: to generate printing instructions
-	\item Printer's driver: to send the instructions including special parameters such as the temperature
-	\item Printer: to create the final object
-	\end{itemize}
+		\begin{itemize}
+			\item Modeler: to import/create STL and PLY meshes and to pre-process them
+			\item G-code generator: to generate printing instructions
+			\item Printer's driver: to send the instructions including special parameters such as the temperature
+			\item Printer: to create the final object
+		\end{itemize}
 	\end{block}
 	
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{From the modeler to the printer ...}
+	\frametitle{From the modeler to the printer…}
 
     \begin{center}
 		\includegraphics[width=10cm]{schema}	
@@ -229,9 +230,9 @@ Project manager : Caroline Naud
 	\frametitle{}
 	 \begin{block}{The documentation required}
 		\begin{itemize}
-			\item a user documentation : to use the application properly just by reading it. It should include the limits of the application.
-			\item a technical documentation : so that the client or an other team can continue the work if needed
-			\item an installation paper : to enable the user to get an operational application from the initial archive
+			\item a user documentation: to use the application properly just by reading it. It should include the limits of the application.
+			\item a technical documentation: so that the client or an other team can continue the work if needed
+			\item an installation paper: to enable the user to get an operational application from the initial archive
 		\end{itemize}
     \end{block}    
 
@@ -247,13 +248,13 @@ Project manager : Caroline Naud
     \begin{columns}[t]
   	\begin{column}{5cm}
   		\begin{block}{Meshlab}
-  		Advantages :
+  		Advantages:
   		\begin{itemize}
   		\item very light application
   		\item preexisting functions for mesh correction
   		\end{itemize}
   		
-  		Drawbacks :
+  		Drawbacks:
   		\begin{itemize}
   		\item no integrated interaction
   		\end{itemize}
@@ -262,7 +263,7 @@ Project manager : Caroline Naud
   
   	\begin{column}{5cm}
   		\begin{block}{Blender (the chosen one)}
-  		Advantages :
+  		Advantages:
   		\begin{itemize}
   		\item interactions preexisting 
   		\item Python API  
@@ -270,7 +271,7 @@ Project manager : Caroline Naud
   		\item manually modifiable GUI
   		\end{itemize}
   		
-  		Drawbacks :
+  		Drawbacks:
   		\begin{itemize}
   		\item many useless things
   		\end{itemize}
@@ -306,7 +307,7 @@ Project manager : Caroline Naud
 
     \begin{block}{A new screen for Blender}
 Possibility in Blender to manually modify the interface and to register it as the default one.
-Changes operated :
+Changes operated:
     \end{block}
     
     \begin{block}{A new panel}
