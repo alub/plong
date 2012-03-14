@@ -131,7 +131,7 @@ F-31062 TOULOUSE CEDEX 9
 
 	The \textit{3D printing} phrase is used to describe the process of creating three dimensional objects from digital files using a materials printer in a manner similar to printing images on paper. The term is most closely associated with additive manufacturing technology, where an object is created by laying down successive layers of material.\\
 
-	Since 2003 there has been a large growth in the sale of 3D printers since the technology actually finds use in more and more fields such as jewellery, footwear, industrial design, architecture, engineering and construction, automotive, aerospace, dental and medical industries, education, geographic information systems, civil engineering, and many others.\\
+	Since 2003 there has been a large growth in the sale of 3D printers since the technology actually finds use in more and more fields such as jewelry, footwear, industrial design, architecture, engineering and construction, automotive, aerospace, dental and medical industries, education, geographic information systems, civil engineering, and many others.\\
 
 	The VORTEX team (Visual Objects : from Reality To EXpression) from IRIT (Institut de Recherche en Informatique de Toulouse) is part of the numerous people having found interest in this technology and recently acquired an Ultimaker 3D printer which she did not have the time to calibrate and that she would like to be able to use in order to print 3D mono-color objects. To that end, she would need to be able to create, model and edit these objects within a software (to be conceived or modified) using, if possible, the multi-touch screen she already owns (Acer T231H).\\
 
@@ -180,9 +180,9 @@ F-31062 TOULOUSE CEDEX 9
 
 	\item Week 1 (January, 24): introduction of the project members, choice of the project management model, introduction of the specification phase of the V model
 	\item Week 2 (January, 27): choice of the project manager
-	\item Week 3 (February, 6): evaluation planning, risks assessement
+	\item Week 3 (February, 6): evaluation planning, risks assessment
 	\item Week 4 (February, 9): start of development phase
-	\item Week 5 (February, 20): progress update, client meeting planning, risks assessement
+	\item Week 5 (February, 20): progress update, client meeting planning, risks assessment
 	\item Week 6 (February, 29): planning of testing phase, client meeting report
 	\item Week 7 (March, 7): testing phase results, documentation writing planning
 
@@ -394,7 +394,7 @@ Since we needed to provide the client team with a fully open-source application,
 
 We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language provides some programming facilities (automatic memory management, for instance) which ease the implementation of algorithms.
 
-\subsection{Choice of the GCode Generator and of the printer's pilote}
+\subsection{Choice of the G-code Generator and of the printer's driver}
 
 \chapter{The implementation phase}
 
@@ -432,7 +432,7 @@ Since the bigger supporting surfaces are preferred, we provide the user the 10 l
 \end{itemize}
 
 \subsection{The user-helped face selection / object cutting}
-The above system is helpful for a large variety of objects, but may not work correctly for ones without large ``exterio'' supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
+The above system is helpful for a large variety of objects, but may not work correctly for ones without large ``exterior'' supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
 \begin{itemize}
 \item The first one simply cuts all parts of the object which are under the base plane. This operation is done by using Blender’s ``boolean difference'' operation between the object and a rectangular parallelepiped of the correct size (placed under the base plane).
 \item The second one asks the user to select some faces of the object. Those faces are used to calculate a supporting plane (possibly cutting the object in half) which is the used to position the object. The parts of the object under the base plane are then removed.
@@ -458,7 +458,7 @@ While making researches about Blender, we discovered that we could manually modi
 \bigskip
 \bigskip
 
-We only chose to keep visible what was necessary to the final user simply wanting to impport, modify and correct a mesh.\\
+We only chose to keep visible what was necessary to the final user simply wanting to import, modify and correct a mesh.\\
 
 The part we see at the right of the screen and which seem a little grey is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible next page.
 
