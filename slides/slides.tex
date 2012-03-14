@@ -289,7 +289,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 		\begin{itemize}
 			\item manifold checking and hole filling already included in Blender
 			\item some bad results
-			\item parler du temps d'execution et des limites
+			\item parler du temps d'execution
 		\end{itemize}
     \end{block}
 \end{frame}
@@ -352,18 +352,64 @@ Possibility in Blender to manually modify the interface and to register it as th
 	\item No feedback from Blender during execution
 	\item A small “progress report” framework was developed:
 	\begin{itemize}
-		\item Linux: uses an external program to display progress dialogs
+		\item Linux: uses an external program to display progress dialogues
 		\item Windows: progress messages are displayed on the standard console
 	\end{itemize}
 	\end{itemize}
     \end{block}
 \end{frame}
 
-\subsection{Calibration of the printer}
+\section{Calibration of the printer}
+\begin{frame}
+	\frametitle{The printer's functioning}
+
+	\begin{block}{A little bit of mechanic ...}
+	\begin{itemize}
+	\item connected to the computer thanks to a USB port
+	\item 4 motors : 
+		\begin{itemize}
+		\item 2 for the $x$ and $y$ axes of the nozzle
+		\item 1 for the $z$ axe of the plate
+		\item 1 to extrude the filament
+		\end{itemize}
+	\item 1 Arduino card which receives and interprets the GCode
+	\end{itemize}	
+    \end{block}
+    
+\end{frame}
+
+\begin{frame}
+	\frametitle{The choice of the parameters}
+
+	\begin{block}{}
+	\begin{itemize}
+	\item no perfect set of parameters
+	\item depends on the object printed
+	\item basic parameters found :
+		\begin{itemize}
+		\item temperature : between 210$°C$ and 240$°C$
+		\item layer height : between 0,2 mm  and 0,4 mm
+		\item print speed
+		\end{itemize}
+	\end{itemize}	
+    \end{block}
+    
+    \begin{block}{Other options}
+    Other tips can improve the efficiency of the printing :	\\
+    retraction, infilling, copies, extrusion multiplier...
+    \end{block}
+\end{frame}
+
+\section{The application's limitations}
 \begin{frame}
 	\frametitle{}
-
-    \begin{block}{The choice of the parameters}
+	\begin{block}{}
+    \begin{itemize}
+    \item bounding box of 20 cm of edge for objects
+    \item mesh correction becomes quite slow for very big meshes
+    \item mesh correction may be destructive for very damaged meshes
+    \item supporting plans detection is difficult for spherical objects 
+    \end{itemize}
     \end{block}
 \end{frame}
 
