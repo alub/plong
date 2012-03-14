@@ -46,6 +46,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 		\item \textsc{IRIT} : a research institute in computer science from Toulouse
 		\item \textsc{VORTEX} : Visual Objects : from Reality To EXpression
 		\item skills in the areas of graphic computing,  computer vision, artificial intelligence and networks
+		\item recently acquired an uncalibrated Ultimaker 3D printer
 		\item recently acquired an Ultimaker 3D printer that it can not actually use
 		\end{itemize}
     \end{block}
@@ -106,15 +107,17 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \begin{frame}
 	\frametitle{The main client's requests}
 	\begin{block}{Main goals of the project} 
-	\begin{itemize}	
-		\item Development of a fully open-source software with graphical interface that allows to import, model, deform and correct virtual 3D objects, preferably using a dualtouch screen
-		\item Export of the corresponding meshes to the printer to finally print it as realistically as possible.
+	\begin{itemize}
+		\item open-source modeler able to import, model, deform and \textbf{correct} virtual 3D objects
+		\item interactions using the touchscreen
+		\item export meshes to the printer
+		\item print as realistically as possible
 	\end{itemize}
     \end{block}
     
     \begin{block}{The final users}
     	\begin{itemize}
-		\item The \textsc{Vortex} team
+		\item The VORTEX team
 		\item Some artists from Artilect for example (or artists students)
 		\end{itemize}
     \end{block}
@@ -127,9 +130,10 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\frametitle{The tools}
 	\begin{block}{}
     \begin{itemize}
-		\item A web based project management system: Chiliproject (Gantt charts, calendars, documents, Wiki, code deposit, notifications…)
-		\item An industrial supervisor from \textsc{Airbus} : Lionel \textsc{Cremel}
-		\item Regular meetings with the clients and the supervisor (at least once a week)
+		\item a web based project management system : Chiliproject (Gantt charts, calendars, documents, wiki, notifications\ldots )
+		\item code management with Git
+		\item an industrial supervisor from Airbus : Lionel Cremel
+		\item weekly meetings with the supervisor, less often with clients
 	\end{itemize}
 	\end{block}
 \end{frame}
@@ -164,15 +168,15 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \section{Architecture of the project}
 
 \begin{frame}
-	\frametitle{A four steps application…}
+	\frametitle{A four steps application}
 	
 	\begin{block}{}
-	\begin{itemize}
-	\item The modeler: to import/create STL and PLY meshes and to pre-process them.
-	\item The G-code Generator: to generate the printer's instructions.
-	\item The printer's driver: to send the instructions including special parameters such as the temperature.
-	\item The printer: to create the final object. It must be monitored.
-	\end{itemize}
+		\begin{itemize}
+			\item Modeler: to import/create STL and PLY meshes and to pre-process them
+			\item G-code generator: to generate printing instructions
+			\item Printer's driver: to send the instructions including special parameters such as the temperature
+			\item Printer: to create the final object
+		\end{itemize}
 	\end{block}
 	
 \end{frame}
