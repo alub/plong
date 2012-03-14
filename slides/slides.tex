@@ -291,9 +291,9 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
     \begin{block}{Finding the mesh's defects}
 		\begin{itemize}
 		    \item Watertight: there is no hole in the mesh
-            \item Manifold: Each edge belong to exactly 2 faces
-		    \item First: Check the mesh caracteristics
-			\item Then: If needed, correct the mesh
+            \item Manifold: each edge belong to exactly 2 faces
+		    \item First: check the mesh caracteristics
+			\item Then: if needed, correct the mesh
 		\end{itemize}
     \end{block}
 
@@ -391,7 +391,11 @@ Possibility in Blender to manually modify the interface and to register it as th
 \section{Calibration of the printer}
 \begin{frame}
 	\frametitle{The printer's functioning}
-
+    
+    
+    \begin{columns}[t]
+  	\begin{column}{5cm}
+        \begin{block}{}
 	\begin{itemize}
 	\item 4 motors : 
 		\begin{itemize}
@@ -402,10 +406,15 @@ Possibility in Blender to manually modify the interface and to register it as th
 	\item 1 Arduino card which receives and interprets the GCode
 	\end{itemize}	
     \end{block}
-    
-    \begin{center}
-		\includegraphics[width=\textwidth]{Ultimaker2}	
-	\end{center
+    \end{column}
+
+    \begin{column}{6cm}
+        \begin{center}
+		\includegraphics[width=.8\textwidth]{Ultimaker2}	
+	\end{center}
+    \end{column}
+
+    \end{columns}
     
 \end{frame}
 
