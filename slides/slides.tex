@@ -282,17 +282,44 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 \subsection{Mesh correction integration}
+
 \begin{frame}
 	\frametitle{}
 
-    \begin{block}{Manifold correction}
+    \begin{block}{Finding the mesh's defects}
 		\begin{itemize}
-			\item manifold checking and hole filling already included in Blender
-			\item some bad results
-			\item parler du temps d'execution
+		    \item Watertight: there is no hole in the mesh
+            \item Manifold: Each edge belong to exactly 2 faces
+		    \item First: Check the mesh caracteristics
+			\item Then: If needed, correct the mesh
 		\end{itemize}
     \end{block}
+
 \end{frame}
+
+\begin{frame}
+	\frametitle{}
+
+    \begin{columns}[t]
+  	\begin{column}{5cm}
+        \begin{block}{Manifold correction}
+		    \begin{itemize}
+			    \item Non destructive cleaning and filling
+			    \item Destructive total repairing
+			    \item Fast-Processing option
+		    \end{itemize}
+        \end{block}
+    \end{column}
+
+    \begin{column}{6cm}
+        \begin{center}
+		    \includegraphics[height=.7\textheight]{repair}
+	    \end{center}
+    \end{column}
+
+    \end{columns}
+\end{frame}
+
 \begin{frame}
 	\begin{block}{Choice of the orientation}
 		\begin{itemize}
