@@ -56,6 +56,27 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
     
 \end{frame}
 
+\subsection{Objectives}
+\begin{frame}
+	\frametitle{The main client's requests}
+	\begin{block}{Main goals of the project} 
+	\begin{itemize}
+		\item open-source modeler able to import, model, deform and \textbf{correct} virtual 3D objects
+		\item interactions using the touchscreen
+		\item export meshes to the printer
+		\item print as realistically as possible
+	\end{itemize}
+    \end{block}
+    
+    \begin{block}{The final users}
+    	\begin{itemize}
+		\item The VORTEX team
+		\item Some artists from Artilect for example (or artists students)
+		\end{itemize}
+    \end{block}
+
+\end{frame}
+
 \subsection{Resources}
 \begin{frame}
 	\frametitle{}
@@ -102,25 +123,31 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 
-\subsection{Objectives}
+
+\section{Architecture of the project}
+
 \begin{frame}
-	\frametitle{The main client's requests}
-	\begin{block}{Main goals of the project} 
-	\begin{itemize}
-		\item open-source modeler able to import, model, deform and \textbf{correct} virtual 3D objects
-		\item interactions using the touchscreen
-		\item export meshes to the printer
-		\item print as realistically as possible
-	\end{itemize}
-    \end{block}
-    
-    \begin{block}{The final users}
-    	\begin{itemize}
-		\item The VORTEX team
-		\item Some artists from Artilect for example (or artists students)
+	\frametitle{A four steps application}
+	
+	\begin{block}{}
+		\begin{itemize}
+			\item Modeler: to import/create STL and PLY meshes and to pre-process them
+			\item G-code generator: to generate printing instructions
+			\item Printer's driver: to send the instructions including special parameters such as the temperature
+			\item Printer: to create the final object
 		\end{itemize}
-    \end{block}
-    
+	\end{block}
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{From the modeler to the printer…}
+
+    \begin{center}
+		\includegraphics[width=10cm]{schema}	
+	\end{center}
+	
 \end{frame}
 
 \section{Project management}
@@ -164,31 +191,6 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 
-\section{Architecture of the project}
-
-\begin{frame}
-	\frametitle{A four steps application}
-	
-	\begin{block}{}
-		\begin{itemize}
-			\item Modeler: to import/create STL and PLY meshes and to pre-process them
-			\item G-code generator: to generate printing instructions
-			\item Printer's driver: to send the instructions including special parameters such as the temperature
-			\item Printer: to create the final object
-		\end{itemize}
-	\end{block}
-	
-\end{frame}
-
-
-\begin{frame}
-	\frametitle{From the modeler to the printer…}
-
-    \begin{center}
-		\includegraphics[width=10cm]{schema}	
-	\end{center}
-	
-\end{frame}
 
 \section{The main specifications}
 
@@ -377,7 +379,7 @@ Possibility in Blender to manually modify the interface and to register it as th
 	\begin{itemize}
 	\item Algorithms may take time to execute
 	\item No feedback from Blender during execution
-	\item A small ``progress report'' framework was developed:
+	\item A small “progress report” framework was developed:
 	\begin{itemize}
 		\item Linux: uses an external program to display progress dialogues
 		\item Windows: progress messages are displayed on the standard console

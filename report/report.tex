@@ -499,6 +499,9 @@ In this step, planes have previously been found to support the object and the ``
 \chapter{The validation phase}
 
 \section{Unit tests}
+Our main algorithms are tested using automated unit tests. These are using the standard \texttt{unittest} Python module, which allows running each test one by one and reporting the results (number of passed/failed tests).
+
+Some Python functions were written specifically for the tests: some of them are used to set the test environment up (by loading meshes, for instance), and other to analyze the results (number of faces on the resulting mesh, for instance).
 
 \section{Integration tests}
 
