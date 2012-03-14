@@ -15,9 +15,10 @@
 \usepackage{polyglossia}
 \setdefaultlanguage{english}
 
-% Graphics
+% Graphics and documents
 \usepackage{graphicx}
 \graphicspath{{./images/}}
+\usepackage[final]{pdfpages}
 
 % Links
 \usepackage{url,hyperref}
@@ -70,7 +71,7 @@ INP-ENSEEIHT/IMA
 \bigskip
 \bigskip
 
-	This report summarizes the context, organization, work and outcomes within the 3D modeling and printing project suggested by the VORTEX team of IRIT to third-year students in the IMA department of ENSEEIHT.
+	This report summarizes the context, the organization, the work and the outcomes within the 3D modeling and printing project suggested by the VORTEX team of IRIT to third-year students in the IMA department of ENSEEIHT.
 
 \bigskip
 \bigskip
@@ -113,9 +114,14 @@ F-31062 TOULOUSE CEDEX 9
 
 	Our most sincere thanks go to our technical supervisor, Lionel \textsc{Cremel}, for guiding us throughout this two-months project and having initiated us in a progressive and efficient way to the art that is project management. Our project would certainly not have got the same results without him.\\
 
-	We want to thank Axel \textsc{Carlier}, Jean \textsc{Conter} and Géraldine \textsc{Morin} for having proposed us such an interesting subject and for all the help and the pieces of advice they have been giving us during the project.\\
+\bigskip
+
+	We also want to thank Axel \textsc{Carlier}, Jean \textsc{Conter} and Géraldine \textsc{Morin} for having proposed such an interesting subject and for all the help and the pieces of advice they have been giving us during the project.\\
+
+\bigskip
 
 	We also thank all the people we have met during our visits to the manufacturing laboratory \href{http://artilect.fr/}{Artilect} who got interested in our project and agreed to share with us their expertise in this area, as well as Alexandre \textsc{Girard} from \href{http://tetalab.org/}{Tetalab} with whom we exchanged practical information on the Ultimaker printer.
+
 
 \tableofcontents
 
@@ -125,13 +131,13 @@ F-31062 TOULOUSE CEDEX 9
 
 	The \textit{3D printing} phrase is used to describe the process of creating three dimensional objects from digital files using a materials printer in a manner similar to printing images on paper. The term is most closely associated with additive manufacturing technology, where an object is created by laying down successive layers of material.\\
 
-	Since 2003 there has been a large growth in the sale of 3D printers since the technology actually finds use in more and more fields such as jewellery, footwear, industrial design, architecture, engineering and construction, automotive, aerospace, dental and medical industries, education, geographic information systems, civil engineering, and many others.\\
+	Since 2003 there has been a large growth in the sale of 3D printers since the technology actually finds use in more and more fields such as jewelry, footwear, industrial design, architecture, engineering and construction, automotive, aerospace, dental and medical industries, education, geographic information systems, civil engineering, and many others.\\
 
-	The VORTEX team (Visual Objects : from Reality To EXpression) from IRIT (Institut de Recherche en Informatique de Toulouse) is part of the numerous people having found interest in this technology and recently acquired an Ultimaker 3D printer on which she has no control over yet and that she would like to be able to use in order to print 3D mono-color objects. To that end, she would need to be able to create, model and edit these objects within a software (to be conceived or modified) using, if possible, the multi-touch screen she already owns (Acer T231H).\\
+	The VORTEX team (Visual Objects : from Reality To EXpression) from IRIT (Institut de Recherche en Informatique de Toulouse) is part of the numerous people having found interest in this technology and recently acquired an Ultimaker 3D printer which she did not have the time to calibrate and that she would like to be able to use in order to print 3D mono-color objects. To that end, she would need to be able to create, model and edit these objects within a software (to be conceived or modified) using, if possible, the multi-touch screen she already owns (Acer T231H).\\
 
 \section{The final users of the product}
 
-	The primary final users of the 3D modelling software and of the printer would be the researchers of the team of IRIT. However, they really aim at offering this service to artists, such as those already using an Ultimaker 3D printer in the Fablab in Toulouse.
+	The primary final users of the 3D modeling software and of the printer would be the researchers of the team of IRIT. However, they really aim at offering this service to artists, such as those already using an Ultimaker 3D printer in the Fablab in Toulouse.
 
 \section{The work required}
 
@@ -174,9 +180,9 @@ F-31062 TOULOUSE CEDEX 9
 
 	\item Week 1 (January, 24): introduction of the project members, choice of the project management model, introduction of the specification phase of the V model
 	\item Week 2 (January, 27): choice of the project manager
-	\item Week 3 (February, 6): evaluation planning, risks assessement
+	\item Week 3 (February, 6): evaluation planning, risks assessment
 	\item Week 4 (February, 9): start of development phase
-	\item Week 5 (February, 20): progress update, client meeting planning, risks assessement
+	\item Week 5 (February, 20): progress update, client meeting planning, risks assessment
 	\item Week 6 (February, 29): planning of testing phase, client meeting report
 	\item Week 7 (March, 7): testing phase results, documentation writing planning
 
@@ -231,7 +237,7 @@ We give here an example of this assessment we did on our second week of work:
 		Project management & Not enough slack & Include consequent slacks in the planning \\
 		Tests and deployment & Ineffective tests & Plan enough time to prepare relevant tests \\
 		Quality & Disagreement between the needs and the solution & Organize as many meetings as possible with the client \\
-		Technical risks on development & Bad modeller choice & Plan enough time to pick the best solution possible \\
+		Technical risks on development & Bad modeler choice & Plan enough time to pick the best solution possible \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -244,25 +250,38 @@ This was the first main phase of our project. Our main goal at the end of this p
 
 We first met the client team on January, 20th when they completely presented us the project for the first time. One of us was missing that day because still in semester abroad but we managed to tell him all about that meeting afterwards.\\
 
-The client team first told us about this Ultimaker 3D printer she recently acquired and on which she had still no control over. Our main goal was\ldots
+The client team first told us about this Ultimaker 3D printer she recently acquired and which she did not have time to calibrate. Our main goal at that time was to clearly establish the clients' needs but we quickly discovered they did not have an exact idea of what they wanted to do with that printer, apart from printing meshes they would have previously had modeling interactions with.\\
+
+They also mentioned later that they wanted to be able to know, before printing it, that a mesh was not correct. Considering the time we had, we later decided we could even try to correct the meshes instead of simply highlighting its defaults. \\
+
+Finally, they told us about the documentation they needed to be provided with so that they could use and modify our work later. \\
+
+We must notice that our project was quite atypical considering the fact that, even though we had planned to have fully decided on the specifications on February, 12th, our clients kept asking us about what could be useful until the last day.
 
 \section{The general architecture of the project}
 
 As we all started to discover the printer, it came to us that the final application would include the use of several software. Indeed, the use of the printer first implies the transformation of the mesh created with the modeler into instructions for the printer (G-code) which we then need to send to the printer previously parametrized. This makes the 4 main parts given in the following figure:
 
+\bigskip
+
 \begin{figure}[!h]
-	\begin{center}
-		\includegraphics[width=.8\textwidth]{schema}
-	\end{center}
+
+\begin{center}
+	\includegraphics[width=.7\textwidth]{schema}
+\end{center}
+
 \end{figure}
 
-We decided not to act on the printer's firmware (although it is possible to do so), and to focus on the modeller, the G-code generator and the printer driver. These choices are explained later in this report. 
+We decided not to act on the printer's firmware (although it is possible to do so), and to focus on the modeler, the G-code generator and the printer driver. These choices are explained later in this report. 
 
 \section{The redaction of the technical specifications}
 
-One we had determined the clients' needs, we had to specify exactly what would be integrated into our application. The technical requirements are listed below.
+One we had determined the clients' needs, we had to specify exactly what would be integrated into our application. The initial technical requirements are listed below.
 
 \subsection{Modeler}
+
+\bigskip
+
 \begin{enumerate}
 	\item Create, model and edit 3D objects on Windows and Linux:
 	\begin{enumerate}
@@ -294,25 +313,102 @@ One we had determined the clients' needs, we had to specify exactly what would b
 	\end{enumerate}
 \end{enumerate}
 
+\bigskip
+
+What must be said is that some of these requirements were not directly expressed by the client team but were suggested by us (because the client had not thought about them and because we planned we would have time to integrate them). That's why they are not exactly implemented as expressed but in a quite different way. This is due to the fact that, while progressing in our work, we had new ideas about how to integrate these notions in Blender. All these reflexions are detailed later in this report.
+
 \subsection{Printer}
-Find the adequate printing parameters.
+
+Find the adequate printing parameters, depending on the kind of object printed.
+
+\subsection{Documentation}
+
+\begin{enumerate}
+\item produce a user documentation: to use the application properly just by reading it. It should include the limits of the application.
+\item generate a technical documentation: so that the client or an other team can continue the work if needed
+\item write an installation paper: to enable the user to get an operational application from the initial archive
+\end{enumerate}
+
+
 
 \section{The technical choices}
-Developing a 3D modeller ``from scratch'' would have needed a considerable amount of time. We chose to start from an existing modeling program, \emph{Blender}\footnote{\url{http://www.blender.org}}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language allows provides some programming facilities (automatic memory management, for instance) which ease the implementation of algorithms.
+
+\subsection{Choice of the modeler}
+
+Developing a 3D modeler ``from scratch'' would have needed a considerable amount of time. That's the reason why we chose to start from an existing modeling program since many where already existing and already contained some of the features we needed.\\
+
+Since we needed to provide the client team with a fully open-source application, we decided to list all the existing modelers we found and to weight up their pros and cons. After a few day, our choice was reduced to the two following modelers \emph{Meshlab}\footnote{\url{http://meshlab.sourceforge.net/}} and \emph{Blender}\footnote{\url{http://www.blender.org}}. We give here the drawbacks and advantages we highlighted for each one and explain our final choice.
+
+\bigskip
+
+\bigskip
+
+\fbox{\begin{minipage}{0.9\textwidth}
+
+\textbf{Blender :}\\
+
+\underline{Advantages :}
+
+\begin{itemize}
+\item many of the requested features already present
+\item existence of a Python API allowing the integration of personal scripts
+\item required formats well managed (STL and PLY)
+\item interface easily adaptable
+\end{itemize}
+
+\underline{Drawbacks :}
+
+\begin{itemize}
+\item a lot of useless functionalities for the project final users
+\end{itemize}
+
+\end{minipage}}
+
+\bigskip
+
+\fbox{\begin{minipage}{0.9\textwidth}
+
+\textbf{Meshlab :}\\
+
+\underline{Advantages :}
+
+\begin{itemize}
+\item STL format well managed
+\item easy use
+\item only essential functionalities
+\end{itemize}
+
+\underline{Drawbacks :} 
+
+\begin{itemize}
+\item almost no preexisting interaction
+\item need to learn to program with C++ ...
+\end{itemize}
+
+
+\end{minipage}}
+
+\bigskip
+
+\bigskip
+
+We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language provides some programming facilities (automatic memory management, for instance) which ease the implementation of algorithms.
+
+\subsection{Choice of the G-code Generator and of the printer's driver}
 
 \chapter{The implementation phase}
 
 \section{The mesh correction - \textit{Florian \& James}}
 
-We have implemented a script which allows the user to track broken, non-manifold edges on the working object in Blender, and offers him two different ways to correct them.
+We have implemented a script which allows the user to track broken, non-manifold edges on the working object in Blender, and offers him two different ways to correct them.\\
 
-First of all, a press on the Check button highlights all the potential non-manifold edges and gives to the user the possibility to repair them if the mesh is actually non-manifold.
+First of all, a press on the Check button (see the GUI modification part) highlights all the potential non-manifold edges and gives the user the possibility to repair them if the mesh is actually non-manifold.\\
 
-The first method is a soft correction algorithm, which detects all distinct holes in the mesh, then cleans theses holes (for instance if there are some faces not connected to any vertex), and finally try to fill them, each one after each one. This method is considered non-destructive (even if the cleaning part may remove unwanted faces) and is not recursive. The algorithm has been proven to make a broken mesh watertight, so there is no more holes remaining after its execution.
+The first method is a soft correction algorithm, which detects all distinct holes in the mesh, then cleans theses holes (for instance if there are some faces not connected to any vertex), and finally tries to fill them, one after one. This method is considered non-destructive (even if the cleaning part may remove unwanted faces) and is not recursive. The algorithm has been proved, to make a broken mesh watertight, so there is no more holes remaining after its execution.\\
 
-But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edges-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non manifold edges (and thus which didn't belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).
+But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edges-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non manifold edges (and thus which didn't belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).\\
 
-Both for the destructive method and the non-destructive one, we added a fast-processing option which makes the correction algorithms way faster than without enabling it. But activating it may results in various artifacts between some edges. Since it works better on bigger and well-detailed objects (with finer meshes), the user should try to use it first on big objects and if the result is not satisfying, he simply have to cancel the last operations then try again with fast-processing disabled. This option only acts during the holes filling action, by trying to fill all of them with only one single filling call, while the standard option requires another algorithm which we developed which detects and separates all distinct holes within the mesh.
+For both the destructive method and the non-destructive one, we added a fast-processing option which makes the correction algorithms way faster than without enabling it. But activating it may result in various artifacts between some edges. Since it works better on bigger and well-detailed objects (with finer meshes), the user should try to use it first on big objects and if the result is not satisfying, he simply has to cancel the last operations and then try again with the fast-processing check box disabled. This option only acts during the holes filling action, by trying to fill all of them with only one single filling call, while the standard option requires another algorithm which we developed and which detects and separates all distinct holes within the mesh.
 
 
 \section{The choice of the supporting plane - \textit{Antoine \& Vincent}}
@@ -328,7 +424,7 @@ The first algorithm we developed finds “supporting planes” for an object. It
 \item The planes defined by the face clusters may cut the object in half; we want to filter out these clusters and only provide the other clusters to the user. We start by defining, for each cluster, the corresponding plane: we define it by a point and a normal. We then check that every point of the object is on the “right” side of the plane: this is done by projecting the points on the plane’s normal, and checking that the projection result is lower than the plane’s point own projection on the normal. If every point passes the test, the plane is accepted as a supporting plane.
 \end{enumerate}
 
-Since the bigger supporting surfaces are preferred, we provide the user the 10 largest surfaces found, in decreasing order of area. When a supporting surface is selected, we need to correctly orient the object (rotation + translation) so it stands on this surface.
+Since the bigger supporting surfaces are preferred, we provide the user the 10 largest surfaces found (this number may be changed in the Python script), in decreasing order of area. When a supporting surface is selected, we need to correctly orient the object (rotation + translation) so it stands on this surface.
 
 \begin{itemize}
 \item The rotation to apply is the one which transform the chosen plane’s normal into the base plane’s normal (which is $(0, 0, -1)$).
@@ -366,8 +462,9 @@ Since the bigger supporting surfaces are preferred, we provide the user the 10 l
 
 \subsection{User-helped face selection/Object cutting}\label{sec:cutting}
 The above system is helpful for a large variety of objects, but may not work correctly for ones without large “exterior” supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
+
 \begin{itemize}
-\item The first one simply cuts all parts of the object which are under the base plane. This operation is done by using Blender’s “boolean difference” operation between the object and a rectangular parallelepiped of the correct size (placed under the base plane).
+\item The first one simply cuts all parts of the object which are under the base plane. This operation is done by using Blender’s ``boolean difference'' operation between the object and a rectangular parallelepiped of the correct size (placed under the base plane).
 \item The second one asks the user to select some faces of the object. Those faces are used to calculate a supporting plane (possibly cutting the object in half) which is the used to position the object. The parts of the object under the base plane are then removed.
 \end{itemize}
 
@@ -380,45 +477,77 @@ There are several papers investigating the techniques for repairing 3D objects, 
 
 As those algorithms can be very computationnaly heavy, and we have used a interpreted language, those repairs would be unpractical to do in Blender using the API. One would have to do a C module for Blender.
 
-\section{The interface - \textit{Caroline}}
+\section{The GUI modification - \textit{Caroline}}
 
 Although we had decided to work on Blender, its graphic interface remained quite difficult to use for inexperienced users and still showed ``useless'' functions. \\
-While making researches about Blender, we discovered that we could manipulate its graphic interface as we wanted to only keep the most useful features visible. This was done while drag 	and dropping some windows and panels. We then registered the corresponding file (\textit{startup.blend}) to had it to the adequate place in the final product. We give here the original interface and the one we configured:
+While making researches about Blender, we discovered that we could manually modify its graphic interface as we wanted to only keep the most useful features visible. This was done while drag 	and dropping some windows and panels. We then registered the corresponding file (\textit{startup.blend}) to have it to the adequate place in the final product. We give here the the interface we configured :
 
+\bigskip
 \bigskip
 
 \begin{figure}[!h]
 \begin{center}
-	\includegraphics[scale=0.25]{NotreInterface}
+	\includegraphics[scale=0.3]{NotreInterface}
 \end{center}
 \end{figure}
 
-The part we see circled with red is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible here:
-
 \bigskip
---mettre le panneau--
 \bigskip
 
-As for the organization of the panel, we chose to divide if into 4 main parts that we called ``steps'' since we considered that the the user would have to use them successively. We detail these steps here below:
+We only chose to keep visible what was necessary to the final user simply wanting to import, modify and correct a mesh.\\
 
-\begin{itemize}
-\item Step 0: gives the user the current mesh's name and allow to check if the mesh is correct for printing (manifold and watertight)
-\item Step 1: allow the user to correct the mesh
-\item Step 2: allow the user to find the most adequate supporting planes for the object
-\item Step 3: allow the user to visualize all the planes generated and to choose the one he prefers
-\end{itemize}
+The part we see at the right of the screen and which seem a little grey is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible next page.
+
+\newpage
+
+\bigskip
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[scale=1]{Panel}
+\end{center}
+\end{figure}
+\bigskip
+
+As for the organization of the Mesh Verification panel, we chose to divide if into 4 main parts that we called ``steps'' since we considered that the the user would have to use them successively. We detail these steps here below.\\
+
+\textbf{Step 0 : not written on the panel} \\
+
+This part of the panel remind the user of the active mesh in the scene. It is also the first and only enabled button in the panel when starting Blender. It is to be used when the mesh is satisfying for the user to check if it is correct or not (manifold and watertight). By passing the mouse over the button, a description of the action is given, as for all the buttons and check boxes. When pressing this button, the script of verification will be run and it outcome will determine the next step enabled. If the mesh is found incorrect, the user will see the first step enabled and only this step. If it is found correct, the second step will be enabled.\\
+
+\textbf{Step 1 : the mesh correction step} \\
+
+This step enables a check box and two different buttons allowing the user to correct the mesh the way he wants and in a chosen time (see the mesh correction part). When the mesh is considered correct by the script run when pressing the buttons, the step 2 is enabled.
+
+\textbf{Step 2 : the finding of an adequate supporting plane for printing}\\
+
+This step has been realized so that the user can both trust the application to find an adequate supporting plane for his object and decide of the supporting plane himself. \\
+
+This last possibility is included in the ``Cut the object under the base plane'' button. This button allows the user to plane his object himself where he wants be orienting it and positioning it considering the $z = 0$ plan. This can be useful when printing an egg for example. In this case, there is no plane to support the object. Another button enabling the user to choose the supporting plan himself is the third one when he can select one and choose it so that the object will be automatically oriented as chosen.\\
+
+But in this step, the user can also trust the scripts implemented to find several adequate supporting planes on the object (the number of planes generated being chosen by the developer). When this button is pressed, the ``best'' plane found according to the script is highlighted and the third step is enabled to choose between all the other planes.\\
+
+\textbf{Step 3 : the choice between the generated planes}\\ 
+
+In this step, planes have previously been found to support the object and the ``Next'' and ``Previous'' buttons allow the user to navigate among them, highlight them and select one for supporting the object. Once the ``Choose the current plane'' button is pressed, the step 0 is enabled again while the third one is disabled. 
 
 \chapter{The printer calibration}
 
 \chapter{The validation phase}
 
 \section{Unit tests}
+Our main algorithms are tested using automated unit tests. These are using the standard \texttt{unittest} Python module, which allows running each test one by one and reporting the results (number of passed/failed tests).
+
+Some Python functions were written specifically for the tests: some of them are used to set the test environment up (by loading meshes, for instance), and other to analyze the results (number of faces on the resulting mesh, for instance).
 
 \section{Integration tests}
 
 \section{Functional tests}
 
 \section{User tests}
+
+\section{The application's limitations}
+
+\chapter{Conclusions}
 
 \addcontentsline{toc}{chapter}{\numberline{}Bibliography}
 

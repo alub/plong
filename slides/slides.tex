@@ -47,7 +47,6 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 		\item \textsc{VORTEX} : Visual Objects : from Reality To EXpression
 		\item skills in the areas of graphic computing,  computer vision, artificial intelligence and networks
 		\item recently acquired an uncalibrated Ultimaker 3D printer
-		\item recently acquired an Ultimaker 3D printer that it can not actually use
 		\end{itemize}
     \end{block}
     
@@ -55,6 +54,27 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 		\includegraphics[width=4cm]{irit}
 	\end{center}
     
+\end{frame}
+
+\subsection{Objectives}
+\begin{frame}
+	\frametitle{The main client's requests}
+	\begin{block}{Main goals of the project} 
+	\begin{itemize}
+		\item open-source modeler able to import, model, deform and \textbf{correct} virtual 3D objects
+		\item interactions using the touchscreen
+		\item export meshes to the printer
+		\item print as realistically as possible
+	\end{itemize}
+    \end{block}
+    
+    \begin{block}{The final users}
+    	\begin{itemize}
+		\item The VORTEX team
+		\item Some artists from Artilect for example (or artists students)
+		\end{itemize}
+    \end{block}
+
 \end{frame}
 
 \subsection{Resources}
@@ -103,25 +123,31 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 
-\subsection{Objectives}
+
+\section{Architecture of the project}
+
 \begin{frame}
-	\frametitle{The main client's requests}
-	\begin{block}{Main goals of the project} 
-	\begin{itemize}
-		\item open-source modeler able to import, model, deform and \textbf{correct} virtual 3D objects
-		\item interactions using the touchscreen
-		\item export meshes to the printer
-		\item print as realistically as possible
-	\end{itemize}
-    \end{block}
-    
-    \begin{block}{The final users}
-    	\begin{itemize}
-		\item The VORTEX team
-		\item Some artists from Artilect for example (or artists students)
+	\frametitle{A four steps application}
+	
+	\begin{block}{}
+		\begin{itemize}
+			\item Modeler: to import/create STL and PLY meshes and to pre-process them
+			\item G-code generator: to generate printing instructions
+			\item Printer's driver: to send the instructions including special parameters such as the temperature
+			\item Printer: to create the final object
 		\end{itemize}
-    \end{block}
-    
+	\end{block}
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{From the modeler to the printer…}
+
+    \begin{center}
+		\includegraphics[width=10cm]{schema}	
+	\end{center}
+	
 \end{frame}
 
 \section{Project management}
@@ -165,31 +191,6 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 
-\section{Architecture of the project}
-
-\begin{frame}
-	\frametitle{A four steps application}
-	
-	\begin{block}{}
-		\begin{itemize}
-			\item Modeler: to import/create STL and PLY meshes and to pre-process them
-			\item G-code generator: to generate printing instructions
-			\item Printer's driver: to send the instructions including special parameters such as the temperature
-			\item Printer: to create the final object
-		\end{itemize}
-	\end{block}
-	
-\end{frame}
-
-
-\begin{frame}
-	\frametitle{From the modeler to the printer…}
-
-    \begin{center}
-		\includegraphics[width=10cm]{schema}	
-	\end{center}
-	
-\end{frame}
 
 \section{The main specifications}
 
@@ -218,8 +219,9 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
     
     \begin{block}{The interactions required on the meshes}
 		\begin{itemize}
-			\item 
-			\item 
+			\item add, remove, translate a vertex
+			\item smooth a surface (automatically add faces, etc.)
+			\item Cut an object
 		\end{itemize}
     \end{block}
 
@@ -282,60 +284,175 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 \subsection{Mesh correction integration}
+
 \begin{frame}
 	\frametitle{}
 
-    \begin{block}{Manifold correction}
+    \begin{block}{Finding the mesh's defects}
 		\begin{itemize}
-			\item manifold checking and hole filling already included in Blender
-			\item some bad results
-			\item parler du temps d'execution et des limites
+		    \item Watertight: there is no hole in the mesh
+            \item Manifold: each edge belong to exactly 2 faces
+		    \item First: check the mesh caracteristics
+			\item Then: if needed, correct the mesh
 		\end{itemize}
     \end{block}
-    
-    \begin{block}{Choice of the orientation}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{}
+
+    \begin{columns}[t]
+  	\begin{column}{5cm}
+        \begin{block}{Manifold correction}
+		    \begin{itemize}
+			    \item Non destructive cleaning and filling
+			    \item Destructive total repairing
+			    \item Fast-Processing option
+		    \end{itemize}
+        \end{block}
+    \end{column}
+
+    \begin{column}{6cm}
+        \begin{center}
+		    \includegraphics[height=.7\textheight]{repair}
+	    \end{center}
+    \end{column}
+
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Choice of the orientation}
 		\begin{itemize}
-			\item parler du temps d'execution et des limites
+			\item Objects need to be correctly oriented before printing
+			\item Planar faces detection and orientation algorithm
+			\item Bounded execution time
 		\end{itemize}
     \end{block}
+
+	\begin{center}
+		\includegraphics[width=\textwidth]{pf_detect}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{}
+	\begin{block}{Difficult cases}
+		\begin{itemize}
+			\item No large planar faces? Create them by cutting the object (with the help of the user)
+			\item Another option is to create a socle for the object
+		\end{itemize}
+    \end{block}
+
+	\begin{center}
+		\includegraphics[width=.7\textwidth]{pf_socle}
+	\end{center}
     
 \end{frame}
 
-\subsection{Modifications in Blender's interface}
+\subsection{Modifications in Blender's GUI}
 \begin{frame}
 	\frametitle{}
 
     \begin{block}{A new screen for Blender}
-Possibility in Blender to manually modify the interface and to register it as the default one.
-Changes operated:
+Possibility in Blender to manually modify the interface and to register it as the default one
     \end{block}
     
     \begin{block}{A new panel}
     \begin{itemize}
-	\item Addition on a new panel named "Mesh verification" thank to the Blender Python API
+	\item Addition on a new panel named “Mesh verification” thank to the Blender Python API
 	\item Insertion of buttons appearing conditionally and calling the mesh corrections implemented
 	\end{itemize}
     \end{block}
-    
-    \begin{block}{Progression bar integration}
+\end{frame}
 
+\begin{frame}
+	\frametitle{}
+    \begin{center}
+		\includegraphics[height=.9\textheight]{Panel}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{block}{Progress display}
+	\begin{itemize}
+	\item Algorithms may take time to execute
+	\item No feedback from Blender during execution
+	\item A small “progress report” framework was developed:
+	\begin{itemize}
+		\item Linux: uses an external program to display progress dialogues
+		\item Windows: progress messages are displayed on the standard console
+	\end{itemize}
+	\end{itemize}
     \end{block}
+\end{frame}
+
+\section{Calibration of the printer}
+\begin{frame}
+	\frametitle{The printer's functioning}
+    
+    
+    \begin{columns}[t]
+  	\begin{column}{5cm}
+        \begin{block}{}
+	\begin{itemize}
+	\item 4 motors : 
+		\begin{itemize}
+		\item 2 for the $x$ and $y$ axes of the nozzle
+		\item 1 for the $z$ axe of the plate
+		\item 1 to extrude the filament
+		\end{itemize}
+	\item 1 Arduino card which receives and interprets the GCode
+	\end{itemize}	
+    \end{block}
+    \end{column}
+
+    \begin{column}{6cm}
+        \begin{center}
+		\includegraphics[width=.8\textwidth]{Ultimaker2}	
+	\end{center}
+    \end{column}
+
+    \end{columns}
     
 \end{frame}
 
-\subsection{Calibration of the printer}
 \begin{frame}
-	\frametitle{}
+	\frametitle{The choice of the parameters}
 
-    \begin{block}{The choice of the parameters}
+	\begin{block}{}
+	\begin{itemize}
+	\item no perfect set of parameters
+	\item depends on the object printed
+	\item basic parameters found :
+		\begin{itemize}
+		\item temperature : between 210$°C$ and 240$°C$
+		\item layer height : between 0,2 mm  and 0,4 mm
+		\item print speed
+		\end{itemize}
+	\end{itemize}	
+    \end{block}
+    
+    \begin{block}{Other options}
+    Other tips can improve the efficiency of the printing :	\\
+    retraction, infilling, copies, extrusion multiplier...
     \end{block}
 \end{frame}
 
-\section{Conclusions and thanks}
+\section{Application and printing limitations}
 \begin{frame}
-	\frametitle{}
-
-    \begin{block}{}
+	\frametitle{Limitations}
+	\begin{block}{Printing}
+    Printing size limited to 20x20x20 cm³
+    \end{block}
+	
+	\begin{block}{Algorithms}
+    \begin{itemize}
+    \item Mesh correction becomes quite slow for very big meshes
+    \item Mesh correction may be destructive for very damaged meshes
+    \item Automatic supporting planes detection does not work for some objects (like spherical objects)
+    \end{itemize}
     \end{block}
 \end{frame}
 
@@ -343,7 +460,7 @@ Changes operated:
 	\frametitle{}
 
     \begin{center}
-    \Large{Thank you for your attention !}
+    \Large{Thank you for your attention!}
     \end{center}
 \end{frame}
 	

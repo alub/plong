@@ -128,25 +128,34 @@ F-31062 TOULOUSE CEDEX 9
 
 \newpage
 
-\section{The modelling part on Blender}
+\section{The modeling part on Blender}
 
 \subsection{Point on the graphic interface}
 
 Mettre des Imprim écrans
 
-\subsection{Obtaining a mesh}
+\subsection{Obtaining an object}
 
-\subsubsection{Loading a mesh for your personal files}
+\subsubsection{Loading an existing mesh from a file}
 
-\subsubsection{Editing your own mesh}
+You can simply import an object into Blender, preferably from a PLY or STL format. Many printable objects are findable with simple online resarches like in \href{http://graphics.stanford.edu/data/3Dscanrep/}{the Stanford 3D models repository}, or import any other 3D object and use our tools to repair their meshes and make them fully ready for print.
+To import an object, simply open Blender then open the File menu and click on "Import".
 
-\subsection{Verifying the quality of your mesh}
+\subsubsection{Creating and editing your own mesh}
+
+To build your own object from sratch, you can use all standard Blender functionnality. You may want to read some Blender documentation, but if you want to quickly make a simple printable object, the best way is to start by adding to the scene some primary meshes ('Add' menu, then chose a mesh like a Cube or a Cylinder), place them wherever you want, then you may edit your meshes, Blender offering two main ways to do it. The first one consists of vertex per vertex and precise edition (Edit Mode), and the second one allows you to manipulate areas of vertices in a smoother way (Sculpt Mode). Finally you have to merge them into a single object if you want to make it printable. To do that, right click on any of your mesh, then look for the modifiers into the right panel and add a Boolean - Union one with any other object. Now you can remove your second object as the first one is a result of the union.
+
+\subsection{Verifying and repairing your mesh}
+
+To be printable, your mesh have to be watertight and manifold. To know if it is the case, simply click on the 'Check your mesh' button on our customized UI. If the UI goes directly to step 2 without enabling the step 1 buttons, then all is OK and the mesh is correct. If not, you can easily correct your mesh with two different ways. If your object is not very damaged or doesn't contains many edges, try the non destructive method. But if you want to be sure that the resulting object is perfect, you may click on the destructive method. Besides, checking the fast-processing option should improve a lot the speed of the algorithm process, but may result in unwanted artifacts. Anyway, you can cancel your previous commands with CTRL+Z and try again with differents options.
 
 \subsection{Generating adequate supporting plans for your object}
 
-\subsection{Choosing a good supporting plan}
+\subsection{Choosing and applying a good supporting plan}
 
-\subsection{Saving your mesh}
+\subsection{Saving and exporting your mesh}
+
+Once your object has a correct mesh and is well oriented, you simply have to export it. Open the 'File' menu and click on 'Export' with the STL format. Your resulting STL file is now ready to be sliced and printed !
 
 \newpage
 
