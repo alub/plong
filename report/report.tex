@@ -249,7 +249,13 @@ This was the first main phase of our project. Our main goal at the end of this p
 
 We first met the client team on January, 20th when they completely presented us the project for the first time. One of us was missing that day because still in semester abroad but we managed to tell him all about that meeting afterwards.\\
 
-The client team first told us about this Ultimaker 3D printer she recently acquired and on which she had still no control over. Our main goal was\ldots
+The client team first told us about this Ultimaker 3D printer she recently acquired and which she did not have time to calibrate. Our main goal at that time was to clearly establish the clients' needs but we quickly discovered they did not have an exact idea of what they wanted to do with that printer, apart from printing meshes they would have previously had modeling interactions with.\\
+
+They also mentioned later that they wanted to be able to know, before printing it, that a mesh was not correct. Considering the time we had, we later decided we could even try to correct the meshes instead of simply highlighting its defaults. \\
+
+Finally, they told us about the documentation they needed to be provided with so that they could use and modify our work later. \\
+
+We must notice that our project was quite atypical considering the fact that, even though we had planned to have fully decided on the specifications on February, 12th, our clients kept asking us about what could be useful until the last day.
 
 \section{The general architecture of the project}
 
@@ -314,43 +320,76 @@ What must be said is that some of these requirements were not directly expressed
 
 Find the adequate printing parameters, depending on the kind of object printed.
 
+\subsection{Documentation}
+
+\begin{enumerate}
+\item produce a user documentation: to use the application properly just by reading it. It should include the limits of the application.
+\item generate a technical documentation: so that the client or an other team can continue the work if needed
+\item write an installation paper: to enable the user to get an operational application from the initial archive
+\end{enumerate}
+
+
+
 \section{The technical choices}
 
 \subsection{Choice of the modeler}
 
 Developing a 3D modeller ``from scratch'' would have needed a considerable amount of time. That's the reason why we chose to start from an existing modelling program since many where already existing and already contained some of the features we needed.\\
 
-Since we needed to provide the client team with a fully open-source application, we decided to list all the existing modelers we found and to weight up their pros and cons. After a few day, our choice was reduced to the two following modelers \emph{Meshlab}\footnote{\url{http://meshlab.sourceforge.net/}} and \emph{Blender}\footnote{\url{http://www.blender.org}}. We give below the drawbacks and advantages we highlighted for each one and explain our final choice.
+Since we needed to provide the client team with a fully open-source application, we decided to list all the existing modelers we found and to weight up their pros and cons. After a few day, our choice was reduced to the two following modelers \emph{Meshlab}\footnote{\url{http://meshlab.sourceforge.net/}} and \emph{Blender}\footnote{\url{http://www.blender.org}}. We give here the drawbacks and advantages we highlighted for each one and explain our final choice.
 
 \bigskip
 
+\bigskip
+
+\fbox{\begin{minipage}{0.9\textwidth}
+
 \textbf{Blender :}\\
 
-Advantages :
+\underline{Advantages :}
 
 \begin{itemize}
-\item blabla
+\item many of the requested features already present
+\item existence of a Python API allowing the integration of personal scripts
+\item required formats well managed (STL and PLY)
+\item interface easily adaptable
 \end{itemize}
 
-Drawbacks :
+\underline{Drawbacks :}
 
 \begin{itemize}
-\item blabla
+\item a lot of useless functionalities for the project final users
 \end{itemize}
+
+\end{minipage}}
+
+\bigskip
+
+\fbox{\begin{minipage}{0.9\textwidth}
 
 \textbf{Meshlab :}\\
 
-Advantages :
+\underline{Advantages :}
 
 \begin{itemize}
-\item  blabla
+\item STL format well managed
+\item easy use
+\item only essential functionalities
 \end{itemize}
 
-Drawbacks : 
+\underline{Drawbacks :} 
 
 \begin{itemize}
-\item  blabla
+\item almost no preexisting interaction
+\item need to learn to program with C++ ...
 \end{itemize}
+
+
+\end{minipage}}
+
+\bigskip
+
+\bigskip
 
 We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language provides some programming facilities (automatic memory management, for instance) which ease the implementation of algorithms.
 
