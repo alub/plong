@@ -46,7 +46,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 		\item \textsc{IRIT} : a research institute in computer science from Toulouse
 		\item \textsc{VORTEX} : Visual Objects : from Reality To EXpression
 		\item skills in the areas of graphic computing,  computer vision, artificial intelligence and networks
-		\item recently acquired an Ultimaker 3D printer that she can't actually use
+		\item recently acquired an Ultimaker 3D printer that it can not actually use
 		\end{itemize}
     \end{block}
     
@@ -63,16 +63,17 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\begin{block}{The project team}
 		\begin{itemize}
 		\item Five final year students at ENSEEIHT, Computing and Applied Mathematics department
-		\item several followed the “multimedia” option in third year
+		\item Several followed the “multimedia” option in third year
+		\item Project manager : Caroline \textsc{Naud}
 		\end{itemize}
     \end{block}
     
     \begin{block}{The material resources}
     	\begin{itemize}
-		\item room F117 in building F at ENSEEIHT
+		\item Room F117 in building F at ENSEEIHT
     	\item Ultimaker 3D printer with a roll of PLA plastic
-    	\item computer with dual-touch screen Acer T231H
-    	\item computer rooms of the ENSEEIHT and personnal computer
+    	\item Computer with dual-touch screen Acer T231H
+    	\item Computer rooms of the ENSEEIHT and personal computers
 		\end{itemize}
     \end{block}
       
@@ -106,14 +107,14 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\frametitle{The main client's requests}
 	\begin{block}{Main goals of the project} 
 	\begin{itemize}	
-		\item development of a fully open-source software with graphical interface that allows to import, model, deform and correct virtual 3D objects, preferably using a dualtouch screen
-		\item export of the corresponding meshes to the printer to finally print it as realistically as possible.
+		\item Development of a fully open-source software with graphical interface that allows to import, model, deform and correct virtual 3D objects, preferably using a dualtouch screen
+		\item Export of the corresponding meshes to the printer to finally print it as realistically as possible.
 	\end{itemize}
     \end{block}
     
     \begin{block}{The final users}
     	\begin{itemize}
-		\item The \textsc{VORTEX} team
+		\item The \textsc{Vortex} team
 		\item Some artists from Artilect for example (or artists students)
 		\end{itemize}
     \end{block}
@@ -124,12 +125,11 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \begin{frame}
 	\frametitle{The tools}
-Project manager : Caroline \textsc{NAUD}
 	\begin{block}{}
     \begin{itemize}
-		\item a web based project management system : Chiliprojet (Gantt charts, calendars, documents, Wiki, code deposit, notifications ...)
-		\item an industrial supervisor from \textsc{Airbus} : Lionel \textsc{CREMEL}
-		\item regular meetings with the clients and the supervisor (at least once a week)
+		\item A web based project management system: Chiliproject (Gantt charts, calendars, documents, Wiki, code deposit, notifications…)
+		\item An industrial supervisor from \textsc{Airbus} : Lionel \textsc{Cremel}
+		\item Regular meetings with the clients and the supervisor (at least once a week)
 	\end{itemize}
 	\end{block}
 \end{frame}
@@ -137,7 +137,7 @@ Project manager : Caroline \textsc{NAUD}
 \begin{frame}
 	\frametitle{The V cycle management strategy}
 	\begin{center}
-		\includegraphics[width=8cm]{VCycle}	
+		\includegraphics[width=\textwidth]{VCycle}	
 	\end{center}
     
 \end{frame}
@@ -146,15 +146,15 @@ Project manager : Caroline \textsc{NAUD}
 	\frametitle{The macroscopic planning}
 
     \begin{center}
-		\includegraphics[width=9cm]{PlanningMacroscopique}	
+		\includegraphics[width=\textwidth]{planning}	
 	\end{center}
 	
 	\begin{block}{}
     \begin{itemize}
-		\item Mx : milestones to respect : mainly documents to provide
+		\item Mx: milestones to respect: mainly documents to provide
 		\item BC: Business Case
-		\item SOW : Statement Of Work
-		\item BRD \& ARD : the application design 
+		\item SOW: Statement Of Work
+		\item BRD \& ARD: the application design 
 	\end{itemize}
 	\end{block}
 	
@@ -164,14 +164,14 @@ Project manager : Caroline \textsc{NAUD}
 \section{Architecture of the project}
 
 \begin{frame}
-	\frametitle{A four steps application ... }
+	\frametitle{A four steps application…}
 	
 	\begin{block}{}
 	\begin{itemize}
-	\item The modeler : to import/create STL and PLY meshes and to pre-process them.
-	\item The Gcode Generator : to generate the printer's instructions.
-	\item The printer's pilote : to send the instructions including special parameters such as the temperature.
-	\item The printer : to create the final object. It must be monitored.
+	\item The modeler: to import/create STL and PLY meshes and to pre-process them.
+	\item The G-code Generator: to generate the printer's instructions.
+	\item The printer's driver: to send the instructions including special parameters such as the temperature.
+	\item The printer: to create the final object. It must be monitored.
 	\end{itemize}
 	\end{block}
 	
@@ -179,7 +179,7 @@ Project manager : Caroline \textsc{NAUD}
 
 
 \begin{frame}
-	\frametitle{From the modeler to the printer ...}
+	\frametitle{From the modeler to the printer…}
 
     \begin{center}
 		\includegraphics[width=10cm]{schema}	
@@ -226,9 +226,9 @@ Project manager : Caroline \textsc{NAUD}
 	\frametitle{}
 	 \begin{block}{The documentation required}
 		\begin{itemize}
-			\item a user documentation : to use the application properly just by reading it. It should include the limits of the application.
-			\item a technical documentation : so that the client or an other team can continue the work if needed
-			\item an installation paper : to enable the user to get an operational application from the initial archive
+			\item a user documentation: to use the application properly just by reading it. It should include the limits of the application.
+			\item a technical documentation: so that the client or an other team can continue the work if needed
+			\item an installation paper: to enable the user to get an operational application from the initial archive
 		\end{itemize}
     \end{block}    
 
@@ -244,13 +244,13 @@ Project manager : Caroline \textsc{NAUD}
     \begin{columns}[t]
   	\begin{column}{5cm}
   		\begin{block}{Meshlab}
-  		Advantages :
+  		Advantages:
   		\begin{itemize}
   		\item very light application
   		\item preexisting functions for mesh correction
   		\end{itemize}
   		
-  		Drawbacks :
+  		Drawbacks:
   		\begin{itemize}
   		\item no integrated interaction
   		\end{itemize}
@@ -259,7 +259,7 @@ Project manager : Caroline \textsc{NAUD}
   
   	\begin{column}{5cm}
   		\begin{block}{Blender (the chosen one)}
-  		Advantages :
+  		Advantages:
   		\begin{itemize}
   		\item interactions preexisting 
   		\item Python API  
@@ -267,7 +267,7 @@ Project manager : Caroline \textsc{NAUD}
   		\item manually modifiable GUI
   		\end{itemize}
   		
-  		Drawbacks :
+  		Drawbacks:
   		\begin{itemize}
   		\item many useless things
   		\end{itemize}
@@ -303,7 +303,7 @@ Project manager : Caroline \textsc{NAUD}
 
     \begin{block}{A new screen for Blender}
 Possibility in Blender to manually modify the interface and to register it as the default one.
-Changes operated :
+Changes operated:
     \end{block}
     
     \begin{block}{A new panel}
