@@ -217,8 +217,9 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
     
     \begin{block}{The interactions required on the meshes}
 		\begin{itemize}
-			\item 
-			\item 
+			\item add, remove, translate a vertex
+			\item smooth a surface (automatically add faces, etc.)
+			\item Cut an object
 		\end{itemize}
     \end{block}
 
@@ -307,6 +308,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 \begin{frame}
+    \frametitle{}
 	\begin{block}{Difficult cases}
 		\begin{itemize}
 			\item No large planar faces? Create them by cutting the object (with the help of the user)
@@ -318,7 +320,6 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 		\includegraphics[width=.7\textwidth]{pf_socle}
 	\end{center}
     
-    
 \end{frame}
 
 \subsection{Modifications in Blender's GUI}
@@ -326,8 +327,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\frametitle{}
 
     \begin{block}{A new screen for Blender}
-Possibility in Blender to manually modify the interface and to register it as the default one.
-Changes operated:
+Possibility in Blender to manually modify the interface and to register it as the default one
     \end{block}
     
     \begin{block}{A new panel}
@@ -336,10 +336,24 @@ Changes operated:
 	\item Insertion of buttons appearing conditionally and calling the mesh corrections implemented
 	\end{itemize}
     \end{block}
-    
-    \begin{block}{Progression bar integration}
 
-    \end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{}
+    \begin{columns}[t]
+  	\begin{column}{4cm}
+  		 \begin{center}
+		\includegraphics[width=1\textwidth]{Panel}
+	\end{center}
+  	\end{column}
+  
+  	\begin{column}{6cm}
+  		\begin{block}{Blender (Progression toolbar)}
+  		
+ 	 	\end{block}   
+  	\end{column}
+ 	\end{columns}  
     
 \end{frame}
 

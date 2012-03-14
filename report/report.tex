@@ -15,9 +15,10 @@
 \usepackage{polyglossia}
 \setdefaultlanguage{english}
 
-% Graphics
+% Graphics and documents
 \usepackage{graphicx}
 \graphicspath{{./images/}}
+\usepackage[final]{pdfpages}
 
 % Links
 \usepackage{url,hyperref}
@@ -512,5 +513,7 @@ In this step, planes have previously been found to support the object and the ``
 \addcontentsline{toc}{chapter}{\numberline{}Bibliography}
 
 \appendix
+
+\includepdf[pages=1-2]{Gantt.pdf}
 
 \end{document}
