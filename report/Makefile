@@ -1,14 +1,16 @@
 texc = xelatex
 
-report.pdf: report.tex
+report.pdf: report.tex report.bib
 
 %.pdf: %.tex
 	($(texc) $< || (rm -f $@ && false)) && $(texc) $<
+	bibtex $*.aux
+	$(texc) $<
 
 clean:
-	rm -f *.{aux,bib,log,toc}
+	-rm -f *.{aux,bbl,blg,log,toc}
 
-empty: clean
-	rm -f report.pdf
+mrproper: clean
+	-rm -f report.pdf
 
-.PHONY: empty clean
+.PHONY: mrproper clean
