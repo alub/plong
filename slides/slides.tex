@@ -429,15 +429,18 @@ Possibility in Blender to manually modify the interface and to register it as th
     \end{block}
 \end{frame}
 
-\section{The application's limitations}
+\section{Application and printing limitations}
 \begin{frame}
-	\frametitle{}
-	\begin{block}{}
+	\frametitle{Limitations}
+	\begin{block}{Printing}
+    Printing size limited to 20x20x20 cm³
+    \end{block}
+	
+	\begin{block}{Algorithms}
     \begin{itemize}
-    \item bounding box of 20 cm of edge for objects
-    \item mesh correction becomes quite slow for very big meshes
-    \item mesh correction may be destructive for very damaged meshes
-    \item supporting plans detection is difficult for spherical objects 
+    \item Mesh correction becomes quite slow for very big meshes
+    \item Mesh correction may be destructive for very damaged meshes
+    \item Automatic supporting planes detection does not work for some objects (like spherical objects)
     \end{itemize}
     \end{block}
 \end{frame}
