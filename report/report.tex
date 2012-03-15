@@ -404,7 +404,7 @@ We have implemented a script which allows the user to track broken, non-manifold
 
 First of all, a press on the Check button (see the GUI modification part) highlights all the potential non-manifold edges and gives the user the possibility to repair them if the mesh is actually non-manifold.\\
 
-The first method is a soft correction algorithm, which detects all distinct holes in the mesh, then cleans theses holes (for instance if there are some faces not connected to any vertex), and finally try to fill them, one after one. This method is considered non-destructive (even if the cleaning part may remove unwanted faces) and is not recursive. The algorithm has been proved to make a broken mesh watertight, so there is no more holes remaining after its execution.\\
+The first method is a soft correction algorithm, which detects all distinct holes in the mesh, then cleans theses holes (for instance if there are some faces not connected to any vertex), and finally tries to fill them, one after one. This method is considered non-destructive (even if the cleaning part may remove unwanted faces) and is not recursive. The algorithm has been proved, to make a broken mesh watertight, so there is no more holes remaining after its execution.\\
 
 But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edges-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non manifold edges (and thus which didn't belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).\\
 
@@ -413,8 +413,8 @@ For both the destructive method and the non-destructive one, we added a fast-pro
 
 \section{The choice of the supporting plane - \textit{Antoine \& Vincent}}
 
-\subsection{The supporting planes auto-detection}
-Before being printed, the objects need to be placed correctly; they have to stand on the the printer’s support. From the modeler point of view, the object need to have faces included into the base ($z = 0$) plane, and may not have any points under this base plane. We need to provide the user an automated way to correctly place the object.
+\subsection{Supporting planes autodetection}
+Before being printed, the objects need to be placed correctly; they have to stand on the printer’s support. From the modeler point of view, the object need to have faces included into the base ($z = 0$) plane, and may not have any points under this base plane. We need to provide the user an automated way to correctly place the object.
 
 Correct positioning is not enough, though. The object support must be large enough for the object to be stable during printing; some gravity center considerations may also be taken into consideration.
 
@@ -431,15 +431,51 @@ Since the bigger supporting surfaces are preferred, we provide the user the 10 l
 \item The translation to apply is the one which places the chosen plane’s point into the base plane: we just need to take this point’s $z$ and apply a translation of $(0, 0, -z)$ so this point’s new coordinates are $(x, y, z=0)$.
 \end{itemize}
 
-\subsection{The user-helped face selection / object cutting}
-The above system is helpful for a large variety of objects, but may not work correctly for ones without large ``exterior'' supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
+\subsection{Physical criterion for support choosing}
+
+	\emph{All functions described here are available in the \texttt{volume} module.}\\
+
+	For some objects, choosing the orientation on the sole basis of the area of the supporting plane is not enough: for example, we tried printing a glass of wine, and each time the stem broke because it was thin, and because the printer's head changes its direction very quickly. To prevent this, there are two types of strategies:
+	\begin{itemize}
+		\item choose a supporting plane accounting for the repartition of mass in the object
+		\item modify the model to make it more resistant, either by cutting parts of it (see \ref{sec:cutting}), adding a platform (see \ref{sec:socle}), or making small changes (see \ref{sec:repairing}).
+	\end{itemize}
+
+	In this section, we describe the first solution: ordering support planes using a physical criterion. One of the most obvious ways to find the best orientation would simply be to drop the object and let it rest. It is in fact possible in Blender since it has a physical engine, but it would be slow and the API seems incomplete regarding this part.
+	
+	The chosen criterion computes the volume of the object which is actually supported by the supporting plane. After comparing that volume for different planes, one can select the biggest one.
+	We proceed as follow:
+	\begin{enumerate}
+		\item select a supporting plane
+		\item create a prism with that “plane” as a base and the height of the object as its height
+		\item create the intersection between the prism and the actual object
+		\item the volume of this intersection is the criterion.
+	\end{enumerate}
+
+	Although the results are good (they most often match the surface criterion), we did not include that part in our interface for several reasons:
+	\begin{itemize}
+		\item finding the intersection takes too much time, because boolean operations in Blender can be very slow
+		\item most of the time, the surface criterion is already the best: figurative objects almost always have a “natural” orientation that is given by their use, and when abstract objects (like a sphere) don't have one, they often need correction.
+	\end{itemize}
+
+	Still, we provided a module with functions computing the volume of an object and the position of the center of gravity, as those are not trivial when using a surface-based representation of the objects. They are based on \cite{Liris-2411}, which explains how to do the required integrals over meshes.
+
+\subsection{User-helped face selection/Object cutting}\label{sec:cutting}
+The above system is helpful for a large variety of objects, but may not work correctly for ones without large “exterior” supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
+
 \begin{itemize}
 \item The first one simply cuts all parts of the object which are under the base plane. This operation is done by using Blender’s ``boolean difference'' operation between the object and a rectangular parallelepiped of the correct size (placed under the base plane).
 \item The second one asks the user to select some faces of the object. Those faces are used to calculate a supporting plane (possibly cutting the object in half) which is the used to position the object. The parts of the object under the base plane are then removed.
 \end{itemize}
 
-\subsection{The socle generation}
-Finally, another feature allows the automatic generation of a ``socle'', which can support the object. This is done by adding a socle (rectangular parallelepiped of the correct size) and merging it to the object (using a ``boolean union'' operation).
+\subsection{Socle generation}\label{sec:socle}
+Finally, another feature allows the automatic generation of a “socle”, which can support the object. This is done by adding a socle (rectangular parallelepiped of the correct size) and merging it to the object (using a “boolean union” operation).
+
+\section{Model repairing}\label{sec:repairing}
+
+There are several papers investigating the techniques for repairing 3D objects, such as \cite{volum_simp}, \cite{printability} and \cite{noise_removal}. They all try to make printability assesments by looking for specific details, such as \emph{spikes}, \emph{bridges} and \emph{holes} (topological holes, not mesh holes). As the proposed algorithms deal with the object topology, the authors prefer to work with volumetric models instead of surface-based ones. As we work with meshes, that would need adding two extra steps: one for converting the mesh in voxels, and the opposite conversion.
+
+As those algorithms can be very computationnaly heavy, and we have used a interpreted language, those repairs would be unpractical to do in Blender using the API. One would have to do a C module for Blender.
 
 \section{The GUI modification - \textit{Caroline}}
 
@@ -514,6 +550,9 @@ Some Python functions were written specifically for the tests: some of them are 
 \chapter{Conclusions}
 
 \addcontentsline{toc}{chapter}{\numberline{}Bibliography}
+
+\bibliographystyle{alpha}
+\bibliography{report}
 
 \appendix
 
