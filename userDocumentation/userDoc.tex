@@ -132,7 +132,56 @@ F-31062 TOULOUSE CEDEX 9
 
 \subsection{Point on the graphic interface}
 
-Mettre des Imprim écrans
+Blender's graphic user interface remains quite difficult to use for inexperienced users and shows ``useless'' functions for users only aiming at modeling, correcting meshes and printing them. In Blender, the user has the possibility to manually modify this graphic interface as he wants to only keep the most useful features visible. That's what was done in that case and the first view available when starting Blender will be this one : 
+\bigskip
+\bigskip
+
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[scale=0.3]{./Images/NotreInterface}
+\end{center}
+\end{figure}
+
+\bigskip
+\bigskip
+
+We only chose to keep visible what was necessary to a user simply wanting to import, modify and correct a mesh but you can create as many configurations as you want by simply drag and dropping some windows and panels and registering the corresponding file (\textit{startup.blend}) thanks to a simple Ctrl + U.\\
+
+The part we see at the right of the screen below and which seems a little grey is the panel we added so that the user can have access to the different functions we implemented. It is visible next page.
+
+\newpage
+
+\bigskip
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[scale=0.8]{./Images/Panel}
+\end{center}
+\end{figure}
+\bigskip
+
+As for the organization of the Mesh Verification panel, it is devided into 4 main parts called ``steps'' since the user has to use them successively. We detail these steps here below.\\
+
+\textbf{Step 0 : not written on the panel} \\
+
+This part of the panel reminds the user of the active mesh in the scene. It is also the first and only enabled button in the panel when starting Blender. It is to be used when the mesh is satisfying for the user to check if it is correct or not (manifold and watertight). By passing the mouse over the button, a description of the action is given, as for all the buttons and check boxes. When pressing this ``Check your mesh'' button, the script of verification will be run and its outcome will determine the next step enabled. If the mesh is found incorrect, the user will see the first step enabled and only this step. If it is found correct, the second step will be enabled.\\
+
+\textbf{Step 1 : the mesh correction step} \\
+
+This step enables a check box and two different buttons allowing the user to correct the mesh the way he wants and in a chosen time (see the buttons description). When the mesh is considered correct by the script run when pressing the buttons, the step 2 is enabled. 
+
+\newpage
+
+\textbf{Step 2 : the finding of an adequate supporting plane for printing}\\
+
+This step has been realized so that the user can both trust the application to find an adequate supporting plane for his object and decide of the supporting plane himself. \\
+
+This last possibility is included in the ``Cut the object under the base plane'' button. This button allows the user to plane his object himself where he wants be orienting it and positioning it considering the $z = 0$ plan. This can be useful when printing an egg for example. In this case, there is no plane to support the object. Another button enabling the user to choose the supporting plan himself is the third one when he can select one and choose it so that the object will be automatically oriented as chosen.\\
+
+But in this step, the user can also trust the scripts implemented to find several adequate supporting planes on the object (the number of planes generated being chosen by the developer). When this button is pressed, the ``best'' plane found according to the script is highlighted and the third step is enabled to choose between all the other planes.\\
+
+\textbf{Step 3 : the choice between the generated planes}\\ 
+
+In this step, planes have previously been found to support the object and the ``Next'' and ``Previous'' buttons allow the user to navigate among them, highlight them and select one for supporting the object. Once the ``Choose the current plane'' button is pressed, the step 0 is enabled again while the third one is disabled. 
 
 \subsection{Obtaining an object}
 
@@ -164,15 +213,16 @@ Once your object has a correct mesh and is well oriented, you simply have to exp
 \subsection{Preparing the Utimaker 3D printer}
 
 It usually takes a bit of time to get a nice consistant extrusion at the beggining of the print, to avoid that put a few perimeters of skirt in Slic3r and push a bit on the filament during the first few seconds.
-It is also a good idea to regularly check that the screw pushing on the filament stays nice and tight and that the roll of filament doesn't get caught and stop turning
+It is also a good idea to regularly check that the screw pushing on the filament stays nice and tight and that the roll of filament doesn't get caught and stops turning.
 
 \subsection{Generating the GCode on Slic3r}
 
-First read \href{http://richrap.blogspot.com/2012/01/slic3r-is-nicer-part-1-settings-and.html}{this wiki} about the meaning of most the parameters.
+First read \href{http://richrap.blogspot.com/2012/01/slic3r-is-nicer-part-1-settings-and.html}{this wiki} about the meaning of most the parameters. \\
 
-And here are some useful values we found out worked fairly well in most cases :
-Temperature : A good value is usually between 220 and 240. Lower and the plastic has difficulties sticking to the board at the beginning, higher and it might not cool down fast enough between layers. A high temperature also decreases the pressure the extruder has to apply
-Extrusion multiplier : Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoritical value by a coefficient between 150 and 180.
+And here are some useful values we found out worked fairly well in most cases : \\
+
+\textbf{Temperature :} A good value is usually between 220 and 240. Lower and the plastic has difficulties sticking to the board at the beginning, higher and it might not cool down fast enough between layers. A high temperature also decreases the pressure the extruder has to apply. \\
+\textbf{Extrusion multiplier :} Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoritical value by a coefficient between 150 and 180.
 Print speed : these five parameters depend mostly of the object's size. Indeed for most objects (30-30-60-60-60) are good value as they will insure a good quality and a good speed. However for small objects going too fast will not allow for enough time the layers to cool down and so the print will be less precise. The most 0.7 version of Slic"r corrects that bug by automatically slowing down when a layer is too small to cool down fast enough otherwise.
 Layer height : The evident idea here is that a smaller layer height will make for a better quality. The values should be between 0.2 and 0.4 mm, however while 0.2 mm provides a very nice quality print it makes it longer and sometimes the plastic will bend more easily while cooling down.
 Skirt : adding more loops before the actual print gives you a bit more time to make sur the extrusion is good.

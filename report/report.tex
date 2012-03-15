@@ -461,7 +461,7 @@ Since the bigger supporting surfaces are preferred, we provide the user the 10 l
 	Still, we provided a module with functions computing the volume of an object and the position of the center of gravity, as those are not trivial when using a surface-based representation of the objects. They are based on \cite{Liris-2411}, which explains how to do the required integrals over meshes.
 
 \subsection{User-helped face selection/Object cutting}\label{sec:cutting}
-The above system is helpful for a large variety of objects, but may not work correctly for ones without large “exterior” supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
+The above system is helpful for a large variety of objects, but may not work correctly for ones without large ``exterior'' supporting planes. In that case it is needed to cut some parts of the object. To facilitate these operations, two features are provided.
 
 \begin{itemize}
 \item The first one simply cuts all parts of the object which are under the base plane. This operation is done by using Blender’s ``boolean difference'' operation between the object and a rectangular parallelepiped of the correct size (placed under the base plane).
@@ -475,7 +475,7 @@ Finally, another feature allows the automatic generation of a “socle”, which
 
 There are several papers investigating the techniques for repairing 3D objects, such as \cite{volum_simp}, \cite{printability} and \cite{noise_removal}. They all try to make printability assesments by looking for specific details, such as \emph{spikes}, \emph{bridges} and \emph{holes} (topological holes, not mesh holes). As the proposed algorithms deal with the object topology, the authors prefer to work with volumetric models instead of surface-based ones. As we work with meshes, that would need adding two extra steps: one for converting the mesh in voxels, and the opposite conversion.
 
-As those algorithms can be very computationnaly heavy, and we have used a interpreted language, those repairs would be unpractical to do in Blender using the API. One would have to do a C module for Blender.
+As those algorithms can be very computationally heavy, and we have used a interpreted language, those repairs would be unpractical to do in Blender using the API. One would have to do a C module for Blender.
 
 \section{The GUI modification - \textit{Caroline}}
 
