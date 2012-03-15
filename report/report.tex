@@ -496,7 +496,7 @@ While making researches about Blender, we discovered that we could manually modi
 
 We only chose to keep visible what was necessary to the final user simply wanting to import, modify and correct a mesh.\\
 
-The part we see at the right of the screen and which seem a little grey is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible next page.
+The part we see at the right of the screen and which seems a little grey is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible next page.
 
 \newpage
 
@@ -508,11 +508,11 @@ The part we see at the right of the screen and which seem a little grey is the p
 \end{figure}
 \bigskip
 
-As for the organization of the Mesh Verification panel, we chose to divide if into 4 main parts that we called ``steps'' since we considered that the the user would have to use them successively. We detail these steps here below.\\
+As for the organization of the Mesh Verification panel, we chose to divide it into 4 main parts that we called ``steps'' since we considered that the user would have to use them successively. We detail these steps here below.\\
 
 \textbf{Step 0 : not written on the panel} \\
 
-This part of the panel remind the user of the active mesh in the scene. It is also the first and only enabled button in the panel when starting Blender. It is to be used when the mesh is satisfying for the user to check if it is correct or not (manifold and watertight). By passing the mouse over the button, a description of the action is given, as for all the buttons and check boxes. When pressing this button, the script of verification will be run and it outcome will determine the next step enabled. If the mesh is found incorrect, the user will see the first step enabled and only this step. If it is found correct, the second step will be enabled.\\
+This part of the panel reminds the user of the active mesh in the scene. It is also the first and only enabled button in the panel when starting Blender. It is to be used when the mesh is satisfying for the user to check if it is correct or not (manifold and watertight). By passing the mouse over the button, a description of the action is given, as for all the buttons and check boxes. When pressing this ``Check the mesh'' button, the script of verification will be run and its outcome will determine the next step enabled. If the mesh is found incorrect, the user will see the first step enabled and only this step. If it is found correct, the second step will be enabled.\\
 
 \textbf{Step 1 : the mesh correction step} \\
 
