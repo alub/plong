@@ -7,6 +7,8 @@
 *.toc
 *.swp
 *.pyg
+*.bbl
+*.blg
 *~
 report/*.pdf
 slides/*.pdf
