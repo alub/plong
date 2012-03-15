@@ -1,6 +1,6 @@
 texc = xelatex
 
-userDoc.pdf: userDoc.tex
+userDoc.pdf: userDoc.tex $(wilcard Images/*)
 
 %.pdf: %.tex
 	($(texc) $< || (rm -f $@ && false)) && $(texc) $<
