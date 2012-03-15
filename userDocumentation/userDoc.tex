@@ -72,14 +72,6 @@ INP-ENSEEIHT/IMA
 }
 \end{center}
 
-\bigskip
-\bigskip
-
-	This report summarizes the context, organization, work and outcomes within the project 3D modeling and printing project suggested by the VORTEX team of IRIT to some of the third-year students in the IMA department of ENSEEIHT.
-
-\bigskip
-\bigskip
-
 \begin{figure}[!h]
 \begin{center}
 \scalebox{0.4}[0.4]{\includegraphics{./Images/enseeiht}}
@@ -103,7 +95,7 @@ http://www.enseeiht.fr/fr/index.html \\
 \end{figure}
 
 \begin{center}
-http://www.info@irit.fr\\
+\url{http://www.irit.fr}\\
 Université Paul Sabatier \\
 118 Route de Narbonne \\
 F-31062 TOULOUSE CEDEX 9
@@ -117,12 +109,12 @@ F-31062 TOULOUSE CEDEX 9
 
 \newpage
 
-\section{Reminding of the global architecture of the application}
+\section{Reminder of the global architecture of the application}
 
 
 \begin{figure}[!h]
 \begin{center}
-\scalebox{0.4}[0.4]{\includegraphics{./Images/ARD1}}
+\scalebox{0.4}[0.4]{\includegraphics{./Images/schema}}
 \end{center}
 \end{figure}
 
@@ -173,15 +165,20 @@ This step enables a check box and two different buttons allowing the user to cor
 
 \textbf{Step 2 : the finding of an adequate supporting plane for printing}\\
 
-This step has been realized so that the user can both trust the application to find an adequate supporting plane for his object and decide of the supporting plane himself. \\
+This step allows positioning and orienting the object so it can be correctly printed.
+If the object has large surfaces which may be used as supporting planes, the automatic supporting planes detection may be used, by using the ``Find supporting planes'' button. The detected supporting planes will be provided below (see Step 3).
 
-This last possibility is included in the ``Cut the object under the base plane'' button. This button allows the user to plane his object himself where he wants be orienting it and positioning it considering the $z = 0$ plan. This can be useful when printing an egg for example. In this case, there is no plane to support the object. Another button enabling the user to choose the supporting plan himself is the third one when he can select one and choose it so that the object will be automatically oriented as chosen.\\
+In case the automatic detection fails (because of too many irregularities on the support faces), it is possible to manually specify a face or set of faces that will become the object’s supporting plane by selecting them (you can use the multiple selection tool to do this by pressing C, and then Esc when you are done) and clicking ``Choose the selected faces as a supporting plane''. The object will be reoriented to stand on these faces, and the parts of it below the ``ground'' will be removed.
 
-But in this step, the user can also trust the scripts implemented to find several adequate supporting planes on the object (the number of planes generated being chosen by the developer). When this button is pressed, the ``best'' plane found according to the script is highlighted and the third step is enabled to choose between all the other planes.\\
+For objects without any possible support planes, there are two possibilities:
+\begin{itemize}
+\item You can manually position the object to put some parts of it under the ``ground'' (represented in Blender by a grid), and use the ``Cut the object under the base plane'' option. The object will be cut, creating viable support planes.
+\item You can create a socle under the object with the ``Generate a socle under the object'' option.
+\end{itemize}
 
 \textbf{Step 3 : the choice between the generated planes}\\ 
 
-In this step, planes have previously been found to support the object and the ``Next'' and ``Previous'' buttons allow the user to navigate among them, highlight them and select one for supporting the object. Once the ``Choose the current plane'' button is pressed, the step 0 is enabled again while the third one is disabled. 
+In this step, you can navigate between the different support planes which have been detected during the previous phase by using the ``Next'' and ``Previous'' buttons. Note that the planes are ordered in decreasing order of area. Once the ``Choose the current plane'' button is pressed, the object will be oriented to stand on the chosen plane, and the interface will go back to step 0.
 
 \subsection{Obtaining an object}
 
@@ -198,9 +195,8 @@ To build your own object from scratch, you can use all standard Blender function
 
 To be printable, your mesh have to be watertight and manifold. To know if it is the case, simply click on the 'Check your mesh' button on our customized UI. If the UI goes directly to step 2 without enabling the step 1 buttons, then all is OK and the mesh is correct. If not, you can easily correct your mesh with two different ways. If your object is not very damaged or doesn't contains many edges, try the non destructive method. But if you want to be sure that the resulting object is perfect, you may click on the destructive method. Besides, checking the fast-processing option should improve a lot the speed of the algorithm process, but may result in unwanted artifacts. Anyway, you can cancel your previous commands with CTRL+Z and try again with different options.
 
-\subsection{Generating adequate supporting plans for your object}
-
-\subsection{Choosing and applying a good supporting plan}
+\subsection{Managing supporting planes.}
+Before being printed, the object needs to be correctly positioned. See the previous section for instructions on the different available options.
 
 \subsection{Saving and exporting your mesh}
 
@@ -219,9 +215,7 @@ It is also a good idea to regularly check that the screw pushing on the filament
 
 First read \href{http://richrap.blogspot.com/2012/01/slic3r-is-nicer-part-1-settings-and.html}{this wiki} about the meaning of most the parameters. \\
 
-And here are some useful values we found out worked fairly well in most cases : \\
-
-And here are some useful values we found out worked fairly well in most cases :
+And here are some useful values we found out worked fairly well in most cases:
 \begin{itemize}
 \item \textbf{Temperature} : A good value is usually between 220 and 240. Lower and the plastic has difficulties sticking to the board at the beginning, higher and it might not cool down fast enough between layers. A high temperature also decreases the pressure the extruder has to apply
 \item \textbf{Extrusion multiplier} : Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoretical value by a coefficient between 150 and 180.
