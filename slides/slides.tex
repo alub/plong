@@ -335,18 +335,18 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 \begin{frame}
-	\frametitle{In charge: Vincent Duvert and Antoine Lubineau} 
-	\begin{block}{Difficult cases}
+    \frametitle{In charge: Vincent Duvert and Antoine Lubineau} 
+	\begin{block}{Choice of the orientation}
 		\begin{itemize}
-			\item No large planar faces? Create them by cutting the object (with the help of the user),
-			\item Another option is to create a socle for the object.
+			\item Objects need to be correctly oriented before printing
+			\item Planar faces detection and orientation algorithm
+			\item Bounded execution time
 		\end{itemize}
     \end{block}
 
 	\begin{center}
-		\includegraphics[width=.7\textwidth]{pf_socle}
+		\includegraphics[width=\textwidth]{pf_detect}
 	\end{center}
-    
 \end{frame}
 
 \subsection{Modifications in Blender's GUI}
@@ -385,6 +385,10 @@ Possibility in Blender to manually modify the interface and to register it as th
 	\end{itemize}
 	\end{itemize}
     \end{block}
+    \begin{center}
+		\includegraphics[width=.5\textwidth]{progress_bar}
+	\end{center}
+    
 \end{frame}
 
 \section{Calibration of the printer}
