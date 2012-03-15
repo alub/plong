@@ -124,7 +124,7 @@ F-31062 TOULOUSE CEDEX 9
 
 \subsection{Point on the graphic interface}
 
-Blender's graphic user interface remains quite difficult to use for inexperienced users and shows ``useless'' functions for users only aiming at modeling, correcting meshes and printing them. In Blender, the user has the possibility to manually modify this graphic interface as he wants to only keep the most useful features visible. That's what was done in that case and the first view available when starting Blender will be this one : 
+Blender's graphic user interface remains quite difficult to use for inexperienced users and shows ``useless'' functions for users only aiming at modeling, correcting meshes and printing them. In Blender, the user has the possibility to manually modify this graphic interface as he wants to only keep the most useful features visible. That is what was done in that case and the first view available when starting Blender will be this one : 
 \bigskip
 \bigskip
 
@@ -189,18 +189,18 @@ To import an object, simply open Blender then open the File menu and click on "I
 
 \subsubsection{Creating and editing your own mesh}
 
-To build your own object from scratch, you can use all standard Blender functionality. You may want to read some Blender documentation, but if you want to quickly make a simple printable object, the best way is to start by adding to the scene some primary meshes ('Add' menu, then chose a mesh like a Cube or a Cylinder), place them wherever you want, then you may edit your meshes, Blender offering two main ways to do it. The first one consists of vertex per vertex and precise edition (Edit Mode), and the second one allows you to manipulate areas of vertices in a smoother way (Sculpt Mode). Finally you have to merge them into a single object if you want to make it printable. To do that, right click on any of your mesh, then look for the modifiers into the right panel and add a Boolean - Union one with any other object. Now you can remove your second object as the first one is a result of the union.
+To build your own object from scratch, you can use all standard Blender functionality. You may want to read some Blender documentation, but if you want to quickly make a simple printable object, the best way is to start by adding to the scene some primary meshes (`Add' menu, then chose a mesh like a Cube or a Cylinder), place them wherever you want, then you may edit your meshes, Blender offering two main ways to do it. The first one consists of vertex per vertex and precise edition (Edit Mode), and the second one allows you to manipulate areas of vertices in a smoother way (Sculpt Mode). Finally you have to merge them into a single object if you want to make it printable. To do that, right click on any of your mesh, then look for the modifiers into the right panel and add a Boolean - Union one with any other object. Now you can remove your second object as the first one is a result of the union.
 
 \subsection{Verifying and repairing your mesh}
 
-To be printable, your mesh have to be watertight and manifold. To know if it is the case, simply click on the 'Check your mesh' button on our customized UI. If the UI goes directly to step 2 without enabling the step 1 buttons, then all is OK and the mesh is correct. If not, you can easily correct your mesh with two different ways. If your object is not very damaged or doesn't contains many edges, try the non destructive method. But if you want to be sure that the resulting object is perfect, you may click on the destructive method. Besides, checking the fast-processing option should improve a lot the speed of the algorithm process, but may result in unwanted artifacts. Anyway, you can cancel your previous commands with CTRL+Z and try again with different options.
+To be printable, your mesh have to be watertight and manifold. To know if it is the case, simply click on the ``Check your mesh'' button on our customized UI. If the UI goes directly to step 2 without enabling the step 1 buttons, then all is OK and the mesh is correct. If not, you can easily correct your mesh with two different ways. If your object is not very damaged or does not contain many edges, try the non destructive method. But if you want to be sure that the resulting object is perfect, you may click on the destructive method. Besides, checking the fast-processing option should improve a lot the speed of the algorithm process, but may result in unwanted artifacts. Anyway, you can cancel your previous commands with CTRL+Z and try again with different options.
 
 \subsection{Managing supporting planes.}
 Before being printed, the object needs to be correctly positioned. See the previous section for instructions on the different available options.
 
 \subsection{Saving and exporting your mesh}
 
-Once your object has a correct mesh and is well oriented, you simply have to export it. Open the 'File' menu and click on 'Export' with the STL format. Your resulting STL file is now ready to be sliced and printed !
+Once your object has a correct mesh and is well oriented, you simply have to export it. Open the ``File'' menu and click on `Export' with the STL format. Your resulting STL file is now ready to be sliced and printed !
 
 \newpage
 
@@ -209,7 +209,7 @@ Once your object has a correct mesh and is well oriented, you simply have to exp
 \subsection{Preparing the Utimaker 3D printer}
 
 It usually takes a bit of time to get a nice consistant extrusion at the beginning of the print, to avoid that put a few perimeters of skirt in Slic3r and push a bit on the filament during the first few seconds.
-It is also a good idea to regularly check that the screw pushing on the filament stays nice and tight and that the roll of filament doesn't get caught and stops turning.
+It is also a good idea to regularly check that the screw pushing on the filament stays nice and tight and that the roll of filament does not get caught and stops turning.
 
 \subsection{Generating the G-code on Slic3r}
 
@@ -225,20 +225,21 @@ And here are some useful values we found out worked fairly well in most cases:
 \item \textbf{Retraction} : the values influence what the printer will do in case of a bridge (jumping from a position to another without extruding). Playing
 \end{itemize}
 
-There other settings we have tested that don't necessarily have an impact on the quality of the print but that are useful for other reasons.
+There other settings were tested that do not necessarily have an impact on the quality of the print but that are useful for other reasons.
 \begin{itemize}
-\item \textbf{Center} : sets the center of the object you're going to print, the center of the plate is (100,100).
+\item \textbf{Center} : sets the center of the object you are going to print, the center of the plate is (100,100).
 \item \textbf{Copies along X/Y} : very useful to do numerous copies of small objects.
 \item \textbf{Perimeters} : can be played with in the case of thin walled objects.
 \item \textbf{Infilling} : the fastest to calculate is rectilinear but in some cases concentric is much more sensible (for instance, when most layer are homeomorphic to a circle.
 \end{itemize}
+
 \subsection{Sending the instructions to the printer with PrintRun}
+All needs to be done now is to send the G-code and the M-code to the printer via PrintRun. Some errors were detected in that area like checksum mismatch erros mostly due to problems with the USB port. The only actions that can be done while printing are :
+\begin{itemize}
+\item Check the temperature of the nozzle.
+\item Set the temperature.
+\item Pause the print, and then resume or restart.
+\end{itemize}
 
-\newpage
-
-\section{Ending the work}
-
-Comment fermer toutes les application après avoir sauvé une configuration \\
-Parler de polir l'objet \\
 
 \end{document}
