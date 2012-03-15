@@ -57,7 +57,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \subsection{Objectives}
 \begin{frame}
-	\frametitle{The main client's requests}
+	\frametitle{Main client's requests}
 	\begin{block}{Main goals of the project} 
 	\begin{itemize}
 		\item Open-source modeler able to import, model, deform and \textbf{correct} virtual 3D objects,
@@ -67,7 +67,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\end{itemize}
     \end{block}
     
-    \begin{block}{The final users}
+    \begin{block}{Final users}
     	\begin{itemize}
 		\item The VORTEX team,
 		\item Some artists from Artilect that we visited or artists students.
@@ -80,15 +80,15 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \begin{frame}
 	\frametitle{}
 	
-	\begin{block}{The project team}
+	\begin{block}{Project team}
 		\begin{itemize}
-		\item Five final year students at ENSEEIHT, Computing and Applied Mathematics department
+		\item Five final year students at ENSEEIHT, Computer Science and Applied Mathematics department
 		\item Several followed the “multimedia” option in third year
 		\item Project manager: Caroline Naud
 		\end{itemize}
     \end{block}
     
-    \begin{block}{The material resources}
+    \begin{block}{Material resources}
     	\begin{itemize}
     	\item Ultimaker 3D printer with a roll of PLA plastic in room F117 at ENSEEIHT,
     	\item Computer with dual-touch screen Acer T231H.
@@ -109,12 +109,12 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
   
   	\begin{column}{5cm}
   		\begin{block}{Process description}
-  		\begin{enumerate}
-  		\item The mesh is sliced into layers,
-  		\item The associated instructions are generated,
-  		\item The corresponding Gcode is sent to the printer,
-  		\item The object is created by laying down successive layers of material.
-  		\end{enumerate}
+  			\begin{enumerate}
+  				\item The mesh is sliced into layers,
+  				\item The associated instructions are generated,
+  				\item The corresponding G-code is sent to the printer,
+  				\item The object is created by laying down successive layers of material.
+  			\end{enumerate}
  	 	\end{block}   
   	\end{column}
  	\end{columns}  
@@ -143,7 +143,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\frametitle{From the modeler to the printer…}
 
     \begin{center}
-		\includegraphics[width=10cm]{schema}	
+		\includegraphics[width=\textwidth]{schema}
 	\end{center}
 	
 \end{frame}
@@ -152,24 +152,24 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \begin{frame}
 	\frametitle{}
-	\begin{block}{The tools}
+	\begin{block}{Tools}
     \begin{itemize}
 		\item A web-based project management system: Chiliproject (Gantt charts, calendars, documents, wiki, notifications\ldots ),
 		\item Code management with Git.
 	\end{itemize}
 	\end{block}
 	
-	\begin{block}{The external help}
+	\begin{block}{External help}
     \begin{itemize}
 		\item Our industrial supervisor from Airbus: Lionel Cremel,
-		\item The weekly meetings with the supervisor, 
-		\item The current weetings with the clients.
+		\item Weekly meetings with the supervisor, 
+		\item Current weetings with the clients.
 	\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{The V cycle management strategy}
+	\frametitle{V cycle management strategy}
 	\begin{center}
 		\includegraphics[width=10cm]{VCycle}	
 	\end{center}
@@ -177,7 +177,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 \begin{frame}
-	\frametitle{The macroscopic planning}
+	\frametitle{Macroscopic planning}
 
     \begin{center}
 		\includegraphics[width=\textwidth]{planning}	
@@ -189,12 +189,12 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 
 
-\section{The main specifications}
+\section{Main specifications}
 
 \subsection{About the global application}
 \begin{frame}
 	\frametitle{}
-	 \begin{block}{The application characteristics}
+	 \begin{block}{Application characteristics}
 		\begin{itemize}
 			\item Must be fully open source,
 			\item Must be usable on both Linux Ubuntu and Windows (if possible),
@@ -206,13 +206,13 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \subsection{About the modeler}
 \begin{frame}
 	\frametitle{}
-	 \begin{block}{The modeler characteristics}
+	 \begin{block}{Modeler characteristics}
 		\begin{itemize}
 			\item STL and PLY meshes import and STL meshes export required.
 		\end{itemize}
     \end{block}
     
-    \begin{block}{The online interactions required on the meshes}
+    \begin{block}{Online interactions required on the meshes}
 		\begin{itemize}
 			\item Add, remove, translate a vertex,
 			\item Smooth a surface (automatically add faces, etc.),
@@ -221,7 +221,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 			$\Longrightarrow$ week complexity required
     \end{block}
     
-    \begin{block}{The offline interactions required on the meshes}
+    \begin{block}{Offline interactions required on the meshes}
 		\begin{itemize}
 			\item Mesh defaults detected and corrected before printing.
 		\end{itemize}
@@ -233,7 +233,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \subsection{About the documentation}
 \begin{frame}
 	\frametitle{}
-	 \begin{block}{The required documentation}
+	 \begin{block}{Required documentation}
 		\begin{itemize}
 			\item \textbf{User documentation:} to use the application properly just by reading it. It should include the limits of the application,
 			\item \textbf{Technical documentation:} so that the client or an other team can continue the work if needed,
@@ -393,7 +393,7 @@ Possibility in Blender to manually modify the interface and to register it as th
     
     \begin{columns}[t]
   	\begin{column}{5cm}
-    \begin{block}{The printer's functioning}
+    \begin{block}{Printer's functioning}
 	\begin{itemize}
 	\item 4 motors: 
 		\begin{itemize}
@@ -419,7 +419,7 @@ Possibility in Blender to manually modify the interface and to register it as th
 \begin{frame}
 	\frametitle{In charge: James Packer}
 
-	\begin{block}{The choice of the parameters}
+	\begin{block}{Choice of parameters}
 	\begin{itemize}
 	\item No perfect set of parameters,
 	\item Depends on the printed object,
