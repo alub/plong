@@ -16,7 +16,7 @@ make
 
 cd ..
 
-rm -r											"$OUT_DIR"
+[ -d "$OUT_DIR" ] && rm -r "$OUT_DIR"
 mkdir											"$OUT_DIR"
 cp setup_doc/setup_doc.pdf						"$OUT_DIR/install.pdf"
 cp userDocumentation/userDoc.pdf				"$OUT_DIR/documentation.pdf"
