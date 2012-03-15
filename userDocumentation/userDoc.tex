@@ -33,8 +33,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%% En-tete et pied de page %%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\scalebox{0.1}[0.1]{\includegraphics{./Images/enseeiht}}}
-\rhead{\scalebox{0.1}[0.1]{\includegraphics{./Images/irit}}
+\lhead{\includegraphics[scale=0.3]{./Images/inp-enseeiht}}
+\rhead{\includegraphics[scale=0.1]{./Images/irit}
 \lfoot{Three-dimensional modeling and printing}}
 \rfoot{\bfseries \thepage}
 
@@ -71,7 +71,7 @@ INP-ENSEEIHT/IMA
 
 \begin{figure}[!h]
 \begin{center}
-\scalebox{0.4}[0.4]{\includegraphics{./Images/enseeiht}}
+	\includegraphics[scale=0.8]{./Images/inp-enseeiht}
 \end{center}
 \end{figure}
 
@@ -87,7 +87,7 @@ http://www.enseeiht.fr/fr/index.html \\
 
 \begin{figure}[!h]
 \begin{center}
-\scalebox{0.4}[0.4]{\includegraphics{./Images/irit}}
+	\includegraphics[scale=0.4]{./Images/irit}
 \end{center}
 \end{figure}
 
@@ -134,7 +134,7 @@ Blender's graphic user interface remains quite difficult to use for inexperience
 \bigskip
 \bigskip
 
-We only chose to keep visible what was necessary to a user simply wanting to import, modify and correct a mesh but you can create as many configurations as you want by simply drag and dropping some windows and panels and registering the corresponding file (\textit{startup.blend}) thanks to a simple Ctrl + U.\\
+We only chose to keep visible what was necessary to a user simply wanting to import, modify and correct a mesh but you can create as many configurations as you want by simply drag and dropping some windows and panels and registering the corresponding file (\texttt{startup.blend}) thanks to a simple Ctrl + U.\\
 
 The part we see at the right of the screen below and which seems a little grey is the panel we added so that the user can have access to the different functions we implemented. It is visible next page.
 
@@ -157,8 +157,6 @@ This part of the panel reminds the user of the active mesh in the scene. It is a
 \textbf{Step 1 : the mesh correction step} \\
 
 This step enables a check box and two different buttons allowing the user to correct the mesh the way he wants and in a chosen time (see the buttons description). When the mesh is considered correct by the script run when pressing the buttons, the step 2 is enabled. 
-
-\newpage
 
 \textbf{Step 2 : the finding of an adequate supporting plane for printing}\\
 
