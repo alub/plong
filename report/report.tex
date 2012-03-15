@@ -577,6 +577,11 @@ To verify if the final version would match exactly our clients' needs, we propos
 
 \section{Application's limitations}
 
+The time took by the algorithms depends a lot on the object complexity. For instance, a total and destructive correction of a low-res object composed of 7000 vertices take only 25s, but the same algorithm applied to a very high-res object composed of 150000 verticies can take around 20 mins. But activating the fast-processing option can divise the compuation duration up to 10 times and doesn't damage too much big objects, so it all depends on the working object. See the following table to more informations about durations and complexity.
+\\
+\\
+\includegraphics[width=\textwidth]{limits}
+
 \chapter{Conclusions}
 
 \addcontentsline{toc}{chapter}{\numberline{}Bibliography}
