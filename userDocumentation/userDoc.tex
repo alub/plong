@@ -50,7 +50,7 @@
 \bigskip
 
 \begin{center}
-\LARGE{Three-dimensional modelling and printing project :\\User documentation \\}
+\LARGE{Three-dimensional modeling and printing project :\\User documentation \\}
 \bigskip
 \bigskip\begin{tiny}
 \end{tiny}
@@ -159,7 +159,7 @@ The part we see at the right of the screen below and which seems a little grey i
 \end{figure}
 \bigskip
 
-As for the organization of the Mesh Verification panel, it is devided into 4 main parts called ``steps'' since the user has to use them successively. We detail these steps here below.\\
+As for the organization of the Mesh Verification panel, it is divided into 4 main parts called ``steps'' since the user has to use them successively. We detail these steps here below.\\
 
 \textbf{Step 0 : not written on the panel} \\
 
@@ -187,16 +187,16 @@ In this step, planes have previously been found to support the object and the ``
 
 \subsubsection{Loading an existing mesh from a file}
 
-You can simply import an object into Blender, preferably from a PLY or STL format. Many printable objects are findable with simple online resarches like in \href{http://graphics.stanford.edu/data/3Dscanrep/}{the Stanford 3D models repository}, or import any other 3D object and use our tools to repair their meshes and make them fully ready for print.
+You can simply import an object into Blender, preferably from a PLY or STL format. Many printable objects are findable with simple online researches like in \href{http://graphics.stanford.edu/data/3Dscanrep/}{the Stanford 3D models repository}, or import any other 3D object and use our tools to repair their meshes and make them fully ready for print.
 To import an object, simply open Blender then open the File menu and click on "Import".
 
 \subsubsection{Creating and editing your own mesh}
 
-To build your own object from sratch, you can use all standard Blender functionnality. You may want to read some Blender documentation, but if you want to quickly make a simple printable object, the best way is to start by adding to the scene some primary meshes ('Add' menu, then chose a mesh like a Cube or a Cylinder), place them wherever you want, then you may edit your meshes, Blender offering two main ways to do it. The first one consists of vertex per vertex and precise edition (Edit Mode), and the second one allows you to manipulate areas of vertices in a smoother way (Sculpt Mode). Finally you have to merge them into a single object if you want to make it printable. To do that, right click on any of your mesh, then look for the modifiers into the right panel and add a Boolean - Union one with any other object. Now you can remove your second object as the first one is a result of the union.
+To build your own object from scratch, you can use all standard Blender functionality. You may want to read some Blender documentation, but if you want to quickly make a simple printable object, the best way is to start by adding to the scene some primary meshes ('Add' menu, then chose a mesh like a Cube or a Cylinder), place them wherever you want, then you may edit your meshes, Blender offering two main ways to do it. The first one consists of vertex per vertex and precise edition (Edit Mode), and the second one allows you to manipulate areas of vertices in a smoother way (Sculpt Mode). Finally you have to merge them into a single object if you want to make it printable. To do that, right click on any of your mesh, then look for the modifiers into the right panel and add a Boolean - Union one with any other object. Now you can remove your second object as the first one is a result of the union.
 
 \subsection{Verifying and repairing your mesh}
 
-To be printable, your mesh have to be watertight and manifold. To know if it is the case, simply click on the 'Check your mesh' button on our customized UI. If the UI goes directly to step 2 without enabling the step 1 buttons, then all is OK and the mesh is correct. If not, you can easily correct your mesh with two different ways. If your object is not very damaged or doesn't contains many edges, try the non destructive method. But if you want to be sure that the resulting object is perfect, you may click on the destructive method. Besides, checking the fast-processing option should improve a lot the speed of the algorithm process, but may result in unwanted artifacts. Anyway, you can cancel your previous commands with CTRL+Z and try again with differents options.
+To be printable, your mesh have to be watertight and manifold. To know if it is the case, simply click on the 'Check your mesh' button on our customized UI. If the UI goes directly to step 2 without enabling the step 1 buttons, then all is OK and the mesh is correct. If not, you can easily correct your mesh with two different ways. If your object is not very damaged or doesn't contains many edges, try the non destructive method. But if you want to be sure that the resulting object is perfect, you may click on the destructive method. Besides, checking the fast-processing option should improve a lot the speed of the algorithm process, but may result in unwanted artifacts. Anyway, you can cancel your previous commands with CTRL+Z and try again with different options.
 
 \subsection{Generating adequate supporting plans for your object}
 
@@ -212,10 +212,10 @@ Once your object has a correct mesh and is well oriented, you simply have to exp
 
 \subsection{Preparing the Utimaker 3D printer}
 
-It usually takes a bit of time to get a nice consistant extrusion at the beggining of the print, to avoid that put a few perimeters of skirt in Slic3r and push a bit on the filament during the first few seconds.
+It usually takes a bit of time to get a nice consistant extrusion at the beginning of the print, to avoid that put a few perimeters of skirt in Slic3r and push a bit on the filament during the first few seconds.
 It is also a good idea to regularly check that the screw pushing on the filament stays nice and tight and that the roll of filament doesn't get caught and stops turning.
 
-\subsection{Generating the GCode on Slic3r}
+\subsection{Generating the G-code on Slic3r}
 
 First read \href{http://richrap.blogspot.com/2012/01/slic3r-is-nicer-part-1-settings-and.html}{this wiki} about the meaning of most the parameters. \\
 
@@ -224,7 +224,7 @@ And here are some useful values we found out worked fairly well in most cases : 
 And here are some useful values we found out worked fairly well in most cases :
 \begin{itemize}
 \item \textbf{Temperature} : A good value is usually between 220 and 240. Lower and the plastic has difficulties sticking to the board at the beginning, higher and it might not cool down fast enough between layers. A high temperature also decreases the pressure the extruder has to apply
-\item \textbf{Extrusion multiplier} : Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoritical value by a coefficient between 150 and 180.
+\item \textbf{Extrusion multiplier} : Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoretical value by a coefficient between 150 and 180.
 \item \textbf{Print speed} : these five parameters depend mostly of the object's size. Indeed for most objects (30-30-60-60-60) are good value as they will insure a good quality and a good speed. However for small objects going too fast will not allow for enough time the layers to cool down and so the print will be less precise. The most 0.7 version of Slic"r corrects that bug by automatically slowing down when a layer is too small to cool down fast enough otherwise.
 \item \textbf{Layer height} : The evident idea here is that a smaller layer height will make for a better quality. The values should be between 0.2 and 0.4 mm, however while 0.2 mm provides a very nice quality print it makes it longer and sometimes the plastic will bend more easily while cooling down.
 \item \textbf{Skirt} : adding more loops before the actual print gives you a bit more time to make sur the extrusion is good.
@@ -235,7 +235,7 @@ There other settings we have tested that don't necessarily have an impact on the
 \begin{itemize}
 \item \textbf{Center} : sets the center of the object you're going to print, the center of the plate is (100,100).
 \item \textbf{Copies along X/Y} : very useful to do numerous copies of small objects.
-\item \textbf{Perimeters} : can be played wth in the case of thin walled objects.
+\item \textbf{Perimeters} : can be played with in the case of thin walled objects.
 \item \textbf{Infilling} : the fastest to calculate is rectilinear but in some cases concentric is much more sensible (for instance, when most layer are homeomorphic to a circle.
 \end{itemize}
 \subsection{Sending the instructions to the printer with PrintRun}
