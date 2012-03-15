@@ -270,7 +270,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
   		\begin{block}{Blender (our choice)}
   		Advantages:
   		\begin{itemize}
-  		\item Interactions preexisting ,
+  		\item Preexisting interactions,
   		\item Python API  
   		\item A lot of documentation,
   		\item Manually modifiable GUI.
@@ -293,7 +293,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
     \begin{block}{Finding the mesh's defects}
 		\begin{itemize}
 		    \item Watertight: there is no hole in the mesh,
-            \item Manifold: each edge belong to exactly 2 faces,
+            \item Manifold: each edge belongs to exactly 2 faces,
 		    \item First: check the mesh characteristics,
 			\item Then: if needed, correct the mesh.
 		\end{itemize}
@@ -325,6 +325,13 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 \begin{frame}
+	\frametitle{In charge : Florian Ribon}
+    
+  Photo maillage détruit / maillage correct
+
+\end{frame}
+
+\begin{frame}
 	\frametitle{In charge : Vincent Duvert and Antoine Lubineau} 
 	\begin{block}{Difficult cases}
 		\begin{itemize}
@@ -349,8 +356,8 @@ Possibility in Blender to manually modify the interface and to register it as th
     
     \begin{block}{A new panel}
     \begin{itemize}
-	\item Addition on a new panel named “Mesh verification” thank to the Blender Python API,
-	\item Insertion of buttons appearing conditionally and calling the mesh corrections. implemented
+	\item Addition of a new panel named “Mesh verification” thanks to the Blender Python API,
+	\item Insertion of buttons appearing conditionally and calling the implemented mesh corrections.
 	\end{itemize}
     \end{block}
 \end{frame}
@@ -368,7 +375,7 @@ Possibility in Blender to manually modify the interface and to register it as th
 	\begin{itemize}
 	\item Algorithms may take time to execute,
 	\item No feedback from Blender during execution,
-	\item A small “progress report” framework was developed:
+	\item A small ``progress report'' framework was developed:
 	\begin{itemize}
 		\item Linux: uses an external program to display progress dialogues,
 		\item Windows: progress messages are displayed on the standard console.
@@ -387,7 +394,7 @@ Possibility in Blender to manually modify the interface and to register it as th
 	\begin{itemize}
 	\item 4 motors : 
 		\begin{itemize}
-		\item 2 for the $x$ and $y$ axes of the nozzle,
+		\item 2 for the $x$ and $y$ axis of the nozzle,
 		\item 1 for the $z$ axe of the plate,
 		\item 1 to extrude the filament.
 		\end{itemize}
@@ -412,7 +419,7 @@ Possibility in Blender to manually modify the interface and to register it as th
 	\begin{block}{The choice of the parameters}
 	\begin{itemize}
 	\item No perfect set of parameters,
-	\item Depends on the object printed,
+	\item Depends on the printed object,
 	\item Basic parameters found :
 		\begin{itemize}
 		\item temperature : between 210$°C$ and 240$°C$,
@@ -431,16 +438,18 @@ Possibility in Blender to manually modify the interface and to register it as th
 \section{Application and printing limitations}
 \begin{frame}
 	\frametitle{Limitations}
-	\begin{block}{Printing}
-    Printing size limited to 20x20x20 cm³
-    \end{block}
 	
 	\begin{block}{Algorithms}
     \begin{itemize}
     \item Mesh correction becomes quite slow for very big meshes,
     \item Mesh correction may be destructive for very damaged meshes,
-    \item Automatic supporting planes detection does not work for some objects (like spherical objects).
+    \item Automatic supporting planes detection does not work for some objects (like spherical objects),
+    \item Gravity center not used $\rightarrow$ might trigger issues.
     \end{itemize}
+    \end{block}
+    
+    \begin{block}{Dual-touch screen}
+    The dual-touch only appears to be useful for a few interactions.
     \end{block}
 \end{frame}
 
