@@ -540,8 +540,15 @@ Our main algorithms are tested using automated unit tests. These are using the s
 Some Python functions were written specifically for the tests: some of them are used to set the test environment up (by loading meshes, for instance), and other to analyze the results (number of faces on the resulting mesh, for instance).
 
 \section{Integration tests}
-
+Most of the integration was that the different algorithm were united in a single interface. We encountered two type of bugs : some were related to the version of Blender used, indeed some variables did not have the same type before and after Blender 2.5. The others bugs encountered we're more problems of synchronization between the view and the model (what was displayed didn't correspond exactly to what was selected in the code). 
 \section{Functional tests}
+
+We tried different scenarios :
+\begin{itemize}
+\item The first objects we tried were .stl downloaded from \url{www.thingiverse.com}. These meshes were known to be printable.
+\item Our second test was to print objects we had modeled ourselves with blender, some of them not being manifold our script was used. With these tests it appeared options easy to implement and that we had not thought of appeared to be useful and were added.
+\item Last but not least, we tested our scripts on .ply meshes resulting from scans of real life objects done by stanford. them not being manifold and having most of the possible defects they were a good challenge (such as the bunny or the buddha).  
+\end{itemize}
 
 \section{User tests}
 
