@@ -1,6 +1,6 @@
 texc = xelatex
 
-report.pdf: report.tex report.bib
+report.pdf: report.tex report.bib $(wildcard images/*)
 
 %.pdf: %.tex
 	($(texc) $< || (rm -f $@ && false)) && $(texc) $<

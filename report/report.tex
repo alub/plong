@@ -37,6 +37,8 @@
 
 \begin{document}
 
+\sloppy
+
 \bigskip
 \bigskip
 \bigskip
@@ -133,7 +135,7 @@ F-31062 TOULOUSE CEDEX 9
 
 	Since 2003 there has been a large growth in the sale of 3D printers since the technology actually finds use in more and more fields such as jewelry, footwear, industrial design, architecture, engineering and construction, automotive, aerospace, dental and medical industries, education, geographic information systems, civil engineering, and many others.\\
 
-	The VORTEX team (Visual Objects : from Reality To EXpression) from IRIT (Institut de Recherche en Informatique de Toulouse) is part of the numerous people having found interest in this technology and recently acquired an Ultimaker 3D printer which she did not have the time to calibrate and that she would like to be able to use in order to print 3D mono-color objects. To that end, she would need to be able to create, model and edit these objects within a software (to be conceived or modified) using, if possible, the multi-touch screen she already owns (Acer T231H).\\
+	The VORTEX team (Visual Objects : from Reality To EXpression) from IRIT (Institut de Recherche en Informatique de Toulouse) is part of the numerous people having found interest in this technology. They recently acquired an Ultimaker 3D printer which they did not have time to calibrate and that they would like to be able to use in order to print 3D mono-color objects. To that end, they would need to be able to create, model and edit these objects within a software (to be conceived or modified) using, if possible, the multi-touch screen they already own (Acer T231H).\\
 
 \section{The final users of the product}
 
@@ -162,18 +164,17 @@ F-31062 TOULOUSE CEDEX 9
 	We list below all the material resources which were available to us during the project:
 
 \begin{itemize}
-	\item the room F117 in building F at ENSEEIHT (same building that the one the \textsc{VORTEX} team works in
-	\item an Ultimaker 3D printer with a roll of PLA plastic
-	\item a computer with a dual-touch screen Acer T231H
-	\item all computer rooms of ENSEEIHT
-	\item our personal computers
+	\item the room F117 in building F at ENSEEIHT (same building that the one the \textsc{VORTEX} team works in),
+	\item an Ultimaker 3D printer with a roll of PLA plastic,
+	\item a computer with a dual-touch screen Acer T231H,
+	\item our personal computers.
 \end{itemize}
 
 \chapter{Project management}
 
 \section{Project supervision}
 
-	During the first week of the project we were introduced to Lionel \textsc{Cremel}, project manager at \textsc{Airbus}, who had volunteered to guide us in managing our project. We agreed on that day to meet him at least once a week nearly every week so that he could guide us throughout the project. We give here the dates on which we successively met and the main content of the meetings:
+	During the first week of the project we were introduced to Lionel \textsc{Cremel}, project manager at Airbus, who had volunteered to guide us in managing our project. We agreed on that day to meet him at least once a week nearly every week so that he could guide us throughout the project. We give here the dates on which we successively met and the main content of the meetings:
 	
 \begin{itemize}
 
@@ -188,7 +189,7 @@ F-31062 TOULOUSE CEDEX 9
 
 \end{itemize}
 
-On each meeting, Lionel successively explained us how to decide of a macroscopic planning for our project, told us about the different milestones they use in Airbus projects and the documents that should sometimes be available when arriving at a milestone and guided us throughout the management of our human and material resources. Of course, we couldn't do exactly as he was used to do Airbus (simply because our project is happening in quite special conditions) but thanks to that, we could have a real idea of what project management would be in the future. 
+On each meeting, Lionel successively explained us how to decide of a macroscopic planning for our project, told us about the different milestones they use in Airbus projects and the documents that should sometimes be available when arriving at a milestone and guided us throughout the management of our human and material resources. Of course, we couldn't do exactly as he was used to do Airbus (simply because our project is happening in quite special conditions) but thanks to that, we now have a real idea of what project management is.
 
 \section{Resource management and planning}
 
@@ -217,7 +218,7 @@ The macroscopic planning we chose is given here:
 \end{center}
 \end{figure}
 
-As shown here, we decided to give approximatively the same time to each main part of our project, this is to say 2 to 3 weeks. The first main phase is here the only one containing milestones. This is because these were quite the most important milestones to us. They corresponded to the main documents we had to produce before starting the development. These documents will be given later in this report. They had to be submitted to the client so that we would be totally sure that we add completely understood their need.\\
+As shown here, we decided to give approximatively the same time to each main part of our project, this is to say 2 to 3 weeks. The first main phase is here the only one containing milestones. This is because these were quite the most important milestones to us. They corresponded to the main documents we had to produce before starting the development. These documents will be given later in this report. They had to be submitted to the client so that we would be totally sure that we had completely understood their need.\\
 
 A more detailed planning containing the different tasks we achieved is available in the appendix and will be explained in the rest of this report.
 
@@ -231,7 +232,7 @@ We give here an example of this assessment we did on our second week of work:
 	\begin{tabular}{|p{4cm}|p{5cm}|p{5cm}|}
 		\hline
 		Category & Risk & Prevention solution \\ \hline
-		Material resources & Printer failure & Warn the Fablab that we could use their printer, use ours with caution \\
+		Material resources & Printer failure & Ask the Fablab to use their printer, use ours with caution \\
 		Documentation & Lack of documentation & Ask the teachers for help \\
 		Client's needs and specifications & Late change in the customer's expectations & Tell them we won't accept any change after a certain date \\
 		Project management & Not enough slack & Include consequent slacks in the planning \\
@@ -256,11 +257,9 @@ They also mentioned later that they wanted to be able to know, before printing i
 
 Finally, they told us about the documentation they needed to be provided with so that they could use and modify our work later. \\
 
-We must notice that our project was quite atypical considering the fact that, even though we had planned to have fully decided on the specifications on February, 12th, our clients kept asking us about what could be useful until the last day.
-
 \section{The general architecture of the project}
 
-As we all started to discover the printer, it came to us that the final application would include the use of several software. Indeed, the use of the printer first implies the transformation of the mesh created with the modeler into instructions for the printer (G-code) which we then need to send to the printer previously parametrized. This makes the 4 main parts given in the following figure:
+As we all started to discover the printer, it appeared to us that the final application would include the use of several software packages. Indeed, the use of the printer first implies the transformation of the mesh created with the modeler into instructions for the printer (G-code) which we then need to send to the printer previously parametrized. This makes the 4 main parts given in the following figure:
 
 \bigskip
 
@@ -335,7 +334,7 @@ Find the adequate printing parameters, depending on the kind of object printed.
 
 \subsection{Choice of the modeler}
 
-Developing a 3D modeler ``from scratch'' would have needed a considerable amount of time. That's the reason why we chose to start from an existing modeling program since many where already existing and already contained some of the features we needed.\\
+Developing a 3D modeler ``from scratch'' would have needed a considerable amount of time. That's the reason why we chose to start from an existing modeling program since many were already existing and already contained some of the features we needed.\\
 
 Since we needed to provide the client team with a fully open-source application, we decided to list all the existing modelers we found and to weight up their pros and cons. After a few day, our choice was reduced to the two following modelers \emph{Meshlab}\footnote{\url{http://meshlab.sourceforge.net/}} and \emph{Blender}\footnote{\url{http://www.blender.org}}. We give here the drawbacks and advantages we highlighted for each one and explain our final choice.
 
@@ -392,7 +391,7 @@ Since we needed to provide the client team with a fully open-source application,
 
 \bigskip
 
-We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language provides some programming facilities (automatic memory management, for instance) which ease the implementation of algorithms.
+We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language provides some programming facilities (automatic memory management, for instance) which eases the implementation of algorithms.
 
 \subsection{Choice of the G-code Generator and of the printer's driver}
 
@@ -402,11 +401,11 @@ We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead 
 
 We have implemented a script which allows the user to track broken, non-manifold edges on the working object in Blender, and offers him two different ways to correct them.\\
 
-First of all, a press on the Check button (see the GUI modification part) highlights all the potential non-manifold edges and gives the user the possibility to repair them if the mesh is actually non-manifold.\\
+First of all, a press on the Check button (see the GUI modification part, section \ref{sec:gui-modif}) highlights all the potential non-manifold edges and gives the user the possibility to repair them if the mesh is actually non-manifold.\\
 
 The first method is a soft correction algorithm, which detects all distinct holes in the mesh, then cleans theses holes (for instance if there are some faces not connected to any vertex), and finally tries to fill them, one after one. This method is considered non-destructive (even if the cleaning part may remove unwanted faces) and is not recursive. The algorithm has been proved, to make a broken mesh watertight, so there is no more holes remaining after its execution.\\
 
-But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edges-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non manifold edges (and thus which didn't belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).\\
+But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edge-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non-manifold edges (and thus which didn't belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).\\
 
 For both the destructive method and the non-destructive one, we added a fast-processing option which makes the correction algorithms way faster than without enabling it. But activating it may result in various artifacts between some edges. Since it works better on bigger and well-detailed objects (with finer meshes), the user should try to use it first on big objects and if the result is not satisfying, he simply has to cancel the last operations and then try again with the fast-processing check box disabled. This option only acts during the holes filling action, by trying to fill all of them with only one single filling call, while the standard option requires another algorithm which we developed and which detects and separates all distinct holes within the mesh.
 
@@ -454,7 +453,8 @@ Since the bigger supporting surfaces are preferred, we provide the user the 10 l
 
 	Although the results are good (they most often match the surface criterion), we did not include that part in our interface for several reasons:
 	\begin{itemize}
-		\item finding the intersection takes too much time, because boolean operations in Blender can be very slow
+		\item finding the intersection takes too much time, because boolean operations in Blender can be very slow,
+		\item there can be some side effects: if the object is made of multiple meshes, each one will become an object on its own,
 		\item most of the time, the surface criterion is already the best: figurative objects almost always have a “natural” orientation that is given by their use, and when abstract objects (like a sphere) don't have one, they often need correction.
 	\end{itemize}
 
@@ -473,14 +473,14 @@ Finally, another feature allows the automatic generation of a “socle”, which
 
 \section{Model repairing}\label{sec:repairing}
 
-There are several papers investigating the techniques for repairing 3D objects, such as \cite{volum_simp}, \cite{printability} and \cite{noise_removal}. They all try to make printability assesments by looking for specific details, such as \emph{spikes}, \emph{bridges} and \emph{holes} (topological holes, not mesh holes). As the proposed algorithms deal with the object topology, the authors prefer to work with volumetric models instead of surface-based ones. As we work with meshes, that would need adding two extra steps: one for converting the mesh in voxels, and the opposite conversion.
+There are several papers investigating the techniques for repairing 3D objects, such as \cite{volum_simp}, \cite{printability} and \cite{noise_removal}. They all try to make printability assessments by looking for specific details, such as \emph{spikes}, \emph{bridges} and \emph{holes} (topological holes, not mesh holes). As the proposed algorithms deal with the object topology, the authors prefer to work with volumetric models instead of surface-based ones. As we work with meshes, that would need adding two extra steps: one for converting the mesh in voxels, and the opposite conversion.
 
 As those algorithms can be very computationally heavy, and we have used a interpreted language, those repairs would be unpractical to do in Blender using the API. One would have to do a C module for Blender.
 
-\section{The GUI modification - \textit{Caroline}}
+\section{The GUI modification - \textit{Caroline}}\label{sec:gui-modif}
 
 Although we had decided to work on Blender, its graphic interface remained quite difficult to use for inexperienced users and still showed ``useless'' functions. \\
-While making researches about Blender, we discovered that we could manually modify its graphic interface as we wanted to only keep the most useful features visible. This was done while drag 	and dropping some windows and panels. We then registered the corresponding file (\textit{startup.blend}) to have it to the adequate place in the final product. We give here the the interface we configured :
+While making researches about Blender, we discovered that we could manually modify its graphic interface as we wanted to only keep the most useful features visible. This was done with dragging and dropping some windows and panels. We then registered the corresponding file (\texttt{startup.blend}) to have it in the adequate place. We give here the interface we configured :
 
 \bigskip
 \bigskip
@@ -496,7 +496,7 @@ While making researches about Blender, we discovered that we could manually modi
 
 We only chose to keep visible what was necessary to the final user simply wanting to import, modify and correct a mesh.\\
 
-The part we see at the right of the screen and which seems a little grey is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes ... The panel is visible next page.
+The part we see at the right of the screen and which seems a little grey is the panel we added so that the user can have access to the different functions we implemented. It was also coded thanks to the Blender Python API which allows to create buttons, check boxes... The panel is visible next page.
 
 \newpage
 
@@ -522,9 +522,9 @@ This step enables a check box and two different buttons allowing the user to cor
 
 This step has been realized so that the user can both trust the application to find an adequate supporting plane for his object and decide of the supporting plane himself. \\
 
-This last possibility is included in the ``Cut the object under the base plane'' button. This button allows the user to plane his object himself where he wants be orienting it and positioning it considering the $z = 0$ plan. This can be useful when printing an egg for example. In this case, there is no plane to support the object. Another button enabling the user to choose the supporting plan himself is the third one when he can select one and choose it so that the object will be automatically oriented as chosen.\\
+This last possibility is included in the ``Cut the object under the base plane'' button. This button allows the user to place his object himself where he wants be orienting it and positioning it considering the $z = 0$ plane. This can be useful when printing an egg for example. In this case, there is no plane to support the object. Another button enabling the user to choose the supporting plan himself is the third one when he can select one and choose it so that the object will be automatically oriented as chosen.\\
 
-But in this step, the user can also trust the scripts implemented to find several adequate supporting planes on the object (the number of planes generated being chosen by the developer). When this button is pressed, the ``best'' plane found according to the script is highlighted and the third step is enabled to choose between all the other planes.\\
+But in this step, the user can also trust the scripts implemented to find several adequate supporting planes on the object (the number of generated planes being chosen by the developer). When this button is pressed, the ``best'' plane found according to the script is highlighted and the third step is enabled to choose between all the other planes.\\
 
 \textbf{Step 3 : the choice between the generated planes}\\ 
 
