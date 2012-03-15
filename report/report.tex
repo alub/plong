@@ -129,7 +129,7 @@ F-31062 TOULOUSE CEDEX 9
 
 \chapter{Presentation of the project}
 
-\section{The context}
+\section{Context}
 
 	The \textit{3D printing} phrase is used to describe the process of creating three dimensional objects from digital files using a materials printer in a manner similar to printing images on paper. The term is most closely associated with additive manufacturing technology, where an object is created by laying down successive layers of material.\\
 
@@ -137,17 +137,17 @@ F-31062 TOULOUSE CEDEX 9
 
 	The VORTEX team (Visual Objects : from Reality To EXpression) from IRIT (Institut de Recherche en Informatique de Toulouse) is part of the numerous people having found interest in this technology. They recently acquired an Ultimaker 3D printer which they did not have time to calibrate and that they would like to be able to use in order to print 3D mono-color objects. To that end, they would need to be able to create, model and edit these objects within a software (to be conceived or modified) using, if possible, the multi-touch screen they already own (Acer T231H).\\
 
-\section{The final users of the product}
+\section{Final users of the product}
 
 	The primary final users of the 3D modeling software and of the printer would be the researchers of the team of IRIT. However, they really aim at offering this service to artists, such as those already using an Ultimaker 3D printer in the Fablab in Toulouse.
 
-\section{The work required}
+\section{Work required}
 
 	The project was divided into two major parts. The first consisted in developing an open-source software with graphical interface that could allow to model and deform virtual 3D objects, preferably using a dual-touch screen. The second part concerned the export of this object (as a mesh) to the printer to finally print it as realistically as possible.
 
 \section{Available resources}
 
-\subsection{The project team}
+\subsection{Project team}
 
 	Our team was composed of five students from the Computer Science and Applied Mathematics department of ENSEEIHT who all showed a real interest in the subject. These people are listed here:
 
@@ -222,7 +222,7 @@ As shown here, we decided to give approximatively the same time to each main par
 
 A more detailed planning containing the different tasks we achieved is available in the appendix and will be explained in the rest of this report.
 
-\section{The risks assessment}
+\section{Risk assessment}
 
 Our supervisor also taught us how to manage the possible risks in our project so that we would not have any delay of major issues which would prevent us from delivering a good quality product. This work included the detection of theses risks, the finding of a way to prevent them and a mitigation if they would still happen. Of course, this assessment changed as time went by since some of the risks disappeared or actually happened and new appeared.
 
@@ -243,11 +243,11 @@ We give here an example of this assessment we did on our second week of work:
 	\end{tabular}
 \end{center}
 
-\chapter{The specification phase}
+\chapter{Specification phase}
 
 This was the first main phase of our project. Our main goal at the end of this phase (on February, 12th) was to fully determine with the client the specifications of the project so that we would change them as little as possible. The achievement of this goal included to first understand what the client team expected from us on a general way (Statement Of Work) to them detail these needs and find technical solutions to satisfy them. This phase thus implied regular meetings with the client team.
 
-\section{The establishment of the Statement Of Work}
+\section{Establishment of the Statement Of Work}
 
 We first met the client team on January, 20th when they completely presented us the project for the first time. One of us was missing that day because still in semester abroad but we managed to tell him all about that meeting afterwards.\\
 
@@ -257,7 +257,7 @@ They also mentioned later that they wanted to be able to know, before printing i
 
 Finally, they told us about the documentation they needed to be provided with so that they could use and modify our work later. \\
 
-\section{The general architecture of the project}
+\section{General architecture of the project}
 
 As we all started to discover the printer, it appeared to us that the final application would include the use of several software packages. Indeed, the use of the printer first implies the transformation of the mesh created with the modeler into instructions for the printer (G-code) which we then need to send to the printer previously parametrized. This makes the 4 main parts given in the following figure:
 
@@ -273,7 +273,7 @@ As we all started to discover the printer, it appeared to us that the final appl
 
 We decided not to act on the printer's firmware (although it is possible to do so), and to focus on the modeler, the G-code generator and the printer driver. These choices are explained later in this report. 
 
-\section{The redaction of the technical specifications}
+\section{Redaction of the technical specifications}
 
 One we had determined the clients' needs, we had to specify exactly what would be integrated into our application. The initial technical requirements are listed below.
 
@@ -330,7 +330,7 @@ Find the adequate printing parameters, depending on the kind of object printed.
 
 
 
-\section{The technical choices}
+\section{Technical choices}
 
 \subsection{Choice of the modeler}
 
@@ -394,10 +394,11 @@ Since we needed to provide the client team with a fully open-source application,
 We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language provides some programming facilities (automatic memory management, for instance) which eases the implementation of algorithms.
 
 \subsection{Choice of the G-code Generator and of the printer's driver}
+The software shown to us to start with (ReplicatorG and Skeinforge) was very counter-intuitive and we were a bit lost. Thus we set out to meet other users of the Ultimaker printer model. This was fairly worthwhile as we discovered Printrun and Slic3r that were more stable and much easier to use. The conctacts we made at Tetalab and Artilect helped us get feedback on some options and how well they worked.
 
-\chapter{The implementation phase}
+\chapter{Implementation phase}
 
-\section{The mesh correction - \textit{Florian \& James}}
+\section{Mesh correction - \textit{Florian \& James}}
 
 We have implemented a script which allows the user to track broken, non-manifold edges on the working object in Blender, and offers him two different ways to correct them.\\
 
@@ -477,7 +478,7 @@ There are several papers investigating the techniques for repairing 3D objects, 
 
 As those algorithms can be very computationally heavy, and we have used a interpreted language, those repairs would be unpractical to do in Blender using the API. One would have to do a C module for Blender.
 
-\section{The GUI modification - \textit{Caroline}}\label{sec:gui-modif}
+\section{GUI modification - \textit{Caroline}}\label{sec:gui-modif}
 
 Although we had decided to work on Blender, its graphic interface remained quite difficult to use for inexperienced users and still showed ``useless'' functions. \\
 While making researches about Blender, we discovered that we could manually modify its graphic interface as we wanted to only keep the most useful features visible. This was done with dragging and dropping some windows and panels. We then registered the corresponding file (\texttt{startup.blend}) to have it in the adequate place. We give here the interface we configured :
@@ -530,9 +531,29 @@ But in this step, the user can also trust the scripts implemented to find severa
 
 In this step, planes have previously been found to support the object and the ``Next'' and ``Previous'' buttons allow the user to navigate among them, highlight them and select one for supporting the object. Once the ``Choose the current plane'' button is pressed, the step 0 is enabled again while the third one is disabled. 
 
-\chapter{The printer calibration}
+\chapter{Printer calibration}
+Once we had basic configuration files for Slic3r and Printrun most of the work was fine tuning. The only major difficulty we had was in the length of extruded plastic which is calculated at the entrance of the tube by most slicers and at the nozzle by the firmware so there was multiplier coefficient of 160. Our results are extensively described in the user documentation.\\
 
-\chapter{The validation phase}
+\bigskip
+
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[width=\textwidth]{uncalibrated_small}
+	\caption{Results before the calibration}
+\end{center}
+\end{figure}
+\hfill
+\begin{figure}[!h]
+\begin{center}
+	\includegraphics[width=\textwidth]{calibrated_small}
+	\caption{Results after the calibration}
+\end{center}
+\end{figure}
+
+
+\bigskip
+
+\chapter{Validation phase}
 
 \section{Unit tests}
 Our main algorithms are tested using automated unit tests. These are using the standard \texttt{unittest} Python module, which allows running each test one by one and reporting the results (number of passed/failed tests).
@@ -552,7 +573,7 @@ We tried different scenarios :
 
 \section{User tests}
 
-\section{The application's limitations}
+\section{Application's limitations}
 
 \chapter{Conclusions}
 
