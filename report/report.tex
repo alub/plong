@@ -189,7 +189,7 @@ F-31062 TOULOUSE CEDEX 9
 
 \end{itemize}
 
-On each meeting, Lionel successively explained us how to decide of a macroscopic planning for our project, told us about the different milestones they use in Airbus projects and the documents that should sometimes be available when arriving at a milestone and guided us throughout the management of our human and material resources. Of course, we couldn't do exactly as he was used to do Airbus (simply because our project is happening in quite special conditions) but thanks to that, we now have a real idea of what project management is.
+On each meeting, Lionel successively explained us how to decide of a macroscopic planning for our project, told us about the different milestones they use in Airbus projects and the documents that should sometimes be available when arriving at a milestone and guided us throughout the management of our human and material resources. Of course, we could not do exactly as he was used to do Airbus (simply because our project is happening in quite special conditions) but thanks to that, we now have a real idea of what project management is.
 
 \section{Resource management and planning}
 
@@ -234,7 +234,7 @@ We give here an example of this assessment we did on our second week of work:
 		Category & Risk & Prevention solution \\ \hline
 		Material resources & Printer failure & Ask the Fablab to use their printer, use ours with caution \\
 		Documentation & Lack of documentation & Ask the teachers for help \\
-		Client's needs and specifications & Late change in the customer's expectations & Tell them we won't accept any change after a certain date \\
+		Client's needs and specifications & Late change in the customer's expectations & Tell them we will not accept any changes after a certain date \\
 		Project management & Not enough slack & Include consequent slacks in the planning \\
 		Tests and deployment & Ineffective tests & Plan enough time to prepare relevant tests \\
 		Quality & Disagreement between the needs and the solution & Organize as many meetings as possible with the client \\
@@ -314,7 +314,7 @@ One we had determined the clients' needs, we had to specify exactly what would b
 
 \bigskip
 
-What must be said is that some of these requirements were not directly expressed by the client team but were suggested by us (because the client had not thought about them and because we planned we would have time to integrate them). That's why they are not exactly implemented as expressed but in a quite different way. This is due to the fact that, while progressing in our work, we had new ideas about how to integrate these notions in Blender. All these reflexions are detailed later in this report.
+What must be said is that some of these requirements were not directly expressed by the client team but were suggested by us (because the client had not thought about them and because we planned we would have time to integrate them). That is why they are not exactly implemented as expressed but in a quite different way. This is due to the fact that, while progressing in our work, we had new ideas about how to integrate these notions in Blender. All these reflexions are detailed later in this report.
 
 \subsection{Printer}
 
@@ -334,7 +334,7 @@ Find the adequate printing parameters, depending on the kind of object printed.
 
 \subsection{Choice of the modeler}
 
-Developing a 3D modeler ``from scratch'' would have needed a considerable amount of time. That's the reason why we chose to start from an existing modeling program since many were already existing and already contained some of the features we needed.\\
+Developing a 3D modeler ``from scratch'' would have needed a considerable amount of time. That is the reason why we chose to start from an existing modeling program since many were already existing and already contained some of the features we needed.\\
 
 Since we needed to provide the client team with a fully open-source application, we decided to list all the existing modelers we found and to weight up their pros and cons. After a few day, our choice was reduced to the two following modelers \emph{Meshlab}\footnote{\url{http://meshlab.sourceforge.net/}} and \emph{Blender}\footnote{\url{http://www.blender.org}}. We give here the drawbacks and advantages we highlighted for each one and explain our final choice.
 
@@ -394,7 +394,7 @@ Since we needed to provide the client team with a fully open-source application,
 We finally chose to use \emph{Blender}, and modify it to fit our needs. Instead of modifying the Blender core code, we chose to write Python modules implementing our added functionalities. The Python\footnote{\url{http://www.python.org}} programming language provides some programming facilities (automatic memory management, for instance) which eases the implementation of algorithms.
 
 \subsection{Choice of the G-code Generator and of the printer's driver}
-The software shown to us to start with (ReplicatorG and Skeinforge) was very counter-intuitive and we were a bit lost. Thus we set out to meet other users of the Ultimaker printer model. This was fairly worthwhile as we discovered Printrun and Slic3r that were more stable and much easier to use. The conctacts we made at Tetalab and Artilect helped us get feedback on some options and how well they worked.
+The software shown to us to start with (ReplicatorG and Skeinforge) was very counter-intuitive and we were a bit lost. Thus we set out to meet other users of the Ultimaker printer model. This was fairly worthwhile as we discovered PrintRun and Slic3r that were more stable and much easier to use. The contacts we made at Tetalab and Artilect helped us get feedback on some options and how well they worked.
 
 \chapter{Implementation phase}
 
@@ -406,14 +406,14 @@ First of all, a press on the Check button (see the GUI modification part, sectio
 
 The first method is a soft correction algorithm, which detects all distinct holes in the mesh, then cleans theses holes (for instance if there are some faces not connected to any vertex), and finally tries to fill them, one after one. This method is considered non-destructive (even if the cleaning part may remove unwanted faces) and is not recursive. The algorithm has been proved, to make a broken mesh watertight, so there is no more holes remaining after its execution.\\
 
-But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edge-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non-manifold edges (and thus which didn't belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).\\
+But even if it is watertight, a mesh may still remain non-manifold. Therefore, we implemented a strong correction algorithm which is able to repair all kinds of edge-related problems. This strong destructive method consists in a loop of soft correction calls, with a selection and removal of remaining non-manifold edges (and thus which did not belong to any standard hole) between each iteration. By properly removing these edges, new holes appear and the next iteration will try to fill them the correct way. Eventually, the mesh is fully manifold (thus watertight).\\
 
 For both the destructive method and the non-destructive one, we added a fast-processing option which makes the correction algorithms way faster than without enabling it. But activating it may result in various artifacts between some edges. Since it works better on bigger and well-detailed objects (with finer meshes), the user should try to use it first on big objects and if the result is not satisfying, he simply has to cancel the last operations and then try again with the fast-processing check box disabled. This option only acts during the holes filling action, by trying to fill all of them with only one single filling call, while the standard option requires another algorithm which we developed and which detects and separates all distinct holes within the mesh.
 
 
 \section{The choice of the supporting plane - \textit{Antoine \& Vincent}}
 
-\subsection{Supporting planes autodetection}
+\subsection{Supporting planes auto-detection}
 Before being printed, the objects need to be placed correctly; they have to stand on the printer’s support. From the modeler point of view, the object need to have faces included into the base ($z = 0$) plane, and may not have any points under this base plane. We need to provide the user an automated way to correctly place the object.
 
 Correct positioning is not enough, though. The object support must be large enough for the object to be stable during printing; some gravity center considerations may also be taken into consideration.
@@ -456,7 +456,7 @@ Since the bigger supporting surfaces are preferred, we provide the user the 10 l
 	\begin{itemize}
 		\item finding the intersection takes too much time, because boolean operations in Blender can be very slow,
 		\item there can be some side effects: if the object is made of multiple meshes, each one will become an object on its own,
-		\item most of the time, the surface criterion is already the best: figurative objects almost always have a “natural” orientation that is given by their use, and when abstract objects (like a sphere) don't have one, they often need correction.
+		\item most of the time, the surface criterion is already the best: figurative objects almost always have a “natural” orientation that is given by their use, and when abstract objects (like a sphere) do not have one, they often need correction.
 	\end{itemize}
 
 	Still, we provided a module with functions computing the volume of an object and the position of the center of gravity, as those are not trivial when using a surface-based representation of the objects. They are based on \cite{Liris-2411}, which explains how to do the required integrals over meshes.
@@ -532,7 +532,7 @@ But in this step, the user can also trust the scripts implemented to find severa
 In this step, planes have previously been found to support the object and the ``Next'' and ``Previous'' buttons allow the user to navigate among them, highlight them and select one for supporting the object. Once the ``Choose the current plane'' button is pressed, the step 0 is enabled again while the third one is disabled. 
 
 \chapter{Printer calibration}
-Once we had basic configuration files for Slic3r and Printrun most of the work was fine tuning. The only major difficulty we had was in the length of extruded plastic which is calculated at the entrance of the tube by most slicers and at the nozzle by the firmware so there was multiplier coefficient of 160. Our results are extensively described in the user documentation.\\
+Once we had basic configuration files for Slic3r and PrintRun most of the work was fine tuning. The only major difficulty we had was in the length of extruded plastic which is calculated at the entrance of the tube by most slicers and at the nozzle by the firmware so there was multiplier coefficient of 160. Our results are extensively described in the user documentation.\\
 
 \bigskip
 
@@ -561,7 +561,7 @@ Our main algorithms are tested using automated unit tests. These are using the s
 Some Python functions were written specifically for the tests: some of them are used to set the test environment up (by loading meshes, for instance), and other to analyze the results (number of faces on the resulting mesh, for instance).
 
 \section{Integration tests}
-Most of the integration was that the different algorithms were united in a single interface. We encountered two types of bugs : some were related to the version of Blender used, indeed some variables did not have the same type before and after Blender 2.5. The others bugs encountered were more synchronization problems between the view and the model (what was displayed didn't correspond exactly to what was selected in the code). 
+Most of the integration was that the different algorithms were united in a single interface. We encountered two types of bugs : some were related to the version of Blender used, indeed some variables did not have the same type before and after Blender 2.5. The others bugs encountered were more synchronization problems between the view and the model (what was displayed did not correspond exactly to what was selected in the code). 
 
 \section{Functional tests}
 We tried different scenarios :
@@ -573,14 +573,25 @@ We tried different scenarios :
 
 \section{User tests}
 
-To verify if the final version would match exactly our clients' needs, we proposed them to try it by themselves. As the application is also intended to artists, we asked a student known for his drawings and artistic creations to do a demonstration of the application from the 3D modeling to the final printing. He succeeded in designing a cartoon character into Blender, using the Sculp Mode, after what he used our interface to check to printability of the object. This demonstration was a success since we perfectly printed his character, which proves that everyone is able to build his own 3D object from scratch.
+To verify if the final version would match exactly our clients' needs, we proposed them to try it by themselves. As the application is also intended to artists, we asked a student known for his drawings and artistic creations to do a demonstration of the application from the 3D modeling to the final printing. He succeeded in designing a cartoon character into Blender, using the Sculpt Mode, after what he used our interface to check to printability of the object. This demonstration was a success since we perfectly printed his character, which proves that everyone is able to build his own 3D object from scratch.
 
 \section{Application's limitations}
 
-The time took by the algorithms depends a lot on the object complexity. For instance, a total and destructive correction of a low-res object composed of 7000 vertices take only 25s, but the same algorithm applied to a very high-res object composed of 150000 verticies can take around 20 mins. But activating the fast-processing option can divise the compuation duration up to 10 times and doesn't damage too much big objects, so it all depends on the working object. See the following table to more informations about durations and complexity.
+The time took by the algorithms depends a lot on the object complexity. For instance, a total and destructive correction of a low-res object composed of 7000 vertices take only 25 s, but the same algorithm applied to a very high-resolution  object composed of 150000 vertices can take around 20 min. Activating the fast-processing option can divide the computation duration up to 10 times and does not damage too much big objects, however. The results are strongly dependent on the chosen object. The following table provides some information about durations and complexity.
 \\
 \\
-\includegraphics[width=\textwidth]{limits}
+\begin{center}
+\small
+	\begin{tabular}{|l|p{2cm}|p{2.2cm}|p{2cm}|p{2.2cm}|p{2cm}|}
+		\hline
+		Vertices & Non-manifold vertices & Non-destructive Fast Processing & Destructive Fast Processing & Non-destructive Accurate Proc. & Destructive Accurate Proc. \\ \hline
+		7108 & 1203 & 3 s & 9 s & 21 s & 26 s \\ \hline
+		33328 & 3479 & 10 s & 25 s & 3 min 41 s & 4 min 31 s \\ \hline
+		144647 & 6673 & 42 s & 2 min 6 s & 18 min 13 s & 21 min 40 s \\
+		\hline
+	\end{tabular}
+\end{center}
+
 
 \chapter{Conclusions}
 
