@@ -159,7 +159,7 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 	\end{itemize}
 	\end{block}
 	
-	\begin{block}{The human help}
+	\begin{block}{The external help}
     \begin{itemize}
 		\item Our industrial supervisor from Airbus : Lionel Cremel,
 		\item The weekly meetings with the supervisor, 
@@ -245,40 +245,39 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \section{Our technical solutions and results}
 
-\subsection{Choice of the modeling software}
+\subsection{Choice of the 3D processing software}
 \begin{frame}
 	\frametitle{By the all team}
-		--> Implementation of a modeler from scratch excluded \\
-		--> Choice reduced to two software : Blender or Meshlab
+		\small $\Longrightarrow$ Conception of a modeler from scratch excluded. \\
+		\small $\Longrightarrow$ Choice reduced to two editors: Blender and Meshlab.
     \begin{columns}[t]
   	\begin{column}{5cm}
   		\begin{block}{Meshlab}
-  		Advantages:
+  		\small \textit{Advantages}:
   		\begin{itemize}
   		\item Very light application,
   		\item Preexisting functions for mesh correction.
   		\end{itemize}
   		
-  		Drawbacks:
+  		\small \textit{Drawbacks}:
   		\begin{itemize}
   		\item No integrated interaction.
   		\end{itemize}
  	 	\end{block}   
   	\end{column}
   
-  	\begin{column}{5cm}
-  		\begin{block}{Blender (our choice)}
-  		Advantages:
+  	\begin{column}{6cm}
+  		\begin{block}{Blender (final choice)}
+  		\small \textit{Advantages}:
   		\begin{itemize}
   		\item Preexisting interactions,
-  		\item Python API  
-  		\item A lot of documentation,
-  		\item Manually modifiable GUI.
+  		\item Powerful Python API,
+  		\item A lot of documentation.
   		\end{itemize}
   		
-  		Drawbacks:
+  		\small \textit{Drawbacks}:
   		\begin{itemize}
-  		\item Many useless things.
+  		\item Useless things for printing purposes
   		\end{itemize}
  	 	\end{block}   
   	\end{column}
@@ -290,12 +289,17 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
 \begin{frame}
 	\frametitle{In charge : Florian Ribon}
-    \begin{block}{Finding the mesh's defects}
+    \begin{block}{Characteristics needed for printing}
 		\begin{itemize}
-		    \item Watertight: there is no hole in the mesh,
-            \item Manifold: each edge belongs to exactly 2 faces,
-		    \item First: check the mesh characteristics,
-			\item Then: if needed, correct the mesh.
+		    \item \textbf{Watertight}: there is no hole in the mesh,
+            \item \textbf{Manifold}: each edge belongs to exactly 2 faces.
+		\end{itemize}
+    \end{block}
+
+    \begin{block}{Our correction tools}
+		\begin{itemize}
+		    \item Possibility to \textit{check} if the mesh is correct,
+			\item If not, two methods are available to \textit{repair} it.
 		\end{itemize}
     \end{block}
 
@@ -306,11 +310,11 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 
     \begin{columns}[t]
   	\begin{column}{5cm}
-        \begin{block}{Manifold correction}
+        \begin{block}{Different manifoldness corrections}
 		    \begin{itemize}
-			    \item Non destructive cleaning and filling,
-			    \item Destructive total repairing,
-			    \item Fast-Processing option.
+			    \item Simple cleaning\\\small(non destructive),
+			    \item Or total repairing\\\small(destructive).
+			    \item Optionnaly: fast-processing.
 		    \end{itemize}
         \end{block}
     \end{column}
@@ -325,9 +329,8 @@ Vincent~Duvert \\ Antoine~Lubineau \\ Caroline~Naud \\ James~Packer \\ Florian~R
 \end{frame}
 
 \begin{frame}
-	\frametitle{In charge : Florian Ribon}
-    
-  Photo maillage détruit / maillage correct
+
+    \includegraphics[width=1\textwidth]{damages}
 
 \end{frame}
 
