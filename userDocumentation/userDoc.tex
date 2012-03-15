@@ -117,11 +117,11 @@ F-31062 TOULOUSE CEDEX 9
 
 \newpage
 
-\section{The modeling part on Blender}
+\section{Modeling on Blender}
 
-\subsection{Point on the graphic interface}
+\subsection{About Blender’s graphical interface}
 
-Blender's graphic user interface remains quite difficult to use for inexperienced users and shows ``useless'' functions for users only aiming at modeling, correcting meshes and printing them. In Blender, the user has the possibility to manually modify this graphic interface as he wants to only keep the most useful features visible. That is what was done in that case and the first view available when starting Blender will be this one : 
+Blender's graphic user interface remains quite difficult to use for inexperienced users and shows ``useless'' functions for users only aiming at modeling, correcting meshes and printing them. In Blender, the user has the possibility to manually modify this graphic interface as he wants to only keep the most useful features visible. That is what was done in that case and the first view available when starting Blender will be this one: 
 \bigskip
 \bigskip
 
@@ -150,15 +150,15 @@ The part we see at the right of the screen below and which seems a little grey i
 
 As for the organization of the Mesh Verification panel, it is divided into 4 main parts called ``steps'' since the user has to use them successively. We detail these steps here below.\\
 
-\textbf{Step 0 : not written on the panel} \\
+\textbf{First panel} \\
 
 This part of the panel reminds the user of the active mesh in the scene. It is also the first and only enabled button in the panel when starting Blender. It is to be used when the mesh is satisfying for the user to check if it is correct or not (manifold and watertight). By passing the mouse over the button, a description of the action is given, as for all the buttons and check boxes. When pressing this ``Check your mesh'' button, the script of verification will be run and its outcome will determine the next step enabled. If the mesh is found incorrect, the user will see the first step enabled and only this step. If it is found correct, the second step will be enabled.\\
 
-\textbf{Step 1 : the mesh correction step} \\
+\textbf{Step 1: Mesh correction} \\
 
 This step enables a check box and two different buttons allowing the user to correct the mesh the way he wants and in a chosen time (see the buttons description). When the mesh is considered correct by the script run when pressing the buttons, the step 2 is enabled. 
 
-\textbf{Step 2 : the finding of an adequate supporting plane for printing}\\
+\textbf{Step 2: Supporting planes search and other features}\\
 
 This step allows positioning and orienting the object so it can be correctly printed.
 If the object has large surfaces which may be used as supporting planes, the automatic supporting planes detection may be used, by using the ``Find supporting planes'' button. The detected supporting planes will be provided below (see Step 3).
@@ -171,7 +171,7 @@ For objects without any possible support planes, there are two possibilities:
 \item You can create a socle under the object with the ``Generate a socle under the object'' option.
 \end{itemize}
 
-\textbf{Step 3 : the choice between the generated planes}\\ 
+\textbf{Step 3: Supporting planes selection}\\ 
 
 In this step, you can navigate between the different support planes which have been detected during the previous phase by using the ``Next'' and ``Previous'' buttons. Note that the planes are ordered in decreasing order of area. Once the ``Choose the current plane'' button is pressed, the object will be oriented to stand on the chosen plane, and the interface will go back to step 0.
 
@@ -199,7 +199,7 @@ Once your object has a correct mesh and is well oriented, you simply have to exp
 
 \newpage
 
-\section{The printing part}
+\section{The printing process}
 
 \subsection{Preparing the Utimaker 3D printer}
 
@@ -212,24 +212,24 @@ First read \href{http://richrap.blogspot.com/2012/01/slic3r-is-nicer-part-1-sett
 
 And here are some useful values we found out worked fairly well in most cases:
 \begin{itemize}
-\item \textbf{Temperature} : A good value is usually between 220 and 240. Lower and the plastic has difficulties sticking to the board at the beginning, higher and it might not cool down fast enough between layers. A high temperature also decreases the pressure the extruder has to apply
-\item \textbf{Extrusion multiplier} : Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoretical value by a coefficient between 150 and 180.
-\item \textbf{Print speed} : these five parameters depend mostly of the object's size. Indeed for most objects (30-30-60-60-60) are good value as they will insure a good quality and a good speed. However for small objects going too fast will not allow for enough time the layers to cool down and so the print will be less precise. The most 0.7 version of Slic"r corrects that bug by automatically slowing down when a layer is too small to cool down fast enough otherwise.
-\item \textbf{Layer height} : The evident idea here is that a smaller layer height will make for a better quality. The values should be between 0.2 and 0.4 mm, however while 0.2 mm provides a very nice quality print it makes it longer and sometimes the plastic will bend more easily while cooling down.
-\item \textbf{Skirt} : adding more loops before the actual print gives you a bit more time to make sur the extrusion is good.
-\item \textbf{Retraction} : the values influence what the printer will do in case of a bridge (jumping from a position to another without extruding). Playing
+\item \textbf{Temperature}: A good value is usually between 220 and 240. Lower and the plastic has difficulties sticking to the board at the beginning, higher and it might not cool down fast enough between layers. A high temperature also decreases the pressure the extruder has to apply
+\item \textbf{Extrusion multiplier}: Because of difference in the way Slic3r and the arduino measure the length of filament to extrude (one measures it at the nozzle while to other does it at the motor) you have to multiply the theoretical value by a coefficient between 150 and 180.
+\item \textbf{Print speed}: these five parameters depend mostly of the object's size. Indeed for most objects (30-30-60-60-60) are good value as they will insure a good quality and a good speed. However for small objects going too fast will not allow for enough time the layers to cool down and so the print will be less precise. The most 0.7 version of Slicer corrects that bug by automatically slowing down when a layer is too small to cool down fast enough otherwise.
+\item \textbf{Layer height}: The evident idea here is that a smaller layer height will make for a better quality. The values should be between 0.2 and 0.4 mm, however while 0.2 mm provides a very nice quality print it makes it longer and sometimes the plastic will bend more easily while cooling down.
+\item \textbf{Skirt}: adding more loops before the actual print gives you a bit more time to make sur the extrusion is good.
+\item \textbf{Retraction}: the values influence what the printer will do in case of a bridge (jumping from a position to another without extruding). Playing
 \end{itemize}
 
 There other settings were tested that do not necessarily have an impact on the quality of the print but that are useful for other reasons.
 \begin{itemize}
-\item \textbf{Center} : sets the center of the object you are going to print, the center of the plate is (100,100).
-\item \textbf{Copies along X/Y} : very useful to do numerous copies of small objects.
-\item \textbf{Perimeters} : can be played with in the case of thin walled objects.
-\item \textbf{Infilling} : the fastest to calculate is rectilinear but in some cases concentric is much more sensible (for instance, when most layer are homeomorphic to a circle.
+\item \textbf{Center}: sets the center of the object you are going to print, the center of the plate is $(100, 100)$.
+\item \textbf{Copies along X/Y}: very useful to do numerous copies of small objects.
+\item \textbf{Perimeters}: can be played with in the case of thin walled objects.
+\item \textbf{Infilling}: the fastest to calculate is rectilinear but in some cases concentric is much more sensible (for instance, when most layer are homeomorphic to a circle.
 \end{itemize}
 
 \subsection{Sending the instructions to the printer with PrintRun}
-All needs to be done now is to send the G-code and the M-code to the printer via PrintRun. Some errors were detected in that area like checksum mismatch erros mostly due to problems with the USB port. The only actions that can be done while printing are :
+All needs to be done now is to send the G-code and the M-code to the printer via PrintRun. Some errors were detected in that area like checksum mismatch erros mostly due to problems with the USB port. The only actions that can be done while printing are:
 \begin{itemize}
 \item Check the temperature of the nozzle.
 \item Set the temperature.
